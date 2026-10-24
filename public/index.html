@@ -6,219 +6,101 @@
 <title>Deano | Art by Dean Greenberg</title>
 <meta name="description" content="Drawings and paintings by Deano (Dean Greenberg). Bold lines, bright color.">
 <meta property="og:title" content="Deano | Art by Dean Greenberg">
-<meta property="og:description" content="Drawings and paintings by Deano.">
-<meta property="og:image" content="https://deano.art/art/full/9284.jpg">
+<meta property="og:description" content="Drawings and paintings by Deano (Dean Greenberg).">
+<meta property="og:image" content="https://deano.art/art/full/9294.jpg">
 <meta property="og:url" content="https://deano.art/">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://deano.art/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css">
 <style>
-:root {
-  --ink: #111; --paper: #fbfaf7; --muted: #6b6b6b;
-  --red: #e2382b; --yellow: #f5c518; --blue: #1f5fd6; --green: #1e9e57; --pink: #e8559a;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; background: var(--paper); color: var(--ink); }
-body { font: 16px/1.5 Archivo, system-ui, sans-serif; }
-a { color: inherit; }
-header { padding: 48px 20px 28px; max-width: 1400px; margin: 0 auto; }
-.mark { font-family: "Archivo Black", Archivo, sans-serif; font-size: clamp(64px, 14vw, 168px);
-  line-height: .85; letter-spacing: -0.03em; margin: 0; display: flex; align-items: flex-end; gap: .08em; }
-.mark span { display: inline-block; }
-.dots { display: inline-flex; flex: none; gap: .08em; margin-left: .06em; margin-bottom: .04em; font-size: 1em; }
-.dots i { display: block; width: .17em; height: .17em; border-radius: 50%; border: .035em solid var(--ink); }
-.dots i:nth-child(1) { background: var(--red); }
-.dots i:nth-child(2) { background: var(--yellow); }
-.dots i:nth-child(3) { background: var(--blue); }
-.dots i:nth-child(4) { background: var(--green); }
-.sub { margin: 18px 0 0; font-size: clamp(17px, 2.2vw, 21px); max-width: 40ch; }
-.sub b { font-weight: 600; }
-nav { margin-top: 18px; display: flex; gap: 22px; font-weight: 600; }
-nav a { text-decoration: none; border-bottom: 3px solid var(--yellow); }
-nav a:hover { border-color: var(--red); }
-main { max-width: 1400px; margin: 0 auto; padding: 8px 20px 40px; }
-.grid { columns: 3 320px; column-gap: 22px; }
-.card { break-inside: avoid; margin: 0 0 22px; }
-.card a { display: block; background: #fff; border: 3px solid var(--ink); border-radius: 4px;
-  box-shadow: 6px 6px 0 var(--ink); transition: transform .12s, box-shadow .12s; overflow: hidden; }
-.card a:hover, .card a:focus-visible { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); outline: none; }
-.card img { display: block; width: 100%; height: auto; }
-figcaption { margin-top: 10px; font-weight: 600; }
-#about { max-width: 760px; margin: 40px auto 0; padding: 32px 20px; border-top: 3px solid var(--ink); }
+body { --wall: #24344d; --fg: #f6f1e7; background-color: var(--wall); color: var(--fg); transition: background-color .5s, color .5s; min-height: 100vh;
+  background-image: radial-gradient(ellipse at 50% -10%, rgba(255,255,255,.14), transparent 60%); }
+body.light { --fg: #111; }
+header { max-width: 1300px; margin: 0 auto; padding: 36px 20px 6px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 18px 32px; }
+header .mark { font-size: clamp(56px, 10vw, 120px); color: var(--fg); }
+header .mark .dots i { border-color: var(--fg); }
+header .intro { flex: 1 1 260px; }
+header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
+.views { color: var(--fg); }
+.views .vl { color: var(--fg); }
+.tools { max-width: 1300px; margin: 0 auto; padding: 14px 20px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.tools .lbl { font-weight: 600; font-size: 14px; opacity: .85; margin-right: 2px; }
+.sw-btn { width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--fg); cursor: pointer; padding: 0; }
+.sw-btn[aria-pressed="true"] { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.tools .chip { margin-left: 6px; }
+.wall { max-width: 1400px; margin: 0 auto; padding: 36px 20px 60px; display: flex; flex-wrap: wrap;
+  justify-content: center; align-items: center; gap: clamp(22px, 4vw, 54px); }
+.fr { --r: 0deg; width: var(--sz); transform: rotate(var(--r)); transition: transform .25s, box-shadow .25s;
+  background: #fff; padding: calc(var(--sz) * .06); border: clamp(6px, 1vw, 11px) solid #111;
+  box-shadow: 0 18px 30px rgba(0,0,0,.45), 0 3px 6px rgba(0,0,0,.3); cursor: zoom-in; display: block; text-decoration: none; }
+.fr:hover, .fr:focus-visible { transform: rotate(0deg) scale(1.04); box-shadow: 0 26px 44px rgba(0,0,0,.55); outline: none; z-index: 2; position: relative; }
+.fr img { width: 100%; height: auto; }
+.fr.s { --sz: clamp(130px, 17vw, 220px); } .fr.m { --sz: clamp(150px, 23vw, 300px); } .fr.l { --sz: clamp(170px, 31vw, 420px); }
+.plate { display: block; margin-top: 8px; font: 600 12px/1.2 Archivo, sans-serif; color: #111; text-align: center; letter-spacing: .02em; }
+#about { max-width: 760px; margin: 0 auto; padding: 34px 20px 10px; border-top: 3px solid var(--fg); }
 #about h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 12px; }
-footer { text-align: center; color: var(--muted); font-size: 14px; padding: 28px 20px 48px; }
-/* lightbox */
-.lb { position: fixed; inset: 0; background: rgba(17,17,17,.94); display: none; z-index: 10;
-  align-items: center; justify-content: center; flex-direction: column; padding: 56px 16px 24px; }
-.lb.on { display: flex; }
-.lb img { max-width: 100%; max-height: calc(100vh - 140px); object-fit: contain; background: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
-.lb .cap { color: #fff; margin-top: 14px; font-weight: 600; min-height: 1.5em; text-align: center; }
-.lb button { position: absolute; background: #fff; color: var(--ink); border: 3px solid var(--ink); border-radius: 50%;
-  width: 48px; height: 48px; font: 700 22px/1 Archivo, sans-serif; cursor: pointer; }
-.lb .x { top: 12px; right: 12px; }
-.lb .prev { left: 12px; top: 50%; transform: translateY(-50%); }
-.lb .next { right: 12px; top: 50%; transform: translateY(-50%); }
-.lb button:hover { background: var(--yellow); }
-@media (max-width: 600px) {
-  header { padding-top: 32px; }
-  .grid { columns: 2 150px; column-gap: 14px; }
-  .card { margin-bottom: 14px; }
-  .card a { border-width: 2px; box-shadow: 4px 4px 0 var(--ink); }
-  figcaption { font-size: 14px; }
-  .lb .prev, .lb .next { top: auto; bottom: 16px; transform: none; }
-  .lb img { max-height: calc(100vh - 170px); }
-}
+.foot { text-align: center; opacity: .7; font-size: 14px; padding: 26px 20px 40px; }
+@media (max-width: 600px) { .fr.s, .fr.m, .fr.l { --sz: 40vw; } .wall { gap: 26px 18px; } }
 </style>
 </head>
 <body>
-<header>
-  <h1 class="mark"><span>Deano</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></h1>
-  <p class="sub">Drawings and paintings by <b>Dean Greenberg</b>.</p>
-  <nav><a href="#work">Work</a><a href="#about">About</a></nav>
-</header>
-<main id="work">
-  <div class="grid">
-<figure class="card" data-i="0"><a href="art/full/9284.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9284.jpg" width="640" height="465" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="1"><a href="art/full/9285.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9285.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="2"><a href="art/full/9287.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9287.jpg" width="640" height="452" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="3"><a href="art/full/9288.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9288.jpg" width="640" height="464" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="4"><a href="art/full/9289.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9289.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="5"><a href="art/full/9290.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9290.jpg" width="574" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="6"><a href="art/full/9291.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9291.jpg" width="640" height="481" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="7"><a href="art/full/9292.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9292.jpg" width="640" height="483" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="8"><a href="art/full/9293.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9293.jpg" width="640" height="478" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="9"><a href="art/full/9294.jpg" class="open" aria-label="View Color Block by Deano"><img src="art/thumb/9294.jpg" width="640" height="475" alt="Color Block by Deano" loading="lazy" decoding="async"></a><figcaption>Color Block</figcaption></figure>
-<figure class="card" data-i="10"><a href="art/full/9295.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9295.jpg" width="640" height="472" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="11"><a href="art/full/9296.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9296.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="12"><a href="art/full/9297.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9297.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="13"><a href="art/full/9298.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9298.jpg" width="640" height="490" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="14"><a href="art/full/9299.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9299.jpg" width="640" height="484" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="15"><a href="art/full/9300.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9300.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="16"><a href="art/full/9301.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9301.jpg" width="640" height="478" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="17"><a href="art/full/9302.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9302.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="18"><a href="art/full/9303.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9303.jpg" width="640" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="19"><a href="art/full/9304.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9304.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="20"><a href="art/full/9305.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9305.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="21"><a href="art/full/9306.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9306.jpg" width="640" height="438" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="22"><a href="art/full/9307.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9307.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="23"><a href="art/full/9308.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9308.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="24"><a href="art/full/9309.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9309.jpg" width="640" height="473" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="25"><a href="art/full/9310.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9310.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="26"><a href="art/full/9311.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9311.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="27"><a href="art/full/9312.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9312.jpg" width="640" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="28"><a href="art/full/9313.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9313.jpg" width="640" height="472" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="29"><a href="art/full/9314.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9314.jpg" width="640" height="483" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="30"><a href="art/full/9315.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9315.jpg" width="640" height="481" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="31"><a href="art/full/9316.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9316.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="32"><a href="art/full/9318.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9318.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="33"><a href="art/full/9319.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9319.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="34"><a href="art/full/9320.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9320.jpg" width="640" height="492" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="35"><a href="art/full/9321.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9321.jpg" width="640" height="488" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="36"><a href="art/full/9322.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9322.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="37"><a href="art/full/9323.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9323.jpg" width="640" height="480" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="38"><a href="art/full/9324.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9324.jpg" width="640" height="457" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="39"><a href="art/full/9325.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9325.jpg" width="640" height="491" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="40"><a href="art/full/9326.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9326.jpg" width="640" height="434" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="41"><a href="art/full/9327.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9327.jpg" width="640" height="433" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="42"><a href="art/full/9328.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9328.jpg" width="640" height="440" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="43"><a href="art/full/9329.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9329.jpg" width="640" height="439" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="44"><a href="art/full/9330.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9330.jpg" width="640" height="443" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="45"><a href="art/full/9331.jpg" class="open" aria-label="View Smudge by Deano"><img src="art/thumb/9331.jpg" width="640" height="439" alt="Smudge by Deano" loading="lazy" decoding="async"></a><figcaption>Smudge</figcaption></figure>
-<figure class="card" data-i="46"><a href="art/full/9332.jpg" class="open" aria-label="View The Kiddish Cup WOW by Deano"><img src="art/thumb/9332.jpg" width="640" height="441" alt="The Kiddish Cup WOW by Deano" loading="lazy" decoding="async"></a><figcaption>The Kiddish Cup WOW</figcaption></figure>
-<figure class="card" data-i="47"><a href="art/full/9333.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9333.jpg" width="640" height="443" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="48"><a href="art/full/9334.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9334.jpg" width="640" height="436" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="49"><a href="art/full/9335.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9335.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="50"><a href="art/full/9336.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9336.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="51"><a href="art/full/9337.jpg" class="open" aria-label="View From Scratch by Deano"><img src="art/thumb/9337.jpg" width="640" height="442" alt="From Scratch by Deano" loading="lazy" decoding="async"></a><figcaption>From Scratch</figcaption></figure>
-<figure class="card" data-i="52"><a href="art/full/9338.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9338.jpg" width="640" height="444" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="53"><a href="art/full/9339.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9339.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="54"><a href="art/full/9340.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9340.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="55"><a href="art/full/9341.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9341.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="56"><a href="art/full/9342.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9342.jpg" width="640" height="512" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="57"><a href="art/full/9343.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9343.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="58"><a href="art/full/9344.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9344.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="59"><a href="art/full/9345.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9345.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="60"><a href="art/full/9346.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9346.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="61"><a href="art/full/9347.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9347.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="62"><a href="art/full/9348.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9348.jpg" width="640" height="510" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="63"><a href="art/full/9349.jpg" class="open" aria-label="View Red by Deano"><img src="art/thumb/9349.jpg" width="640" height="506" alt="Red by Deano" loading="lazy" decoding="async"></a><figcaption>Red</figcaption></figure>
-<figure class="card" data-i="64"><a href="art/full/9350.jpg" class="open" aria-label="View Green by Deano"><img src="art/thumb/9350.jpg" width="640" height="507" alt="Green by Deano" loading="lazy" decoding="async"></a><figcaption>Green</figcaption></figure>
-<figure class="card" data-i="65"><a href="art/full/9351.jpg" class="open" aria-label="View Blue by Deano"><img src="art/thumb/9351.jpg" width="640" height="506" alt="Blue by Deano" loading="lazy" decoding="async"></a><figcaption>Blue</figcaption></figure>
-<figure class="card" data-i="66"><a href="art/full/9352.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9352.jpg" width="640" height="441" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="67"><a href="art/full/9353.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9353.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="68"><a href="art/full/9354.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9354.jpg" width="640" height="448" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="69"><a href="art/full/9355.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9355.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="70"><a href="art/full/9357.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9357.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="71"><a href="art/full/9358.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9358.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="72"><a href="art/full/9359.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9359.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="73"><a href="art/full/9360.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9360.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="74"><a href="art/full/9361.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9361.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="75"><a href="art/full/9362.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9362.jpg" width="640" height="510" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="76"><a href="art/full/9363.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9363.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="77"><a href="art/full/9364.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9364.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="78"><a href="art/full/9365.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9365.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="79"><a href="art/full/9366.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9366.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="80"><a href="art/full/9367.jpg" class="open" aria-label="View Happy New Year 5787 by Deano"><img src="art/thumb/9367.jpg" width="640" height="449" alt="Happy New Year 5787 by Deano" loading="lazy" decoding="async"></a><figcaption>Happy New Year 5787</figcaption></figure>
-<figure class="card" data-i="81"><a href="art/full/9368.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9368.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="82"><a href="art/full/9369.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9369.jpg" width="640" height="515" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="83"><a href="art/full/9370.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9370.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="84"><a href="art/full/9371.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9371.jpg" width="640" height="503" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="85"><a href="art/full/9372.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9372.jpg" width="640" height="512" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="86"><a href="art/full/9373.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9373.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="87"><a href="art/full/9374.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9374.jpg" width="640" height="517" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="88"><a href="art/full/9375.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9375.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="89"><a href="art/full/9376.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9376.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="90"><a href="art/full/9377.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9377.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="91"><a href="art/full/9378.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9378.jpg" width="431" height="640" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="92"><a href="art/full/9379.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9379.jpg" width="451" height="640" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="93"><a href="art/full/9380.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9380.jpg" width="640" height="448" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="94"><a href="art/full/9381.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9381.jpg" width="640" height="444" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="95"><a href="art/full/9382.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9382.jpg" width="640" height="446" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-<figure class="card" data-i="96"><a href="art/full/9383.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9383.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
-  </div>
-</main>
-<section id="about">
-  <h2>About</h2>
-  <p>Deano is the artist name of Dean Greenberg. He works in marker, colored pencil and paint on paper. Many pieces carry his mark, DG, and the year.</p>
-</section>
-<footer>&copy; <span id="y">2026</span> Dean Greenberg. All rights reserved. &middot; Rev.1</footer>
 
-<div class="lb" role="dialog" aria-modal="true" aria-label="Artwork viewer">
-  <button class="x" aria-label="Close">&times;</button>
-  <button class="prev" aria-label="Previous">&#8592;</button>
-  <img alt="">
-  <div class="cap"></div>
-  <button class="next" aria-label="Next">&#8594;</button>
+<header>
+  <a class="mark" href="/" aria-label="Deano home">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></a>
+  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>.</p><nav class="views" aria-label="View the gallery as"><span class="vl">View the gallery as</span><div class="seg"><a href="/" aria-current="page"><span class="long">Gallery wall</span><span class="short">Wall</span></a><a href="/one/"><span class="long">One at a time</span><span class="short">One at a time</span></a><a href="/rooms/"><span class="long">Rooms</span><span class="short">Rooms</span></a></div></nav></div>
+</header>
+<div class="tools">
+  <span class="lbl">Wall color</span>
+  <button class="sw-btn" data-wall="#24344d" style="background:#24344d" aria-label="Deep blue wall" aria-pressed="true"></button>
+  <button class="sw-btn" data-wall="#2b2b2b" style="background:#2b2b2b" aria-label="Charcoal wall" aria-pressed="false"></button>
+  <button class="sw-btn" data-wall="#8c2f2a" style="background:#8c2f2a" aria-label="Red wall" aria-pressed="false"></button>
+  <button class="sw-btn" data-wall="#e9e2d3" data-light="1" style="background:#e9e2d3" aria-label="Cream wall" aria-pressed="false"></button>
+  <button class="chip" id="shuffle">Shuffle the wall</button>
 </div>
+<main class="wall" id="wall"></main>
+<section id="about"><h2>About</h2><p>Deano is the artist name of Dean Greenberg. He works in marker, colored pencil and paint on paper. Many pieces carry his mark, DG, and the year.</p></section>
+<footer class="foot">&copy; <span class="yr">2026</span> Dean Greenberg. All rights reserved. &middot; Rev.3</footer>
+
+<script src="/assets/viewer.js"></script>
 <script>
-const W = [{"id": "9284", "t": ""}, {"id": "9285", "t": ""}, {"id": "9287", "t": ""}, {"id": "9288", "t": ""}, {"id": "9289", "t": ""}, {"id": "9290", "t": ""}, {"id": "9291", "t": ""}, {"id": "9292", "t": ""}, {"id": "9293", "t": ""}, {"id": "9294", "t": "Color Block"}, {"id": "9295", "t": ""}, {"id": "9296", "t": ""}, {"id": "9297", "t": ""}, {"id": "9298", "t": ""}, {"id": "9299", "t": ""}, {"id": "9300", "t": ""}, {"id": "9301", "t": ""}, {"id": "9302", "t": ""}, {"id": "9303", "t": ""}, {"id": "9304", "t": ""}, {"id": "9305", "t": ""}, {"id": "9306", "t": ""}, {"id": "9307", "t": ""}, {"id": "9308", "t": ""}, {"id": "9309", "t": ""}, {"id": "9310", "t": ""}, {"id": "9311", "t": ""}, {"id": "9312", "t": ""}, {"id": "9313", "t": ""}, {"id": "9314", "t": ""}, {"id": "9315", "t": ""}, {"id": "9316", "t": ""}, {"id": "9318", "t": ""}, {"id": "9319", "t": ""}, {"id": "9320", "t": ""}, {"id": "9321", "t": ""}, {"id": "9322", "t": ""}, {"id": "9323", "t": ""}, {"id": "9324", "t": ""}, {"id": "9325", "t": ""}, {"id": "9326", "t": ""}, {"id": "9327", "t": ""}, {"id": "9328", "t": ""}, {"id": "9329", "t": ""}, {"id": "9330", "t": ""}, {"id": "9331", "t": "Smudge"}, {"id": "9332", "t": "The Kiddish Cup WOW"}, {"id": "9333", "t": ""}, {"id": "9334", "t": ""}, {"id": "9335", "t": ""}, {"id": "9336", "t": ""}, {"id": "9337", "t": "From Scratch"}, {"id": "9338", "t": ""}, {"id": "9339", "t": ""}, {"id": "9340", "t": ""}, {"id": "9341", "t": ""}, {"id": "9342", "t": ""}, {"id": "9343", "t": ""}, {"id": "9344", "t": ""}, {"id": "9345", "t": ""}, {"id": "9346", "t": ""}, {"id": "9347", "t": ""}, {"id": "9348", "t": ""}, {"id": "9349", "t": "Red"}, {"id": "9350", "t": "Green"}, {"id": "9351", "t": "Blue"}, {"id": "9352", "t": ""}, {"id": "9353", "t": ""}, {"id": "9354", "t": ""}, {"id": "9355", "t": ""}, {"id": "9357", "t": ""}, {"id": "9358", "t": ""}, {"id": "9359", "t": ""}, {"id": "9360", "t": ""}, {"id": "9361", "t": ""}, {"id": "9362", "t": ""}, {"id": "9363", "t": ""}, {"id": "9364", "t": ""}, {"id": "9365", "t": ""}, {"id": "9366", "t": ""}, {"id": "9367", "t": "Happy New Year 5787"}, {"id": "9368", "t": ""}, {"id": "9369", "t": ""}, {"id": "9370", "t": ""}, {"id": "9371", "t": ""}, {"id": "9372", "t": ""}, {"id": "9373", "t": ""}, {"id": "9374", "t": ""}, {"id": "9375", "t": ""}, {"id": "9376", "t": ""}, {"id": "9377", "t": ""}, {"id": "9378", "t": ""}, {"id": "9379", "t": ""}, {"id": "9380", "t": ""}, {"id": "9381", "t": ""}, {"id": "9382", "t": ""}, {"id": "9383", "t": ""}];
-const lb = document.querySelector('.lb'), im = lb.querySelector('img'), cap = lb.querySelector('.cap');
-let cur = 0, last = null;
-function show(i) {
-  cur = (i + W.length) % W.length;
-  im.src = 'art/full/' + W[cur].id + '.jpg';
-  im.alt = W[cur].t ? W[cur].t + ' by Deano' : 'Untitled work by Deano';
-  cap.textContent = W[cur].t || '';
-  [cur + 1, cur - 1].forEach(j => { const p = new Image(); p.src = 'art/full/' + W[(j + W.length) % W.length].id + '.jpg'; });
+const W = [{"id":"9284","t":"","w":2000,"h":1453,"tw":640,"th":465,"p":["#7996c4","#48649c","#764b53"],"room":"paint"},{"id":"9285","t":"","w":2000,"h":1402,"tw":640,"th":449,"p":["#c75671","#5d564e","#426db6"],"room":"shapes"},{"id":"9287","t":"","w":2000,"h":1412,"tw":640,"th":452,"p":["#d26545","#6d864f","#bbd4a6"],"room":"shapes"},{"id":"9288","t":"","w":2000,"h":1451,"tw":640,"th":464,"p":["#3d5149","#728f57","#5b8892"],"room":"lines"},{"id":"9289","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#cfac83","#537991","#9c5c42"],"room":"paint"},{"id":"9290","t":"","w":1795,"h":1485,"tw":574,"th":475,"p":["#8f4729","#364069","#5b91b8"],"room":"paint"},{"id":"9291","t":"","w":2000,"h":1502,"tw":640,"th":481,"p":["#9dbb9d","#2d386a","#a64e40"],"room":"paint"},{"id":"9292","t":"","w":2000,"h":1511,"tw":640,"th":483,"p":["#5a6f42","#bd6f57","#3e7dc5"],"room":"shapes"},{"id":"9293","t":"","w":2000,"h":1495,"tw":640,"th":478,"p":["#888888"],"room":"lines"},{"id":"9294","t":"Color Block","w":2000,"h":1486,"tw":640,"th":475,"p":["#304185","#4592cc","#cd644b"],"room":"shapes"},{"id":"9295","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#3261af","#653742","#bc956c"],"room":"paint"},{"id":"9296","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4288a8","#3c3e44","#cf6a59"],"room":"shapes"},{"id":"9297","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#bd7930","#548876","#404954"],"room":"shapes"},{"id":"9298","t":"","w":2000,"h":1530,"tw":640,"th":490,"p":["#445336","#3c567e","#699dc6"],"room":"paint"},{"id":"9299","t":"","w":2000,"h":1513,"tw":640,"th":484,"p":["#a04f4e","#a5b347","#3e5771"],"room":"shapes"},{"id":"9300","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#597c34","#4783b3","#7d9d52"],"room":"people"},{"id":"9301","t":"","w":2000,"h":1492,"tw":640,"th":478,"p":["#d3b40c","#71a1bf","#cab33d"],"room":"people"},{"id":"9302","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#487049","#ce6553","#2170c9"],"room":"shapes"},{"id":"9303","t":"","w":2000,"h":1483,"tw":640,"th":475,"p":["#719061","#516c46","#7cadce"],"room":"people"},{"id":"9304","t":"","w":2000,"h":1492,"tw":640,"th":477,"p":["#323b7a","#6777ab","#2986d7"],"room":"shapes"},{"id":"9305","t":"","w":2000,"h":1381,"tw":640,"th":442,"p":["#dc8909","#484d4c","#5c61b8"],"room":"shapes"},{"id":"9306","t":"","w":2000,"h":1367,"tw":640,"th":438,"p":["#c263aa","#353376","#2269c0"],"room":"shapes"},{"id":"9307","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4e9ac4","#3d5952","#ba534f"],"room":"shapes"},{"id":"9308","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#654b3c","#c38e58","#6d9db1"],"room":"people"},{"id":"9309","t":"","w":2000,"h":1479,"tw":640,"th":473,"p":["#e4cd18","#98bb3b","#5f6929"],"room":"shapes"},{"id":"9310","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#5383a7","#7ba3c1","#655743"],"room":"people"},{"id":"9311","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#888888"],"room":"people"},{"id":"9312","t":"","w":2000,"h":1485,"tw":640,"th":475,"p":["#dbc713","#dcc755","#72a9ab"],"room":"shapes"},{"id":"9313","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#7badca","#4f655b","#548eae"],"room":"people"},{"id":"9314","t":"","w":2000,"h":1508,"tw":640,"th":483,"p":["#cfb32b","#2f47b0","#b24257"],"room":"shapes"},{"id":"9315","t":"","w":2000,"h":1503,"tw":640,"th":481,"p":["#45485a","#916350","#de9a75"],"room":"shapes"},{"id":"9316","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#a75952","#d082b3","#cbb824"],"room":"shapes"},{"id":"9318","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#d6a772","#5b9876","#af5b3f"],"room":"shapes"},{"id":"9319","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#b64e42","#d0a675","#8c8747"],"room":"lines"},{"id":"9320","t":"","w":2000,"h":1537,"tw":640,"th":492,"p":["#7dbe8a","#b1bd59","#668353"],"room":"shapes"},{"id":"9321","t":"","w":2000,"h":1525,"tw":640,"th":488,"p":["#85535e","#d67677","#b6cd41"],"room":"shapes"},{"id":"9322","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#4b7b88","#c5c44b","#7f4935"],"room":"shapes"},{"id":"9323","t":"","w":2000,"h":1499,"tw":640,"th":480,"p":["#cd9a42","#983f42","#3a658d"],"room":"shapes"},{"id":"9324","t":"","w":2000,"h":1427,"tw":640,"th":457,"p":["#dc87a9","#c6be28","#4b83a1"],"room":"shapes"},{"id":"9325","t":"","w":2000,"h":1534,"tw":640,"th":491,"p":["#3a64a4","#3f4070","#c26f51"],"room":"shapes"},{"id":"9326","t":"","w":2000,"h":1358,"tw":640,"th":434,"p":["#d6a44c","#b3562c","#6ea9ac"],"room":"lines"},{"id":"9327","t":"","w":2000,"h":1352,"tw":640,"th":433,"p":["#d0bf75","#75b4a2","#81513b"],"room":"paint"},{"id":"9328","t":"","w":2000,"h":1374,"tw":640,"th":440,"p":["#d5b97e","#a86e59","#81c2c4"],"room":"paint"},{"id":"9329","t":"","w":2000,"h":1372,"tw":640,"th":439,"p":["#a2785d","#d1a97d","#3a6678"],"room":"paint"},{"id":"9330","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#6e99b9","#bdc36b","#859560"],"room":"paint"},{"id":"9331","t":"Smudge","w":2000,"h":1371,"tw":640,"th":439,"p":["#9e6269","#b4787f","#da959e"],"room":"lines"},{"id":"9332","t":"The Kiddish Cup WOW","w":2000,"h":1377,"tw":640,"th":441,"p":["#4778bf","#cb5c62","#644240"],"room":"shapes"},{"id":"9333","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#ae4444","#4896c3","#ccbb52"],"room":"shapes"},{"id":"9334","t":"","w":2000,"h":1362,"tw":640,"th":436,"p":["#b86a58","#71a420","#6a2373"],"room":"shapes"},{"id":"9335","t":"","w":2000,"h":1380,"tw":640,"th":442,"p":["#b77642","#766549","#a1ac6c"],"room":"shapes"},{"id":"9336","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#b55173","#568a6c","#d2ac5c"],"room":"shapes"},{"id":"9337","t":"From Scratch","w":2000,"h":1382,"tw":640,"th":442,"p":["#60814d","#e09d16","#3c8bd8"],"room":"shapes"},{"id":"9338","t":"","w":2000,"h":1389,"tw":640,"th":444,"p":["#4b7974","#dbb450","#b27163"],"room":"shapes"},{"id":"9339","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#a84f5c","#6c3f53","#dcb36d"],"room":"shapes"},{"id":"9340","t":"","w":2000,"h":1390,"tw":640,"th":445,"p":["#5d91c5","#ebb641","#6e8856"],"room":"shapes"},{"id":"9341","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#ab6043","#487482","#dba37c"],"room":"paint"},{"id":"9342","t":"","w":2000,"h":1601,"tw":640,"th":512,"p":["#643c27","#a16042","#4790a6"],"room":"paint"},{"id":"9343","t":"","w":2000,"h":1581,"tw":640,"th":506,"p":["#c05b54","#406996","#5a764e"],"room":"shapes"},{"id":"9344","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#5883a7","#e59aa3","#c05c49"],"room":"shapes"},{"id":"9345","t":"","w":2000,"h":1591,"tw":640,"th":509,"p":["#888888"],"room":"lines"},{"id":"9346","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#d3cc47","#d37196","#69a8aa"],"room":"shapes"},{"id":"9347","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#a13f4f","#3f6b8c","#c76380"],"room":"lines"},{"id":"9348","t":"","w":2000,"h":1595,"tw":640,"th":510,"p":["#c76265","#51969b","#dcb936"],"room":"shapes"},{"id":"9349","t":"Red","w":2000,"h":1582,"tw":640,"th":506,"p":["#cf89bf","#dc645d","#934b56"],"room":"shapes"},{"id":"9350","t":"Green","w":2000,"h":1584,"tw":640,"th":507,"p":["#6bae6c","#438162","#d1dc87"],"room":"shapes"},{"id":"9351","t":"Blue","w":2000,"h":1582,"tw":640,"th":506,"p":["#4975b2","#5c97a8","#75afe2"],"room":"shapes"},{"id":"9352","t":"","w":2000,"h":1379,"tw":640,"th":441,"p":["#944a5b","#d9b12d","#8dafeb"],"room":"shapes"},{"id":"9353","t":"","w":2000,"h":1392,"tw":640,"th":445,"p":["#80ab6e","#6d9a58","#b7d06d"],"room":"shapes"},{"id":"9354","t":"","w":2000,"h":1399,"tw":640,"th":448,"p":["#c35c65","#4494d1","#3f4299"],"room":"shapes"},{"id":"9355","t":"","w":2000,"h":1587,"tw":640,"th":508,"p":["#bdc074","#ba7265","#315aac"],"room":"lines"},{"id":"9357","t":"","w":2000,"h":1589,"tw":640,"th":509,"p":["#d39a52","#d6be7f","#ae9968"],"room":"lines"},{"id":"9358","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#d1b351","#a07d51","#7395bb"],"room":"shapes"},{"id":"9359","t":"","w":2000,"h":1580,"tw":640,"th":506,"p":["#d2b676","#82a43d","#8b8eca"],"room":"lines"},{"id":"9360","t":"","w":2000,"h":1577,"tw":640,"th":505,"p":["#5b3f8c","#d7c651","#7c603c"],"room":"people"},{"id":"9361","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#d85446","#615944","#3a76b3"],"room":"shapes"},{"id":"9362","t":"","w":2000,"h":1593,"tw":640,"th":510,"p":["#324297","#548b52","#bf4651"],"room":"shapes"},{"id":"9363","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#6d5ebb","#32469b","#e5cd14"],"room":"shapes"},{"id":"9364","t":"","w":2000,"h":1583,"tw":640,"th":507,"p":["#c6717e","#8f4a59","#453f5c"],"room":"lines"},{"id":"9365","t":"","w":2000,"h":1586,"tw":640,"th":508,"p":["#c9552f","#e5b549","#5a9458"],"room":"shapes"},{"id":"9366","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#ddd834","#346cc9","#cc5b52"],"room":"shapes"},{"id":"9367","t":"Happy New Year 5787","w":2000,"h":1403,"tw":640,"th":449,"p":["#4240a6","#bd62b1","#666a4e"],"room":"shapes"},{"id":"9368","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#cbb322","#314058","#c3414f"],"room":"shapes"},{"id":"9369","t":"","w":2000,"h":1609,"tw":640,"th":515,"p":["#ae3535","#3a85e0","#2865ab"],"room":"shapes"},{"id":"9370","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#706045","#569087","#da794b"],"room":"shapes"},{"id":"9371","t":"","w":2000,"h":1573,"tw":640,"th":503,"p":["#4a806d","#d4782a","#b8cf26"],"room":"shapes"},{"id":"9372","t":"","w":2000,"h":1600,"tw":640,"th":512,"p":["#d76942","#1e65c8","#a8c126"],"room":"shapes"},{"id":"9373","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#447ca5","#cca213","#c85e56"],"room":"lines"},{"id":"9374","t":"","w":2000,"h":1616,"tw":640,"th":517,"p":["#d2b12d","#3b7db9","#a6543c"],"room":"shapes"},{"id":"9375","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#633938","#5b83a6","#b06348"],"room":"paint"},{"id":"9376","t":"","w":2000,"h":1382,"tw":640,"th":442,"p":["#df8d44","#4d795b","#7dc1c5"],"room":"shapes"},{"id":"9377","t":"","w":2000,"h":1405,"tw":640,"th":449,"p":["#5d80b6","#d58d83","#7b7a5a"],"room":"shapes"},{"id":"9378","t":"","w":1347,"h":2000,"tw":431,"th":640,"p":["#cb7844","#dfae6b","#836745"],"room":"people"},{"id":"9379","t":"","w":1408,"h":2000,"tw":451,"th":640,"p":["#c7ae6e","#d3c188","#b98449"],"room":"people"},{"id":"9380","t":"","w":2000,"h":1400,"tw":640,"th":448,"p":["#c09670","#539bd1","#d88a14"],"room":"people"},{"id":"9381","t":"","w":2000,"h":1388,"tw":640,"th":444,"p":["#3162bc","#5e9cb0","#83bde7"],"room":"shapes"},{"id":"9382","t":"","w":2000,"h":1395,"tw":640,"th":446,"p":["#be5f52","#58505c","#62a8b8"],"room":"shapes"},{"id":"9383","t":"","w":2000,"h":1403,"tw":640,"th":449,"p":["#c38937","#cb4c9d","#55664c"],"room":"shapes"}];
+
+const wall = document.getElementById('wall'); const viewer = DeanoViewer(W);
+function rnd(seed) { let x = Math.sin(seed) * 10000; return x - Math.floor(x); }
+let order = W.map((w, i) => i);
+function render(seedBase) {
+  wall.innerHTML = '';
+  order.forEach((i, k) => {
+    const w = W[i], r = rnd(+w.id + seedBase);
+    const a = document.createElement('a');
+    a.href = '/art/full/' + w.id + '.jpg';
+    a.className = 'fr ' + (r < .3 ? 's' : r < .75 ? 'm' : 'l');
+    a.style.setProperty('--r', ((rnd(+w.id * 7 + seedBase) - .5) * 4).toFixed(2) + 'deg');
+    a.setAttribute('aria-label', 'View ' + (w.t || 'untitled work'));
+    a.innerHTML = '<img src="/art/thumb/' + w.id + '.jpg" width="' + w.tw + '" height="' + w.th + '" alt="' + (w.t ? w.t + ' by Deano' : 'Untitled work by Deano') + '" loading="lazy" decoding="async">' + (w.t ? '<span class="plate">' + w.t + '</span>' : '');
+    a.onclick = e => { e.preventDefault(); viewer.open(k, order.map(j => W[j])); };
+    wall.appendChild(a);
+  });
 }
-function open(i) { last = document.activeElement; show(i); lb.classList.add('on'); document.body.style.overflow = 'hidden'; lb.querySelector('.x').focus(); }
-function close() { lb.classList.remove('on'); document.body.style.overflow = ''; if (last) last.focus(); }
-document.querySelectorAll('.card').forEach(c => c.querySelector('a').addEventListener('click', e => { e.preventDefault(); open(+c.dataset.i); }));
-lb.querySelector('.x').onclick = close;
-lb.querySelector('.prev').onclick = () => show(cur - 1);
-lb.querySelector('.next').onclick = () => show(cur + 1);
-lb.addEventListener('click', e => { if (e.target === lb) close(); });
-document.addEventListener('keydown', e => {
-  if (!lb.classList.contains('on')) return;
-  if (e.key === 'Escape') close();
-  if (e.key === 'ArrowRight') show(cur + 1);
-  if (e.key === 'ArrowLeft') show(cur - 1);
-});
-let sx = null;
-lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
-lb.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null; });
-document.getElementById('y').textContent = new Date().getFullYear();
+render(0);
+document.getElementById('shuffle').onclick = () => {
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  render(Math.floor(Math.random() * 1000));
+};
+function setWall(b) {
+  document.body.style.setProperty('--wall', b.dataset.wall);
+  document.body.classList.toggle('light', !!b.dataset.light);
+  document.querySelectorAll('.sw-btn').forEach(x => x.setAttribute('aria-pressed', x === b));
+  try { localStorage.setItem('deano-wall', b.dataset.wall); } catch (e) {}
+}
+document.querySelectorAll('.sw-btn').forEach(b => b.onclick = () => setWall(b));
+try { const s = localStorage.getItem('deano-wall'); const b = s && document.querySelector('.sw-btn[data-wall="' + s + '"]'); if (b) setWall(b); } catch (e) {}
+document.querySelectorAll('.yr').forEach(e => e.textContent = new Date().getFullYear());
 </script>
+<!-- Rev.3 -->
 </body>
 </html>

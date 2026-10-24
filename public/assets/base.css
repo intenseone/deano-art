@@ -42,3 +42,15 @@ img { display: block; max-width: 100%; height: auto; }
   .dv-prev, .dv-next { top: auto; bottom: 16px; transform: none; }
   .dv img { max-height: calc(100vh - 170px); }
 }
+/* view switcher (Rev.3) */
+.views { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.views .vl { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+.views .seg { display: inline-flex; background: #fff; border: 3px solid #111; border-radius: 999px; padding: 3px; gap: 2px; box-shadow: 3px 3px 0 #111; }
+.views .seg a { font: 600 14px/1 Archivo, sans-serif; color: #111; text-decoration: none; padding: 9px 14px; border-radius: 999px; white-space: nowrap; }
+.views .seg a:hover { background: var(--yellow); }
+.views .seg a[aria-current="page"] { background: #111; color: #fff; }
+.views .short { display: none; }
+@media (max-width: 600px) {
+  .views .seg a { padding: 8px 11px; font-size: 13px; }
+}
+@media (max-width: 380px) { .views .long { display: none; } .views .short { display: inline; } }

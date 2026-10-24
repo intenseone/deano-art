@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One at a time | Deano</title>
+<meta name="description" content="Drawings and paintings by Deano (Dean Greenberg). Bold lines, bright color.">
+<meta property="og:title" content="One at a time | Deano">
+<meta property="og:description" content="Drawings and paintings by Deano (Dean Greenberg).">
+<meta property="og:image" content="https://deano.art/art/full/9294.jpg">
+<meta property="og:url" content="https://deano.art/one/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://deano.art/one/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/base.css">
+<style>
+html { scroll-snap-type: y mandatory; }
+body { transition: background-color .7s ease; }
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 16px; }
+.topbar .mark { font-size: 30px; }
+.topbar .views .vl { display: none; }
+.slide { height: 100vh; height: 100svh; scroll-snap-align: start; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 76px 16px 40px; position: relative; }
+.intro .big { font-size: clamp(72px, 16vw, 200px); }
+.intro p { font-size: clamp(18px, 2.4vw, 24px); margin: 22px 0 0; text-align: center; }
+.intro .hint { margin-top: 40px; font-weight: 600; animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(8px); } }
+.slide figure { margin: 0; display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+.slide img { max-height: calc(100svh - 190px); max-width: min(92vw, 1300px); width: auto; height: auto; background: #fff;
+  border: 4px solid #111; box-shadow: 10px 10px 0 #111; cursor: zoom-in; }
+.slide figcaption { margin-top: 22px; font-weight: 600; font-size: 17px; text-align: center; }
+.slide figcaption .n { opacity: .6; font-weight: 400; margin-left: 8px; }
+.progress { position: fixed; top: 0; left: 0; height: 5px; background: #111; width: 0; z-index: 11; transition: width .3s; }
+@media (max-width: 600px) { .slide img { box-shadow: 6px 6px 0 #111; border-width: 3px; max-height: calc(100svh - 200px); }
+  .topbar .mark { font-size: 22px; } .topbar { padding: 10px 10px; } }
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+<div class="topbar"><a class="mark" href="/" aria-label="Deano home">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></a><nav class="views" aria-label="View the gallery as"><span class="vl">View the gallery as</span><div class="seg"><a href="/"><span class="long">Gallery wall</span><span class="short">Wall</span></a><a href="/one/" aria-current="page"><span class="long">One at a time</span><span class="short">One at a time</span></a><a href="/rooms/"><span class="long">Rooms</span><span class="short">Rooms</span></a></div></nav></div>
+<section class="slide intro" data-bg="#fbfaf7">
+  <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
+  <p>Drawings and paintings by Dean Greenberg.</p>
+  <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
+</section>
+<main id="slides"></main>
+
+<script src="/assets/viewer.js"></script>
+<script>
+const W = [{"id":"9284","t":"","w":2000,"h":1453,"tw":640,"th":465,"p":["#7996c4","#48649c","#764b53"],"room":"paint"},{"id":"9285","t":"","w":2000,"h":1402,"tw":640,"th":449,"p":["#c75671","#5d564e","#426db6"],"room":"shapes"},{"id":"9287","t":"","w":2000,"h":1412,"tw":640,"th":452,"p":["#d26545","#6d864f","#bbd4a6"],"room":"shapes"},{"id":"9288","t":"","w":2000,"h":1451,"tw":640,"th":464,"p":["#3d5149","#728f57","#5b8892"],"room":"lines"},{"id":"9289","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#cfac83","#537991","#9c5c42"],"room":"paint"},{"id":"9290","t":"","w":1795,"h":1485,"tw":574,"th":475,"p":["#8f4729","#364069","#5b91b8"],"room":"paint"},{"id":"9291","t":"","w":2000,"h":1502,"tw":640,"th":481,"p":["#9dbb9d","#2d386a","#a64e40"],"room":"paint"},{"id":"9292","t":"","w":2000,"h":1511,"tw":640,"th":483,"p":["#5a6f42","#bd6f57","#3e7dc5"],"room":"shapes"},{"id":"9293","t":"","w":2000,"h":1495,"tw":640,"th":478,"p":["#888888"],"room":"lines"},{"id":"9294","t":"Color Block","w":2000,"h":1486,"tw":640,"th":475,"p":["#304185","#4592cc","#cd644b"],"room":"shapes"},{"id":"9295","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#3261af","#653742","#bc956c"],"room":"paint"},{"id":"9296","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4288a8","#3c3e44","#cf6a59"],"room":"shapes"},{"id":"9297","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#bd7930","#548876","#404954"],"room":"shapes"},{"id":"9298","t":"","w":2000,"h":1530,"tw":640,"th":490,"p":["#445336","#3c567e","#699dc6"],"room":"paint"},{"id":"9299","t":"","w":2000,"h":1513,"tw":640,"th":484,"p":["#a04f4e","#a5b347","#3e5771"],"room":"shapes"},{"id":"9300","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#597c34","#4783b3","#7d9d52"],"room":"people"},{"id":"9301","t":"","w":2000,"h":1492,"tw":640,"th":478,"p":["#d3b40c","#71a1bf","#cab33d"],"room":"people"},{"id":"9302","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#487049","#ce6553","#2170c9"],"room":"shapes"},{"id":"9303","t":"","w":2000,"h":1483,"tw":640,"th":475,"p":["#719061","#516c46","#7cadce"],"room":"people"},{"id":"9304","t":"","w":2000,"h":1492,"tw":640,"th":477,"p":["#323b7a","#6777ab","#2986d7"],"room":"shapes"},{"id":"9305","t":"","w":2000,"h":1381,"tw":640,"th":442,"p":["#dc8909","#484d4c","#5c61b8"],"room":"shapes"},{"id":"9306","t":"","w":2000,"h":1367,"tw":640,"th":438,"p":["#c263aa","#353376","#2269c0"],"room":"shapes"},{"id":"9307","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4e9ac4","#3d5952","#ba534f"],"room":"shapes"},{"id":"9308","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#654b3c","#c38e58","#6d9db1"],"room":"people"},{"id":"9309","t":"","w":2000,"h":1479,"tw":640,"th":473,"p":["#e4cd18","#98bb3b","#5f6929"],"room":"shapes"},{"id":"9310","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#5383a7","#7ba3c1","#655743"],"room":"people"},{"id":"9311","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#888888"],"room":"people"},{"id":"9312","t":"","w":2000,"h":1485,"tw":640,"th":475,"p":["#dbc713","#dcc755","#72a9ab"],"room":"shapes"},{"id":"9313","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#7badca","#4f655b","#548eae"],"room":"people"},{"id":"9314","t":"","w":2000,"h":1508,"tw":640,"th":483,"p":["#cfb32b","#2f47b0","#b24257"],"room":"shapes"},{"id":"9315","t":"","w":2000,"h":1503,"tw":640,"th":481,"p":["#45485a","#916350","#de9a75"],"room":"shapes"},{"id":"9316","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#a75952","#d082b3","#cbb824"],"room":"shapes"},{"id":"9318","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#d6a772","#5b9876","#af5b3f"],"room":"shapes"},{"id":"9319","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#b64e42","#d0a675","#8c8747"],"room":"lines"},{"id":"9320","t":"","w":2000,"h":1537,"tw":640,"th":492,"p":["#7dbe8a","#b1bd59","#668353"],"room":"shapes"},{"id":"9321","t":"","w":2000,"h":1525,"tw":640,"th":488,"p":["#85535e","#d67677","#b6cd41"],"room":"shapes"},{"id":"9322","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#4b7b88","#c5c44b","#7f4935"],"room":"shapes"},{"id":"9323","t":"","w":2000,"h":1499,"tw":640,"th":480,"p":["#cd9a42","#983f42","#3a658d"],"room":"shapes"},{"id":"9324","t":"","w":2000,"h":1427,"tw":640,"th":457,"p":["#dc87a9","#c6be28","#4b83a1"],"room":"shapes"},{"id":"9325","t":"","w":2000,"h":1534,"tw":640,"th":491,"p":["#3a64a4","#3f4070","#c26f51"],"room":"shapes"},{"id":"9326","t":"","w":2000,"h":1358,"tw":640,"th":434,"p":["#d6a44c","#b3562c","#6ea9ac"],"room":"lines"},{"id":"9327","t":"","w":2000,"h":1352,"tw":640,"th":433,"p":["#d0bf75","#75b4a2","#81513b"],"room":"paint"},{"id":"9328","t":"","w":2000,"h":1374,"tw":640,"th":440,"p":["#d5b97e","#a86e59","#81c2c4"],"room":"paint"},{"id":"9329","t":"","w":2000,"h":1372,"tw":640,"th":439,"p":["#a2785d","#d1a97d","#3a6678"],"room":"paint"},{"id":"9330","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#6e99b9","#bdc36b","#859560"],"room":"paint"},{"id":"9331","t":"Smudge","w":2000,"h":1371,"tw":640,"th":439,"p":["#9e6269","#b4787f","#da959e"],"room":"lines"},{"id":"9332","t":"The Kiddish Cup WOW","w":2000,"h":1377,"tw":640,"th":441,"p":["#4778bf","#cb5c62","#644240"],"room":"shapes"},{"id":"9333","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#ae4444","#4896c3","#ccbb52"],"room":"shapes"},{"id":"9334","t":"","w":2000,"h":1362,"tw":640,"th":436,"p":["#b86a58","#71a420","#6a2373"],"room":"shapes"},{"id":"9335","t":"","w":2000,"h":1380,"tw":640,"th":442,"p":["#b77642","#766549","#a1ac6c"],"room":"shapes"},{"id":"9336","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#b55173","#568a6c","#d2ac5c"],"room":"shapes"},{"id":"9337","t":"From Scratch","w":2000,"h":1382,"tw":640,"th":442,"p":["#60814d","#e09d16","#3c8bd8"],"room":"shapes"},{"id":"9338","t":"","w":2000,"h":1389,"tw":640,"th":444,"p":["#4b7974","#dbb450","#b27163"],"room":"shapes"},{"id":"9339","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#a84f5c","#6c3f53","#dcb36d"],"room":"shapes"},{"id":"9340","t":"","w":2000,"h":1390,"tw":640,"th":445,"p":["#5d91c5","#ebb641","#6e8856"],"room":"shapes"},{"id":"9341","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#ab6043","#487482","#dba37c"],"room":"paint"},{"id":"9342","t":"","w":2000,"h":1601,"tw":640,"th":512,"p":["#643c27","#a16042","#4790a6"],"room":"paint"},{"id":"9343","t":"","w":2000,"h":1581,"tw":640,"th":506,"p":["#c05b54","#406996","#5a764e"],"room":"shapes"},{"id":"9344","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#5883a7","#e59aa3","#c05c49"],"room":"shapes"},{"id":"9345","t":"","w":2000,"h":1591,"tw":640,"th":509,"p":["#888888"],"room":"lines"},{"id":"9346","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#d3cc47","#d37196","#69a8aa"],"room":"shapes"},{"id":"9347","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#a13f4f","#3f6b8c","#c76380"],"room":"lines"},{"id":"9348","t":"","w":2000,"h":1595,"tw":640,"th":510,"p":["#c76265","#51969b","#dcb936"],"room":"shapes"},{"id":"9349","t":"Red","w":2000,"h":1582,"tw":640,"th":506,"p":["#cf89bf","#dc645d","#934b56"],"room":"shapes"},{"id":"9350","t":"Green","w":2000,"h":1584,"tw":640,"th":507,"p":["#6bae6c","#438162","#d1dc87"],"room":"shapes"},{"id":"9351","t":"Blue","w":2000,"h":1582,"tw":640,"th":506,"p":["#4975b2","#5c97a8","#75afe2"],"room":"shapes"},{"id":"9352","t":"","w":2000,"h":1379,"tw":640,"th":441,"p":["#944a5b","#d9b12d","#8dafeb"],"room":"shapes"},{"id":"9353","t":"","w":2000,"h":1392,"tw":640,"th":445,"p":["#80ab6e","#6d9a58","#b7d06d"],"room":"shapes"},{"id":"9354","t":"","w":2000,"h":1399,"tw":640,"th":448,"p":["#c35c65","#4494d1","#3f4299"],"room":"shapes"},{"id":"9355","t":"","w":2000,"h":1587,"tw":640,"th":508,"p":["#bdc074","#ba7265","#315aac"],"room":"lines"},{"id":"9357","t":"","w":2000,"h":1589,"tw":640,"th":509,"p":["#d39a52","#d6be7f","#ae9968"],"room":"lines"},{"id":"9358","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#d1b351","#a07d51","#7395bb"],"room":"shapes"},{"id":"9359","t":"","w":2000,"h":1580,"tw":640,"th":506,"p":["#d2b676","#82a43d","#8b8eca"],"room":"lines"},{"id":"9360","t":"","w":2000,"h":1577,"tw":640,"th":505,"p":["#5b3f8c","#d7c651","#7c603c"],"room":"people"},{"id":"9361","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#d85446","#615944","#3a76b3"],"room":"shapes"},{"id":"9362","t":"","w":2000,"h":1593,"tw":640,"th":510,"p":["#324297","#548b52","#bf4651"],"room":"shapes"},{"id":"9363","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#6d5ebb","#32469b","#e5cd14"],"room":"shapes"},{"id":"9364","t":"","w":2000,"h":1583,"tw":640,"th":507,"p":["#c6717e","#8f4a59","#453f5c"],"room":"lines"},{"id":"9365","t":"","w":2000,"h":1586,"tw":640,"th":508,"p":["#c9552f","#e5b549","#5a9458"],"room":"shapes"},{"id":"9366","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#ddd834","#346cc9","#cc5b52"],"room":"shapes"},{"id":"9367","t":"Happy New Year 5787","w":2000,"h":1403,"tw":640,"th":449,"p":["#4240a6","#bd62b1","#666a4e"],"room":"shapes"},{"id":"9368","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#cbb322","#314058","#c3414f"],"room":"shapes"},{"id":"9369","t":"","w":2000,"h":1609,"tw":640,"th":515,"p":["#ae3535","#3a85e0","#2865ab"],"room":"shapes"},{"id":"9370","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#706045","#569087","#da794b"],"room":"shapes"},{"id":"9371","t":"","w":2000,"h":1573,"tw":640,"th":503,"p":["#4a806d","#d4782a","#b8cf26"],"room":"shapes"},{"id":"9372","t":"","w":2000,"h":1600,"tw":640,"th":512,"p":["#d76942","#1e65c8","#a8c126"],"room":"shapes"},{"id":"9373","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#447ca5","#cca213","#c85e56"],"room":"lines"},{"id":"9374","t":"","w":2000,"h":1616,"tw":640,"th":517,"p":["#d2b12d","#3b7db9","#a6543c"],"room":"shapes"},{"id":"9375","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#633938","#5b83a6","#b06348"],"room":"paint"},{"id":"9376","t":"","w":2000,"h":1382,"tw":640,"th":442,"p":["#df8d44","#4d795b","#7dc1c5"],"room":"shapes"},{"id":"9377","t":"","w":2000,"h":1405,"tw":640,"th":449,"p":["#5d80b6","#d58d83","#7b7a5a"],"room":"shapes"},{"id":"9378","t":"","w":1347,"h":2000,"tw":431,"th":640,"p":["#cb7844","#dfae6b","#836745"],"room":"people"},{"id":"9379","t":"","w":1408,"h":2000,"tw":451,"th":640,"p":["#c7ae6e","#d3c188","#b98449"],"room":"people"},{"id":"9380","t":"","w":2000,"h":1400,"tw":640,"th":448,"p":["#c09670","#539bd1","#d88a14"],"room":"people"},{"id":"9381","t":"","w":2000,"h":1388,"tw":640,"th":444,"p":["#3162bc","#5e9cb0","#83bde7"],"room":"shapes"},{"id":"9382","t":"","w":2000,"h":1395,"tw":640,"th":446,"p":["#be5f52","#58505c","#62a8b8"],"room":"shapes"},{"id":"9383","t":"","w":2000,"h":1403,"tw":640,"th":449,"p":["#c38937","#cb4c9d","#55664c"],"room":"shapes"}];
+
+const box = document.getElementById('slides'); const viewer = DeanoViewer(W);
+document.getElementById('cnt').textContent = W.length;
+function tint(hex, amt) {
+  const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const m = c => Math.round(c + (255 - c) * amt);
+  return 'rgb(' + m(r) + ',' + m(g) + ',' + m(b) + ')';
+}
+W.forEach((w, i) => {
+  const s = document.createElement('section');
+  s.className = 'slide'; s.dataset.bg = tint(w.p[0] || '#888888', .72); s.dataset.i = i;
+  s.innerHTML = '<figure><img src="/art/full/' + w.id + '.jpg" width="' + w.w + '" height="' + w.h + '" alt="' + (w.t ? w.t + ' by Deano' : 'Untitled work by Deano') + '" loading="lazy" decoding="async"><figcaption>' + (w.t || 'Untitled') + '<span class="n">' + (i + 1) + ' / ' + W.length + '</span></figcaption></figure>';
+  s.querySelector('img').onclick = () => viewer.open(i);
+  box.appendChild(s);
+});
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  document.body.style.backgroundColor = e.target.dataset.bg;
+  const i = e.target.dataset.i;
+  document.getElementById('prog').style.width = i === undefined ? 0 : ((+i + 1) / W.length * 100) + '%';
+}), { threshold: .55 });
+document.querySelectorAll('.slide').forEach(s => io.observe(s));
+document.addEventListener('keydown', e => {
+  if (document.querySelector('.dv.on')) return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); scrollBy({ top: innerHeight, behavior: 'smooth' }); }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); scrollBy({ top: -innerHeight, behavior: 'smooth' }); }
+});
+
+</script>
+<!-- Rev.3 -->
+</body>
+</html>

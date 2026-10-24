@@ -1,11 +1,11 @@
-# deano.art (Rev.1)
+# deano.art (Rev.3)
 
-Static gallery site for Deano (Dean Greenberg). Hosted on Cloudflare Pages, deployed from this repo.
+Static gallery site for Deano (Dean Greenberg). Hosted on Cloudflare Workers static assets, deployed from this repo.
 
 ## Update the site
 1. Edit `works.json` to change titles or order. Each entry is one artwork. `id` matches the files in `public/art/full` and `public/art/thumb`.
 2. Run `python3 build.py` to regenerate `public/index.html`.
-3. Commit and push to `main`. Cloudflare Pages deploys in about a minute.
+3. Commit and push to `main`. Cloudflare deploys in about a minute.
 
 ## Add new artwork
 Add a 2000px-wide JPG to `public/art/full/<id>.jpg` and a 640px JPG to `public/art/thumb/<id>.jpg`, add an entry to `works.json`, rebuild, push.
@@ -16,5 +16,9 @@ Deployed as a Cloudflare Worker with static assets. `wrangler.jsonc` points the 
 - Deploy command: `npx wrangler deploy`
 - Custom domains: `deano.art`, `www.deano.art` (Settings > Domains & Routes)
 
-## Layout previews (Rev.2)
-`python3 build_previews.py` builds four layout previews under `public/preview/`: wall, one, rooms, featured. Rooms and color groups come from `room` and `colors` in `works.json`.
+## Pages (Rev.3)
+`python3 build.py` builds all pages from `works.json`:
+- `/` gallery wall (home), with wall color and shuffle
+- `/one/` one at a time, background tinted per piece
+- `/rooms/` grouped by `room`: shapes, paint, lines, people
+Every page has a "View the gallery as" switcher. Old `/preview/` links redirect via `public/_redirects`.
