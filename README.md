@@ -15,3 +15,6 @@ Deployed as a Cloudflare Worker with static assets. `wrangler.jsonc` points the 
 - Build command: (empty)
 - Deploy command: `npx wrangler deploy`
 - Custom domains: `deano.art`, `www.deano.art` (Settings > Domains & Routes)
+
+## Layout previews (Rev.2)
+`python3 build_previews.py` builds four layout previews under `public/preview/`: wall, one, rooms, featured. Rooms and color groups come from `room` and `colors` in `works.json`.
