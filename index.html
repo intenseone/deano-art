@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deano | Art by Dean Greenberg</title>
+<meta name="description" content="Drawings and paintings by Deano (Dean Greenberg). Bold lines, bright color.">
+<meta property="og:title" content="Deano | Art by Dean Greenberg">
+<meta property="og:description" content="Drawings and paintings by Deano.">
+<meta property="og:image" content="https://deano.art/art/full/9284.jpg">
+<meta property="og:url" content="https://deano.art/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111; --paper: #fbfaf7; --muted: #6b6b6b;
+  --red: #e2382b; --yellow: #f5c518; --blue: #1f5fd6; --green: #1e9e57; --pink: #e8559a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+body { font: 16px/1.5 Archivo, system-ui, sans-serif; }
+a { color: inherit; }
+header { padding: 48px 20px 28px; max-width: 1400px; margin: 0 auto; }
+.mark { font-family: "Archivo Black", Archivo, sans-serif; font-size: clamp(64px, 14vw, 168px);
+  line-height: .85; letter-spacing: -0.03em; margin: 0; display: flex; align-items: flex-end; gap: .08em; }
+.mark span { display: inline-block; }
+.dots { display: inline-flex; flex: none; gap: .08em; margin-left: .06em; margin-bottom: .04em; font-size: 1em; }
+.dots i { display: block; width: .17em; height: .17em; border-radius: 50%; border: .035em solid var(--ink); }
+.dots i:nth-child(1) { background: var(--red); }
+.dots i:nth-child(2) { background: var(--yellow); }
+.dots i:nth-child(3) { background: var(--blue); }
+.dots i:nth-child(4) { background: var(--green); }
+.sub { margin: 18px 0 0; font-size: clamp(17px, 2.2vw, 21px); max-width: 40ch; }
+.sub b { font-weight: 600; }
+nav { margin-top: 18px; display: flex; gap: 22px; font-weight: 600; }
+nav a { text-decoration: none; border-bottom: 3px solid var(--yellow); }
+nav a:hover { border-color: var(--red); }
+main { max-width: 1400px; margin: 0 auto; padding: 8px 20px 40px; }
+.grid { columns: 3 320px; column-gap: 22px; }
+.card { break-inside: avoid; margin: 0 0 22px; }
+.card a { display: block; background: #fff; border: 3px solid var(--ink); border-radius: 4px;
+  box-shadow: 6px 6px 0 var(--ink); transition: transform .12s, box-shadow .12s; overflow: hidden; }
+.card a:hover, .card a:focus-visible { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); outline: none; }
+.card img { display: block; width: 100%; height: auto; }
+figcaption { margin-top: 10px; font-weight: 600; }
+#about { max-width: 760px; margin: 40px auto 0; padding: 32px 20px; border-top: 3px solid var(--ink); }
+#about h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 12px; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 28px 20px 48px; }
+/* lightbox */
+.lb { position: fixed; inset: 0; background: rgba(17,17,17,.94); display: none; z-index: 10;
+  align-items: center; justify-content: center; flex-direction: column; padding: 56px 16px 24px; }
+.lb.on { display: flex; }
+.lb img { max-width: 100%; max-height: calc(100vh - 140px); object-fit: contain; background: #fff; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.lb .cap { color: #fff; margin-top: 14px; font-weight: 600; min-height: 1.5em; text-align: center; }
+.lb button { position: absolute; background: #fff; color: var(--ink); border: 3px solid var(--ink); border-radius: 50%;
+  width: 48px; height: 48px; font: 700 22px/1 Archivo, sans-serif; cursor: pointer; }
+.lb .x { top: 12px; right: 12px; }
+.lb .prev { left: 12px; top: 50%; transform: translateY(-50%); }
+.lb .next { right: 12px; top: 50%; transform: translateY(-50%); }
+.lb button:hover { background: var(--yellow); }
+@media (max-width: 600px) {
+  header { padding-top: 32px; }
+  .grid { columns: 2 150px; column-gap: 14px; }
+  .card { margin-bottom: 14px; }
+  .card a { border-width: 2px; box-shadow: 4px 4px 0 var(--ink); }
+  figcaption { font-size: 14px; }
+  .lb .prev, .lb .next { top: auto; bottom: 16px; transform: none; }
+  .lb img { max-height: calc(100vh - 170px); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1 class="mark"><span>Deano</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></h1>
+  <p class="sub">Drawings and paintings by <b>Dean Greenberg</b>.</p>
+  <nav><a href="#work">Work</a><a href="#about">About</a></nav>
+</header>
+<main id="work">
+  <div class="grid">
+<figure class="card" data-i="0"><a href="art/full/9284.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9284.jpg" width="640" height="465" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="1"><a href="art/full/9285.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9285.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="2"><a href="art/full/9287.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9287.jpg" width="640" height="452" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="3"><a href="art/full/9288.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9288.jpg" width="640" height="464" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="4"><a href="art/full/9289.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9289.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="5"><a href="art/full/9290.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9290.jpg" width="574" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="6"><a href="art/full/9291.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9291.jpg" width="640" height="481" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="7"><a href="art/full/9292.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9292.jpg" width="640" height="483" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="8"><a href="art/full/9293.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9293.jpg" width="640" height="478" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="9"><a href="art/full/9294.jpg" class="open" aria-label="View Color Block by Deano"><img src="art/thumb/9294.jpg" width="640" height="475" alt="Color Block by Deano" loading="lazy" decoding="async"></a><figcaption>Color Block</figcaption></figure>
+<figure class="card" data-i="10"><a href="art/full/9295.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9295.jpg" width="640" height="472" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="11"><a href="art/full/9296.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9296.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="12"><a href="art/full/9297.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9297.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="13"><a href="art/full/9298.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9298.jpg" width="640" height="490" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="14"><a href="art/full/9299.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9299.jpg" width="640" height="484" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="15"><a href="art/full/9300.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9300.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="16"><a href="art/full/9301.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9301.jpg" width="640" height="478" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="17"><a href="art/full/9302.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9302.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="18"><a href="art/full/9303.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9303.jpg" width="640" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="19"><a href="art/full/9304.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9304.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="20"><a href="art/full/9305.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9305.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="21"><a href="art/full/9306.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9306.jpg" width="640" height="438" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="22"><a href="art/full/9307.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9307.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="23"><a href="art/full/9308.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9308.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="24"><a href="art/full/9309.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9309.jpg" width="640" height="473" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="25"><a href="art/full/9310.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9310.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="26"><a href="art/full/9311.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9311.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="27"><a href="art/full/9312.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9312.jpg" width="640" height="475" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="28"><a href="art/full/9313.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9313.jpg" width="640" height="472" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="29"><a href="art/full/9314.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9314.jpg" width="640" height="483" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="30"><a href="art/full/9315.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9315.jpg" width="640" height="481" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="31"><a href="art/full/9316.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9316.jpg" width="640" height="476" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="32"><a href="art/full/9318.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9318.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="33"><a href="art/full/9319.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9319.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="34"><a href="art/full/9320.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9320.jpg" width="640" height="492" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="35"><a href="art/full/9321.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9321.jpg" width="640" height="488" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="36"><a href="art/full/9322.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9322.jpg" width="640" height="477" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="37"><a href="art/full/9323.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9323.jpg" width="640" height="480" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="38"><a href="art/full/9324.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9324.jpg" width="640" height="457" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="39"><a href="art/full/9325.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9325.jpg" width="640" height="491" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="40"><a href="art/full/9326.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9326.jpg" width="640" height="434" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="41"><a href="art/full/9327.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9327.jpg" width="640" height="433" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="42"><a href="art/full/9328.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9328.jpg" width="640" height="440" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="43"><a href="art/full/9329.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9329.jpg" width="640" height="439" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="44"><a href="art/full/9330.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9330.jpg" width="640" height="443" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="45"><a href="art/full/9331.jpg" class="open" aria-label="View Smudge by Deano"><img src="art/thumb/9331.jpg" width="640" height="439" alt="Smudge by Deano" loading="lazy" decoding="async"></a><figcaption>Smudge</figcaption></figure>
+<figure class="card" data-i="46"><a href="art/full/9332.jpg" class="open" aria-label="View The Kiddish Cup WOW by Deano"><img src="art/thumb/9332.jpg" width="640" height="441" alt="The Kiddish Cup WOW by Deano" loading="lazy" decoding="async"></a><figcaption>The Kiddish Cup WOW</figcaption></figure>
+<figure class="card" data-i="47"><a href="art/full/9333.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9333.jpg" width="640" height="443" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="48"><a href="art/full/9334.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9334.jpg" width="640" height="436" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="49"><a href="art/full/9335.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9335.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="50"><a href="art/full/9336.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9336.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="51"><a href="art/full/9337.jpg" class="open" aria-label="View From Scratch by Deano"><img src="art/thumb/9337.jpg" width="640" height="442" alt="From Scratch by Deano" loading="lazy" decoding="async"></a><figcaption>From Scratch</figcaption></figure>
+<figure class="card" data-i="52"><a href="art/full/9338.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9338.jpg" width="640" height="444" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="53"><a href="art/full/9339.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9339.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="54"><a href="art/full/9340.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9340.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="55"><a href="art/full/9341.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9341.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="56"><a href="art/full/9342.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9342.jpg" width="640" height="512" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="57"><a href="art/full/9343.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9343.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="58"><a href="art/full/9344.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9344.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="59"><a href="art/full/9345.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9345.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="60"><a href="art/full/9346.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9346.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="61"><a href="art/full/9347.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9347.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="62"><a href="art/full/9348.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9348.jpg" width="640" height="510" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="63"><a href="art/full/9349.jpg" class="open" aria-label="View Red by Deano"><img src="art/thumb/9349.jpg" width="640" height="506" alt="Red by Deano" loading="lazy" decoding="async"></a><figcaption>Red</figcaption></figure>
+<figure class="card" data-i="64"><a href="art/full/9350.jpg" class="open" aria-label="View Green by Deano"><img src="art/thumb/9350.jpg" width="640" height="507" alt="Green by Deano" loading="lazy" decoding="async"></a><figcaption>Green</figcaption></figure>
+<figure class="card" data-i="65"><a href="art/full/9351.jpg" class="open" aria-label="View Blue by Deano"><img src="art/thumb/9351.jpg" width="640" height="506" alt="Blue by Deano" loading="lazy" decoding="async"></a><figcaption>Blue</figcaption></figure>
+<figure class="card" data-i="66"><a href="art/full/9352.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9352.jpg" width="640" height="441" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="67"><a href="art/full/9353.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9353.jpg" width="640" height="445" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="68"><a href="art/full/9354.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9354.jpg" width="640" height="448" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="69"><a href="art/full/9355.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9355.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="70"><a href="art/full/9357.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9357.jpg" width="640" height="509" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="71"><a href="art/full/9358.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9358.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="72"><a href="art/full/9359.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9359.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="73"><a href="art/full/9360.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9360.jpg" width="640" height="505" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="74"><a href="art/full/9361.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9361.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="75"><a href="art/full/9362.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9362.jpg" width="640" height="510" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="76"><a href="art/full/9363.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9363.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="77"><a href="art/full/9364.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9364.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="78"><a href="art/full/9365.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9365.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="79"><a href="art/full/9366.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9366.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="80"><a href="art/full/9367.jpg" class="open" aria-label="View Happy New Year 5787 by Deano"><img src="art/thumb/9367.jpg" width="640" height="449" alt="Happy New Year 5787 by Deano" loading="lazy" decoding="async"></a><figcaption>Happy New Year 5787</figcaption></figure>
+<figure class="card" data-i="81"><a href="art/full/9368.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9368.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="82"><a href="art/full/9369.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9369.jpg" width="640" height="515" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="83"><a href="art/full/9370.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9370.jpg" width="640" height="506" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="84"><a href="art/full/9371.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9371.jpg" width="640" height="503" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="85"><a href="art/full/9372.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9372.jpg" width="640" height="512" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="86"><a href="art/full/9373.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9373.jpg" width="640" height="508" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="87"><a href="art/full/9374.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9374.jpg" width="640" height="517" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="88"><a href="art/full/9375.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9375.jpg" width="640" height="507" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="89"><a href="art/full/9376.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9376.jpg" width="640" height="442" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="90"><a href="art/full/9377.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9377.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="91"><a href="art/full/9378.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9378.jpg" width="431" height="640" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="92"><a href="art/full/9379.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9379.jpg" width="451" height="640" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="93"><a href="art/full/9380.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9380.jpg" width="640" height="448" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="94"><a href="art/full/9381.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9381.jpg" width="640" height="444" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="95"><a href="art/full/9382.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9382.jpg" width="640" height="446" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+<figure class="card" data-i="96"><a href="art/full/9383.jpg" class="open" aria-label="View Untitled work by Deano"><img src="art/thumb/9383.jpg" width="640" height="449" alt="Untitled work by Deano" loading="lazy" decoding="async"></a></figure>
+  </div>
+</main>
+<section id="about">
+  <h2>About</h2>
+  <p>Deano is the artist name of Dean Greenberg. He works in marker, colored pencil and paint on paper. Many pieces carry his mark, DG, and the year.</p>
+</section>
+<footer>&copy; <span id="y">2026</span> Dean Greenberg. All rights reserved. &middot; Rev.1</footer>
+
+<div class="lb" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="x" aria-label="Close">&times;</button>
+  <button class="prev" aria-label="Previous">&#8592;</button>
+  <img alt="">
+  <div class="cap"></div>
+  <button class="next" aria-label="Next">&#8594;</button>
+</div>
+<script>
+const W = [{"id": "9284", "t": ""}, {"id": "9285", "t": ""}, {"id": "9287", "t": ""}, {"id": "9288", "t": ""}, {"id": "9289", "t": ""}, {"id": "9290", "t": ""}, {"id": "9291", "t": ""}, {"id": "9292", "t": ""}, {"id": "9293", "t": ""}, {"id": "9294", "t": "Color Block"}, {"id": "9295", "t": ""}, {"id": "9296", "t": ""}, {"id": "9297", "t": ""}, {"id": "9298", "t": ""}, {"id": "9299", "t": ""}, {"id": "9300", "t": ""}, {"id": "9301", "t": ""}, {"id": "9302", "t": ""}, {"id": "9303", "t": ""}, {"id": "9304", "t": ""}, {"id": "9305", "t": ""}, {"id": "9306", "t": ""}, {"id": "9307", "t": ""}, {"id": "9308", "t": ""}, {"id": "9309", "t": ""}, {"id": "9310", "t": ""}, {"id": "9311", "t": ""}, {"id": "9312", "t": ""}, {"id": "9313", "t": ""}, {"id": "9314", "t": ""}, {"id": "9315", "t": ""}, {"id": "9316", "t": ""}, {"id": "9318", "t": ""}, {"id": "9319", "t": ""}, {"id": "9320", "t": ""}, {"id": "9321", "t": ""}, {"id": "9322", "t": ""}, {"id": "9323", "t": ""}, {"id": "9324", "t": ""}, {"id": "9325", "t": ""}, {"id": "9326", "t": ""}, {"id": "9327", "t": ""}, {"id": "9328", "t": ""}, {"id": "9329", "t": ""}, {"id": "9330", "t": ""}, {"id": "9331", "t": "Smudge"}, {"id": "9332", "t": "The Kiddish Cup WOW"}, {"id": "9333", "t": ""}, {"id": "9334", "t": ""}, {"id": "9335", "t": ""}, {"id": "9336", "t": ""}, {"id": "9337", "t": "From Scratch"}, {"id": "9338", "t": ""}, {"id": "9339", "t": ""}, {"id": "9340", "t": ""}, {"id": "9341", "t": ""}, {"id": "9342", "t": ""}, {"id": "9343", "t": ""}, {"id": "9344", "t": ""}, {"id": "9345", "t": ""}, {"id": "9346", "t": ""}, {"id": "9347", "t": ""}, {"id": "9348", "t": ""}, {"id": "9349", "t": "Red"}, {"id": "9350", "t": "Green"}, {"id": "9351", "t": "Blue"}, {"id": "9352", "t": ""}, {"id": "9353", "t": ""}, {"id": "9354", "t": ""}, {"id": "9355", "t": ""}, {"id": "9357", "t": ""}, {"id": "9358", "t": ""}, {"id": "9359", "t": ""}, {"id": "9360", "t": ""}, {"id": "9361", "t": ""}, {"id": "9362", "t": ""}, {"id": "9363", "t": ""}, {"id": "9364", "t": ""}, {"id": "9365", "t": ""}, {"id": "9366", "t": ""}, {"id": "9367", "t": "Happy New Year 5787"}, {"id": "9368", "t": ""}, {"id": "9369", "t": ""}, {"id": "9370", "t": ""}, {"id": "9371", "t": ""}, {"id": "9372", "t": ""}, {"id": "9373", "t": ""}, {"id": "9374", "t": ""}, {"id": "9375", "t": ""}, {"id": "9376", "t": ""}, {"id": "9377", "t": ""}, {"id": "9378", "t": ""}, {"id": "9379", "t": ""}, {"id": "9380", "t": ""}, {"id": "9381", "t": ""}, {"id": "9382", "t": ""}, {"id": "9383", "t": ""}];
+const lb = document.querySelector('.lb'), im = lb.querySelector('img'), cap = lb.querySelector('.cap');
+let cur = 0, last = null;
+function show(i) {
+  cur = (i + W.length) % W.length;
+  im.src = 'art/full/' + W[cur].id + '.jpg';
+  im.alt = W[cur].t ? W[cur].t + ' by Deano' : 'Untitled work by Deano';
+  cap.textContent = W[cur].t || '';
+  [cur + 1, cur - 1].forEach(j => { const p = new Image(); p.src = 'art/full/' + W[(j + W.length) % W.length].id + '.jpg'; });
+}
+function open(i) { last = document.activeElement; show(i); lb.classList.add('on'); document.body.style.overflow = 'hidden'; lb.querySelector('.x').focus(); }
+function close() { lb.classList.remove('on'); document.body.style.overflow = ''; if (last) last.focus(); }
+document.querySelectorAll('.card').forEach(c => c.querySelector('a').addEventListener('click', e => { e.preventDefault(); open(+c.dataset.i); }));
+lb.querySelector('.x').onclick = close;
+lb.querySelector('.prev').onclick = () => show(cur - 1);
+lb.querySelector('.next').onclick = () => show(cur + 1);
+lb.addEventListener('click', e => { if (e.target === lb) close(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('on')) return;
+  if (e.key === 'Escape') close();
+  if (e.key === 'ArrowRight') show(cur + 1);
+  if (e.key === 'ArrowLeft') show(cur - 1);
+});
+let sx = null;
+lb.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+lb.addEventListener('touchend', e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null; });
+document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
