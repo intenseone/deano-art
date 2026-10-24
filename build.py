@@ -3,15 +3,24 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.3"
+REV = "Rev.4"
 works = json.load(open("works.json"))
 DATA = json.dumps([{
     "id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
     "p": w["palette"][:3], "room": w["room"],
 } for w in works], separators=(",", ":"))
 
-ABOUT = ("Deano is the artist name of Dean Greenberg. He works in marker, colored pencil and paint on paper. "
-         "Many pieces carry his mark, DG, and the year.")
+ABOUT = [
+    "Dean Greenberg grew up in Saint Paul, Minnesota. He started out in the scrap business, moved into meat processing, "
+    "and went on to run Newport Cold Storage in Saint Paul. He has also backed many startups as an investor.",
+    "He has collected art for 50 years. His collection includes Joan Mir\u00f3 and Alexander Calder, along with many sculptures. "
+    "A few years ago he picked up a set of markers and started making his own.",
+    "He works at home with no plan. He starts with a line and lets the piece find its shape, and he calls every one of them a doodle. "
+    "The collector shows in the work: heavy black lines, floating shapes and flat, bright color that recall Mir\u00f3 and Calder. "
+    "He moves between marker, colored pencil and paint, and he keeps trying new materials.",
+    "Deano has never shown his work in a gallery. He makes art because it is therapeutic and because it lets him explore new worlds. "
+    "Most pieces go to family and friends, and many arrive by text message.",
+]
 OG_IMG = "https://deano.art/art/full/9294.jpg"
 
 HEAD = """<!doctype html>
@@ -86,12 +95,13 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .plate { display: block; margin-top: 8px; font: 600 12px/1.2 Archivo, sans-serif; color: #111; text-align: center; letter-spacing: .02em; }
 #about { max-width: 760px; margin: 0 auto; padding: 34px 20px 10px; border-top: 3px solid var(--fg); }
 #about h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 12px; }
+#about p { font-size: 18px; line-height: 1.6; margin: 0 0 14px; }
 .foot { text-align: center; opacity: .7; font-size: 14px; padding: 26px 20px 40px; }
 @media (max-width: 600px) { .fr.s, .fr.m, .fr.l { --sz: 40vw; } .wall { gap: 26px 18px; } }
 """, f"""
 <header>
   {MARK}
-  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>.</p>{switcher("/")}</div>
+  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>. <a class="ab" href="#about">About Deano</a></p>{switcher("/")}</div>
 </header>
 <div class="tools">
   <span class="lbl">Wall color</span>
@@ -102,7 +112,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
   <button class="chip" id="shuffle">Shuffle the wall</button>
 </div>
 <main class="wall" id="wall"></main>
-<section id="about"><h2>About</h2><p>{html.escape(ABOUT)}</p></section>
+<section id="about"><h2>About Deano</h2>{"".join("<p>" + html.escape(p) + "</p>" for p in ABOUT)}</section>
 {FOOT}
 """, """
 const wall = document.getElementById('wall'); const viewer = DeanoViewer(W);
@@ -164,7 +174,7 @@ body { transition: background-color .7s ease; }
 <div class="topbar">{MARK}{switcher("/one/")}</div>
 <section class="slide intro" data-bg="#fbfaf7">
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
-  <p>Drawings and paintings by Dean Greenberg.</p>
+  <p>Drawings and paintings by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
   <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
 </section>
 <main id="slides"></main>
@@ -233,7 +243,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .foot { text-align: center; color: #6b6b6b; font-size: 14px; padding: 40px 20px 40px; }
 @media (max-width: 600px) { .row { gap: 10px; } .tile { border-width: 2px; } }
 """, f"""
-<header>{MARK}<div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>, grouped by how they were made.</p>{switcher("/rooms/")}</div></header>
+<header>{MARK}<div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>, grouped by how they were made. <a class="ab" href="/#about">About Deano</a></p>{switcher("/rooms/")}</div></header>
 <nav class="rnav" aria-label="Rooms"><div>{room_nav}</div></nav>
 {room_secs}
 {FOOT}

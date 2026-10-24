@@ -43,6 +43,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .plate { display: block; margin-top: 8px; font: 600 12px/1.2 Archivo, sans-serif; color: #111; text-align: center; letter-spacing: .02em; }
 #about { max-width: 760px; margin: 0 auto; padding: 34px 20px 10px; border-top: 3px solid var(--fg); }
 #about h2 { font-family: "Archivo Black", sans-serif; font-size: 32px; margin: 0 0 12px; }
+#about p { font-size: 18px; line-height: 1.6; margin: 0 0 14px; }
 .foot { text-align: center; opacity: .7; font-size: 14px; padding: 26px 20px 40px; }
 @media (max-width: 600px) { .fr.s, .fr.m, .fr.l { --sz: 40vw; } .wall { gap: 26px 18px; } }
 </style>
@@ -51,7 +52,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 
 <header>
   <a class="mark" href="/" aria-label="Deano home">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></a>
-  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>.</p><nav class="views" aria-label="View the gallery as"><span class="vl">View the gallery as</span><div class="seg"><a href="/" aria-current="page"><span class="long">Gallery wall</span><span class="short">Wall</span></a><a href="/one/"><span class="long">One at a time</span><span class="short">One at a time</span></a><a href="/rooms/"><span class="long">Rooms</span><span class="short">Rooms</span></a></div></nav></div>
+  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>. <a class="ab" href="#about">About Deano</a></p><nav class="views" aria-label="View the gallery as"><span class="vl">View the gallery as</span><div class="seg"><a href="/" aria-current="page"><span class="long">Gallery wall</span><span class="short">Wall</span></a><a href="/one/"><span class="long">One at a time</span><span class="short">One at a time</span></a><a href="/rooms/"><span class="long">Rooms</span><span class="short">Rooms</span></a></div></nav></div>
 </header>
 <div class="tools">
   <span class="lbl">Wall color</span>
@@ -62,8 +63,8 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
   <button class="chip" id="shuffle">Shuffle the wall</button>
 </div>
 <main class="wall" id="wall"></main>
-<section id="about"><h2>About</h2><p>Deano is the artist name of Dean Greenberg. He works in marker, colored pencil and paint on paper. Many pieces carry his mark, DG, and the year.</p></section>
-<footer class="foot">&copy; <span class="yr">2026</span> Dean Greenberg. All rights reserved. &middot; Rev.3</footer>
+<section id="about"><h2>About Deano</h2><p>Dean Greenberg grew up in Saint Paul, Minnesota. He started out in the scrap business, moved into meat processing, and went on to run Newport Cold Storage in Saint Paul. He has also backed many startups as an investor.</p><p>He has collected art for 50 years. His collection includes Joan Miró and Alexander Calder, along with many sculptures. A few years ago he picked up a set of markers and started making his own.</p><p>He works at home with no plan. He starts with a line and lets the piece find its shape, and he calls every one of them a doodle. The collector shows in the work: heavy black lines, floating shapes and flat, bright color that recall Miró and Calder. He moves between marker, colored pencil and paint, and he keeps trying new materials.</p><p>Deano has never shown his work in a gallery. He makes art because it is therapeutic and because it lets him explore new worlds. Most pieces go to family and friends, and many arrive by text message.</p></section>
+<footer class="foot">&copy; <span class="yr">2026</span> Dean Greenberg. All rights reserved. &middot; Rev.4</footer>
 
 <script src="/assets/viewer.js"></script>
 <script>
@@ -101,6 +102,6 @@ document.querySelectorAll('.sw-btn').forEach(b => b.onclick = () => setWall(b));
 try { const s = localStorage.getItem('deano-wall'); const b = s && document.querySelector('.sw-btn[data-wall="' + s + '"]'); if (b) setWall(b); } catch (e) {}
 document.querySelectorAll('.yr').forEach(e => e.textContent = new Date().getFullYear());
 </script>
-<!-- Rev.3 -->
+<!-- Rev.4 -->
 </body>
 </html>
