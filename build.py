@@ -148,5 +148,5 @@ document.getElementById('y').textContent = new Date().getFullYear();
 </body>
 </html>
 """
-open("index.html", "w").write(page)
+open("public/index.html", "w").write(page)
 print(f"index.html built with {len(works)} works ({REV})")
