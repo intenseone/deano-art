@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.5"
+REV = "Rev.5.1"
 works = json.load(open("works.json"))
 DATA = json.dumps([{
     "id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
@@ -29,9 +29,9 @@ HEAD = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__</title>
-<meta name="description" content="Drawings and paintings by Deano (Dean Greenberg). Bold lines, bright color.">
+<meta name="description" content="Doodles by Deano (Dean Greenberg). Bold lines, bright color.">
 <meta property="og:title" content="__TITLE__">
-<meta property="og:description" content="Drawings and paintings by Deano (Dean Greenberg).">
+<meta property="og:description" content="Doodles by Deano (Dean Greenberg).">
 <meta property="og:image" content="__OG__">
 <meta property="og:url" content="https://deano.art__PATH__">
 <meta name="twitter:card" content="summary_large_image">
@@ -69,7 +69,7 @@ FOOT = f'<footer class="foot">&copy; <span class="yr">2026</span> Dean Greenberg
 YEAR_JS = "document.querySelectorAll('.yr').forEach(e => e.textContent = new Date().getFullYear());"
 
 # ---------------------------------------------------------------- / Gallery wall
-page("/", "Deano | Art by Dean Greenberg", """
+page("/", "Deano | Doodles by Dean Greenberg", """
 body { --wall: #24344d; --fg: #f6f1e7; background-color: var(--wall); color: var(--fg); transition: background-color .5s, color .5s; min-height: 100vh;
   background-image: radial-gradient(ellipse at 50% -10%, rgba(255,255,255,.14), transparent 60%); }
 body.light { --fg: #111; }
@@ -102,7 +102,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 """, f"""
 <header>
   {MARK}
-  <div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>. <a class="ab" href="#about">About Deano</a></p>{switcher("/")}</div>
+  <div class="intro"><p>Doodles by <b>Dean Greenberg</b>. <a class="ab" href="#about">About Deano</a></p>{switcher("/")}</div>
 </header>
 <div class="tools">
   <span class="lbl">Wall color</span>
@@ -175,7 +175,7 @@ body { transition: background-color .7s ease; }
 <div class="topbar">{MARK}{switcher("/one/")}</div>
 <section class="slide intro" data-bg="#fbfaf7">
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
-  <p>Drawings and paintings by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
+  <p>Doodles by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
   <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
 </section>
 <main id="slides"></main>
@@ -244,7 +244,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .foot { text-align: center; color: #6b6b6b; font-size: 14px; padding: 40px 20px 40px; }
 @media (max-width: 600px) { .row { gap: 10px; } .tile { border-width: 2px; } }
 """, f"""
-<header>{MARK}<div class="intro"><p>Drawings and paintings by <b>Dean Greenberg</b>, grouped by how they were made. <a class="ab" href="/#about">About Deano</a></p>{switcher("/rooms/")}</div></header>
+<header>{MARK}<div class="intro"><p>Doodles by <b>Dean Greenberg</b>, grouped by how they were made. <a class="ab" href="/#about">About Deano</a></p>{switcher("/rooms/")}</div></header>
 <nav class="rnav" aria-label="Rooms"><div>{room_nav}</div></nav>
 {room_secs}
 {FOOT}
