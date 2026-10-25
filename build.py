@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6.2"
+REV = "Rev.6.3"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
@@ -70,6 +70,12 @@ def page(path, title, css, body, js):
     os.makedirs(d, exist_ok=True)
     open(d + "index.html", "w").write(out)
 
+BRUSH = ('<a class="brush" href="/artist/" aria-label="Artist&rsquo;s entry" title="Artist&rsquo;s entry">'
+         '<svg viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(45 24 24)">'
+         '<rect x="21" y="1" width="6" height="22" rx="3" fill="#c98a3a" stroke="#111" stroke-width="2.5"/>'
+         '<rect x="19.5" y="22" width="9" height="8" fill="#d9d9d9" stroke="#111" stroke-width="2.5"/>'
+         '<path d="M19.5 30h9c0 7-2 12-4.5 16c-2.5-4-4.5-9-4.5-16z" fill="#e2382b" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>'
+         '</g></svg><span>Artist</span></a>')
 IG = "https://www.instagram.com/1938dean/"
 FB = "https://www.facebook.com/dlg1938"
 IG_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg>'
@@ -111,6 +117,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .foot { text-align: center; opacity: .7; font-size: 14px; padding: 26px 20px 40px; }
 @media (max-width: 600px) { .fr.s, .fr.m, .fr.l { --sz: 40vw; } .wall { gap: 26px 18px; } }
 """, f"""
+{BRUSH}
 <header>
   {MARK}
   <div class="intro"><p>Doodles by <b>Dean Greenberg</b>. <a class="ab" href="#about">About Deano</a></p>{switcher("/")}</div>
@@ -167,6 +174,8 @@ body { transition: background-color .7s ease; }
   gap: 12px; padding: 12px 16px; }
 .topbar .mark { font-size: 30px; }
 .topbar .views .vl { display: none; }
+.topbar .tr { display: flex; align-items: center; gap: 10px; }
+.topbar .brush { position: static; }
 .slide { height: 100vh; height: 100svh; scroll-snap-align: start; display: flex; flex-direction: column;
   align-items: center; justify-content: center; padding: 76px 16px 40px; position: relative; }
 .intro .big { font-size: clamp(72px, 16vw, 200px); }
@@ -183,7 +192,7 @@ body { transition: background-color .7s ease; }
   .topbar .mark { font-size: 22px; } .topbar { padding: 10px 10px; } }
 """, f"""
 <div class="progress" id="prog"></div>
-<div class="topbar">{MARK}{switcher("/one/")}</div>
+<div class="topbar">{MARK}<div class="tr">{switcher("/one/")}{BRUSH}</div></div>
 <section class="slide intro" data-bg="#fbfaf7">
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
   <p>Doodles by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
@@ -256,6 +265,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .foot { text-align: center; color: #6b6b6b; font-size: 14px; padding: 40px 20px 40px; }
 @media (max-width: 600px) { .row { gap: 10px; } .tile { border-width: 2px; } }
 """, f"""
+{BRUSH}
 <header>{MARK}<div class="intro"><p>Doodles by <b>Dean Greenberg</b>, grouped by how they were made. <a class="ab" href="/#about">About Deano</a></p>{switcher("/rooms/")}</div></header>
 <nav class="rnav" aria-label="Rooms"><div>{room_nav}</div></nav>
 {room_secs}
