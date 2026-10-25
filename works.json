@@ -2778,7 +2778,7 @@
   "h": 2000,
   "tw": 431,
   "th": 640,
-  "title": "",
+  "title": "Reubell",
   "paper": 0.561,
   "dark": 0.0,
   "colorful": 0.416,
@@ -2797,7 +2797,8 @@
   "room": "people",
   "colors": [
    "warm"
-  ]
+  ],
+  "hidden": false
  },
  {
   "id": "9379",
