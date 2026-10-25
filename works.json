@@ -26,7 +26,8 @@
   "colors": [
    "blue"
   ],
-  "room": "paint"
+  "room": "paint",
+  "hidden": true
  },
  {
   "id": "9284",
