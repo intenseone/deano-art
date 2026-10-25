@@ -89,7 +89,8 @@
    "red",
    "blue"
   ],
-  "rot": 90
+  "rot": 270,
+  "hidden": false
  },
  {
   "id": "9287",
