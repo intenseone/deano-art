@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6.1"
+REV = "Rev.6.2"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],

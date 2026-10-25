@@ -1,4 +1,4 @@
-"""Artist's Entry page: CSS, HTML and JS (Rev.6). Imported by build.py."""
+"""Artist's Entry page: CSS, HTML and JS (Rev.6.2). Imported by build.py."""
 
 CSS = """
 body { background: #fbfaf7; }
@@ -101,7 +101,7 @@ HTML = """
     </ul></div>
     <div class="pick">
       <label>Take a photo<input type="file" accept="image/*" capture="environment" id="cam"></label>
-      <label>Choose photos<input type="file" accept="image/*,.heic,.heif" multiple id="files"></label>
+      <label id="chooseLbl">Choose photos<input type="file" accept="image/*" multiple id="files"></label>
     </div>
     <div class="msg" id="umsg" role="status"></div>
     <div class="queue" id="queue"></div>
@@ -246,6 +246,20 @@ async function upload(files) {
   if (done) { umsg.className = 'msg good'; umsg.textContent = done + (done === 1 ? ' photo' : ' photos') + ' sent. New art shows at the top of the gallery in about 3 minutes.'; }
 }
 document.getElementById('files').onchange = e => { upload([...e.target.files]); e.target.value = ''; };
+// Chrome and Edge on a computer: open the picker in the Pictures folder.
+const isTouch = matchMedia('(pointer: coarse)').matches;
+if (window.showOpenFilePicker && !isTouch) {
+  document.getElementById('chooseLbl').addEventListener('click', async e => {
+    e.preventDefault();
+    try {
+      const handles = await window.showOpenFilePicker({
+        id: 'deano-photos', startIn: 'pictures', multiple: true,
+        types: [{ description: 'Photos', accept: { 'image/*': ['.jpg', '.jpeg', '.png', '.heic', '.heif', '.webp'] } }],
+      });
+      upload(await Promise.all(handles.map(h => h.getFile())));
+    } catch (err) { if (err.name !== 'AbortError') document.getElementById('files').click(); }
+  });
+}
 document.getElementById('cam').onchange = e => { upload([...e.target.files]); e.target.value = ''; };
 
 if (pin) tryLogin();
