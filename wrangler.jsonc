@@ -4,6 +4,8 @@
   "name": "deano-art",
   "main": "src/worker.js",
   "compatibility_date": "2025-09-01",
+  // keep variables set in the Cloudflare dashboard when deploying
+  "keep_vars": true,
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
