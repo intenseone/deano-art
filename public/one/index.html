@@ -30,7 +30,13 @@ body { transition: background-color .7s ease; }
   align-items: center; justify-content: center; padding: 76px 16px 40px; position: relative; }
 .intro .big { font-size: clamp(72px, 16vw, 200px); }
 .intro p { font-size: clamp(18px, 2.4vw, 24px); margin: 22px 0 0; text-align: center; }
-.intro .hint { margin-top: 40px; font-weight: 600; animation: bob 1.6s ease-in-out infinite; }
+.intro .hint { margin-top: 36px; font: 900 clamp(22px, 4.2vw, 36px)/1.15 "Archivo Black", Archivo, sans-serif; color: #111;
+  background: var(--yellow); border: 4px solid #111; border-radius: 999px; box-shadow: 6px 6px 0 #111; padding: 18px 30px;
+  cursor: pointer; text-align: center; display: inline-flex; align-items: center; gap: 14px; max-width: 100%; }
+.intro .hint .arr { display: inline-block; font-size: 1.3em; animation: bob 1.2s ease-in-out infinite; }
+.intro .hint:hover { background: #fff; }
+@media (max-width: 600px) { .intro .hint { padding: 14px 20px; box-shadow: 4px 4px 0 #111; border-width: 3px; } }
+@media (prefers-reduced-motion: reduce) { .intro .hint .arr { animation: none; } }
 @keyframes bob { 50% { transform: translateY(8px); } }
 .slide figure { margin: 0; display: flex; flex-direction: column; align-items: center; max-width: 100%; }
 .slide img { max-height: calc(100svh - 190px); max-width: min(92vw, 1300px); width: auto; height: auto; background: #fff;
@@ -50,7 +56,7 @@ body { transition: background-color .7s ease; }
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
   <p>Doodles by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
   <div style="margin-top:18px"><div class="social"><a href="https://www.instagram.com/1938dean/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/dlg1938" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg><span>Facebook</span></a></div></div>
-  <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
+  <button class="hint" id="hint" type="button"><span>Scroll to see all <span id="cnt"></span> pieces, one at a time</span><span class="arr" aria-hidden="true">&darr;</span></button>
 </section>
 <main id="slides"></main>
 
@@ -60,6 +66,7 @@ const W = [{"id":"9284","t":"","w":2000,"h":1453,"tw":640,"th":465,"p":["#7996c4
 
 const box = document.getElementById('slides'); const viewer = DeanoViewer(W);
 document.getElementById('cnt').textContent = W.length;
+document.getElementById('hint').onclick = () => scrollBy({ top: innerHeight, behavior: 'smooth' });
 function tint(hex, amt) {
   const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
   const m = c => Math.round(c + (255 - c) * amt);
@@ -86,6 +93,6 @@ document.addEventListener('keydown', e => {
 });
 
 </script>
-<!-- Rev.6.3 -->
+<!-- Rev.6.4 -->
 </body>
 </html>

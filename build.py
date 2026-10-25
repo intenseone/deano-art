@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6.3"
+REV = "Rev.6.4"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
@@ -180,7 +180,13 @@ body { transition: background-color .7s ease; }
   align-items: center; justify-content: center; padding: 76px 16px 40px; position: relative; }
 .intro .big { font-size: clamp(72px, 16vw, 200px); }
 .intro p { font-size: clamp(18px, 2.4vw, 24px); margin: 22px 0 0; text-align: center; }
-.intro .hint { margin-top: 40px; font-weight: 600; animation: bob 1.6s ease-in-out infinite; }
+.intro .hint { margin-top: 36px; font: 900 clamp(22px, 4.2vw, 36px)/1.15 "Archivo Black", Archivo, sans-serif; color: #111;
+  background: var(--yellow); border: 4px solid #111; border-radius: 999px; box-shadow: 6px 6px 0 #111; padding: 18px 30px;
+  cursor: pointer; text-align: center; display: inline-flex; align-items: center; gap: 14px; max-width: 100%; }
+.intro .hint .arr { display: inline-block; font-size: 1.3em; animation: bob 1.2s ease-in-out infinite; }
+.intro .hint:hover { background: #fff; }
+@media (max-width: 600px) { .intro .hint { padding: 14px 20px; box-shadow: 4px 4px 0 #111; border-width: 3px; } }
+@media (prefers-reduced-motion: reduce) { .intro .hint .arr { animation: none; } }
 @keyframes bob { 50% { transform: translateY(8px); } }
 .slide figure { margin: 0; display: flex; flex-direction: column; align-items: center; max-width: 100%; }
 .slide img { max-height: calc(100svh - 190px); max-width: min(92vw, 1300px); width: auto; height: auto; background: #fff;
@@ -197,12 +203,13 @@ body { transition: background-color .7s ease; }
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
   <p>Doodles by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
   <div style="margin-top:18px">{SOCIAL}</div>
-  <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
+  <button class="hint" id="hint" type="button"><span>Scroll to see all <span id="cnt"></span> pieces, one at a time</span><span class="arr" aria-hidden="true">&darr;</span></button>
 </section>
 <main id="slides"></main>
 """, """
 const box = document.getElementById('slides'); const viewer = DeanoViewer(W);
 document.getElementById('cnt').textContent = W.length;
+document.getElementById('hint').onclick = () => scrollBy({ top: innerHeight, behavior: 'smooth' });
 function tint(hex, amt) {
   const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
   const m = c => Math.round(c + (255 - c) * amt);
