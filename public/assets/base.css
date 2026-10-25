@@ -56,3 +56,11 @@ img { display: block; max-width: 100%; height: auto; }
 @media (max-width: 380px) { .views .long { display: none; } .views .short { display: inline; } }
 .ab { font-weight: 600; text-decoration: none; border-bottom: 3px solid var(--yellow); white-space: nowrap; margin-left: 6px; }
 .ab:hover { border-color: var(--red); }
+/* social links (Rev.6.1) */
+.social { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 4px 0 14px; }
+.social a { display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 Archivo, sans-serif; color: #111; background: #fff;
+  border: 3px solid #111; border-radius: 999px; padding: 9px 16px; text-decoration: none; box-shadow: 3px 3px 0 #111; }
+.social a:hover { background: var(--yellow); }
+#about .social { justify-content: flex-start; }
+#about .follow { margin-bottom: 8px; font-weight: 600; }
+#about + .foot .social { display: none; }

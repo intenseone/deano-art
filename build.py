@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6"
+REV = "Rev.6.1"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
@@ -40,6 +40,7 @@ HEAD = """<!doctype html>
 <meta property="og:url" content="https://deano.art__PATH__">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://deano.art__PATH__">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Dean Greenberg","alternateName":"Deano","url":"https://deano.art/","sameAs":["https://www.instagram.com/1938dean/","https://www.facebook.com/dlg1938"]}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,7 +70,13 @@ def page(path, title, css, body, js):
     os.makedirs(d, exist_ok=True)
     open(d + "index.html", "w").write(out)
 
-FOOT = f'<footer class="foot">&copy; <span class="yr">2026</span> Dean Greenberg. All rights reserved. &middot; {REV} &middot; <a href="/artist/" style="color:inherit">Artist&rsquo;s entry</a></footer>'
+IG = "https://www.instagram.com/1938dean/"
+FB = "https://www.facebook.com/dlg1938"
+IG_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg>'
+FB_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg>'
+SOCIAL = (f'<div class="social"><a href="{IG}" target="_blank" rel="noopener">{IG_SVG}<span>Instagram</span></a>'
+          f'<a href="{FB}" target="_blank" rel="noopener">{FB_SVG}<span>Facebook</span></a></div>')
+FOOT = f'<footer class="foot">{SOCIAL}&copy; <span class="yr">2026</span> Dean Greenberg. All rights reserved. &middot; {REV} &middot; <a href="/artist/" style="color:inherit">Artist&rsquo;s entry</a></footer>'
 YEAR_JS = "document.querySelectorAll('.yr').forEach(e => e.textContent = new Date().getFullYear());"
 
 # ---------------------------------------------------------------- / Gallery wall
@@ -117,7 +124,7 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
   <button class="chip" id="shuffle">Shuffle the wall</button>
 </div>
 <main class="wall" id="wall"></main>
-<section id="about"><h2>About Deano</h2>{"".join("<p>" + html.escape(p) + "</p>" for p in ABOUT)}</section>
+<section id="about"><h2>About Deano</h2>{"".join("<p>" + html.escape(p) + "</p>" for p in ABOUT)}<p class="follow">Follow Deano for new doodles:</p>{SOCIAL}</section>
 {FOOT}
 """, """
 const wall = document.getElementById('wall'); const viewer = DeanoViewer(W);
@@ -180,6 +187,7 @@ body { transition: background-color .7s ease; }
 <section class="slide intro" data-bg="#fbfaf7">
   <span class="mark big">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
   <p>Doodles by Dean Greenberg. <a class="ab" href="/#about">About Deano</a></p>
+  <div style="margin-top:18px">{SOCIAL}</div>
   <div class="hint">Scroll to see all <span id="cnt"></span> pieces, one at a time &darr;</div>
 </section>
 <main id="slides"></main>
