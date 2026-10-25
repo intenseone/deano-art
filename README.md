@@ -1,4 +1,4 @@
-# deano.art (Rev.3)
+# deano.art (Rev.6)
 
 Static gallery site for Deano (Dean Greenberg). Hosted on Cloudflare Workers static assets, deployed from this repo.
 
@@ -22,3 +22,10 @@ Deployed as a Cloudflare Worker with static assets. `wrangler.jsonc` points the 
 - `/one/` one at a time, background tinted per piece
 - `/rooms/` grouped by `room`: shapes, paint, lines, people
 Every page has a "View the gallery as" switcher. Old `/preview/` links redirect via `public/_redirects`.
+
+## Artist's Entry (Rev.6)
+`/artist/` (code-protected). Dean can turn, name and hide pieces, publish, and upload new photos.
+- Secrets on the Worker (type Secret): `ARTIST_PIN`, `GH_TOKEN` (fine-grained, Contents read/write on this repo).
+- Saved edits live in D1 `deano-art`. **Publish** writes `edits/pending-*.json`; **Upload** writes `inbox/*`.
+- `.github/workflows/apply.yml` runs `tools/apply.py`: crops uploads (`tools/crop.py`), applies edits, rebuilds, commits. Originals go to `originals/`.
+- Pieces with `"hidden": true` in `works.json` stay off public pages but still show in Artist's Entry.

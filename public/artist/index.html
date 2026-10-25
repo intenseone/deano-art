@@ -27,35 +27,56 @@ body { background: #fbfaf7; }
 .pins i { width: 22px; height: 22px; border-radius: 50%; border: 3px solid #111; background: #fff; }
 .pins i.on { background: #111; }
 .pad { display: grid; grid-template-columns: repeat(3, 84px); gap: 12px; }
-.pad button { height: 72px; font: 800 28px/1 "Archivo Black", sans-serif; background: #fff; border: 3px solid #111; border-radius: 16px;
-  box-shadow: 4px 4px 0 #111; cursor: pointer; }
+.pad button { height: 72px; font: 800 28px/1 "Archivo Black", sans-serif; background: #fff; border: 3px solid #111; border-radius: 16px; box-shadow: 4px 4px 0 #111; cursor: pointer; color: #111; }
 .pad button:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #111; }
 .pad .dl { font-size: 18px; }
 .err { color: #c0281d; font-weight: 600; min-height: 1.5em; margin-top: 16px; }
-.studio { display: none; max-width: 1300px; margin: 0 auto; padding: 28px 16px 120px; }
+.studio { display: none; max-width: 1300px; margin: 0 auto; padding: 24px 16px 120px; }
 .studio.on { display: block; }
-.studio header { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 28px; margin-bottom: 8px; }
-.studio header .mark { font-size: 56px; }
-.studio h1 { font-family: "Archivo Black", sans-serif; font-size: 30px; margin: 0; }
-.studio .how { font-size: 19px; line-height: 1.5; max-width: 760px; margin: 14px 0 18px; }
-.bar { position: sticky; top: 0; z-index: 5; background: rgba(251,250,247,.95); backdrop-filter: blur(6px); border-bottom: 3px solid #111;
+.studio header { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 28px; }
+.studio header .mark { font-size: 52px; }
+.studio h1 { font-family: "Archivo Black", sans-serif; font-size: 28px; margin: 0; }
+.tabs { display: flex; gap: 8px; margin: 22px 0 0; border-bottom: 3px solid #111; }
+.tabs button { font: 700 17px/1 Archivo, sans-serif; padding: 14px 18px; background: #fff; border: 3px solid #111; border-bottom: 0; border-radius: 12px 12px 0 0; cursor: pointer; color: #111; margin-bottom: -3px; }
+.tabs button[aria-selected="true"] { background: var(--yellow); }
+.how { font-size: 19px; line-height: 1.5; max-width: 780px; margin: 18px 0; }
+.bar { position: sticky; top: 0; z-index: 5; background: rgba(251,250,247,.96); backdrop-filter: blur(6px); border-bottom: 3px solid #111;
   padding: 10px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 20px; }
-.bar .st { font-weight: 600; margin-left: auto; }
+.bar .st { font-weight: 600; }
+.pub { margin-left: auto; font: 800 17px/1 "Archivo Black", sans-serif; padding: 14px 20px; background: var(--green); color: #fff; border: 3px solid #111; border-radius: 999px; box-shadow: 3px 3px 0 #111; cursor: pointer; }
+.pub:disabled { background: #bbb; cursor: default; }
+.msg { width: 100%; font-weight: 600; min-height: 0; }
+.msg:empty { display: none; }
+.msg.good { color: #13703a; } .msg.bad { color: #c0281d; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
 .card { background: #fff; border: 3px solid #111; box-shadow: 5px 5px 0 #111; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
 .card.changed { box-shadow: 5px 5px 0 var(--green); border-color: var(--green); }
-.card .top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.card.hid .box img { opacity: .35; }
+.card .top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; gap: 8px; }
 .card .num { font-family: "Archivo Black", sans-serif; font-size: 22px; }
+.card .tag { font-size: 13px; background: #111; color: #fff; padding: 4px 8px; border-radius: 999px; display: none; }
+.card.hid .tag { display: inline-block; }
 .card .ok { font-size: 14px; color: var(--green); }
 .box { aspect-ratio: 1; background: #f1efe9; display: grid; place-items: center; overflow: hidden; border: 2px solid #ddd; }
-.box img { width: 100%; height: 100%; object-fit: contain; transition: transform .3s; }
+.box img { width: 100%; height: 100%; object-fit: contain; transition: transform .3s, opacity .3s; }
 .turns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.turns button { font: 600 17px/1 Archivo, sans-serif; padding: 14px 6px; background: #fff; border: 3px solid #111; border-radius: 12px; cursor: pointer; }
+.turns button { font: 600 17px/1 Archivo, sans-serif; padding: 14px 6px; background: #fff; border: 3px solid #111; border-radius: 12px; cursor: pointer; color: #111; }
 .turns button:hover { background: var(--yellow); }
-.card input { font: 16px Archivo, sans-serif; padding: 12px; border: 2px solid #111; border-radius: 10px; width: 100%; }
-.done { margin-top: 30px; text-align: center; }
-.done button { font: 800 20px/1 "Archivo Black", sans-serif; padding: 18px 30px; background: var(--yellow); border: 3px solid #111; border-radius: 999px; box-shadow: 4px 4px 0 #111; cursor: pointer; }
-.thanks { font-size: 20px; font-weight: 600; margin-top: 16px; min-height: 1.5em; }
+.card input[type=text] { font: 16px Archivo, sans-serif; padding: 12px; border: 2px solid #111; border-radius: 10px; width: 100%; }
+.hide { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; cursor: pointer; padding: 4px 2px; }
+.hide input { width: 26px; height: 26px; accent-color: #111; }
+.locked .turns button, .locked input { pointer-events: none; opacity: .5; }
+.up { max-width: 780px; }
+.pick { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 20px; }
+.pick label { font: 800 18px/1 "Archivo Black", sans-serif; padding: 18px 24px; background: var(--yellow); border: 3px solid #111; border-radius: 999px; box-shadow: 4px 4px 0 #111; cursor: pointer; }
+.pick input { display: none; }
+.tips { background: #fff; border: 3px solid #111; padding: 14px 18px; margin-bottom: 20px; }
+.tips b { display: block; margin-bottom: 6px; }
+.tips ul { margin: 0; padding-left: 20px; line-height: 1.6; }
+.queue { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.qi { background: #fff; border: 3px solid #111; padding: 8px; font-size: 14px; font-weight: 600; }
+.qi img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #f1efe9; margin-bottom: 6px; }
+.qi.ok { border-color: var(--green); } .qi.bad { border-color: #c0281d; color: #c0281d; }
 </style>
 </head>
 <body>
@@ -73,20 +94,46 @@ body { background: #fbfaf7; }
 </section>
 <section class="studio" id="studio">
   <header><a class="mark" href="/" aria-label="Deano home">Deano<span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span></a><h1>Artist&rsquo;s Entry</h1></header>
-  <p class="how">Hi Dean. Turn each piece so it&rsquo;s the right way up, and give it a name if you like. Everything saves by itself. Brett will put your changes on the website.</p>
-  <div class="bar"><button class="chip" data-show="all" aria-pressed="true">All pieces</button><button class="chip" data-show="changed" aria-pressed="false">Only my changes</button><span class="st" id="st"></span></div>
-  <div class="grid" id="grid"></div>
-  <div class="done"><button id="doneBtn">I&rsquo;m done for now</button><div class="thanks" id="thanks"></div></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="edit">Turn, name or hide</button>
+    <button role="tab" aria-selected="false" data-tab="upload">Add new art</button>
+  </div>
+  <div id="tab-edit">
+    <p class="how">Hi Dean. Turn each piece so it&rsquo;s the right way up, give it a name if you like, and tick <b>Don&rsquo;t show</b> on any piece you want off the website. Everything saves by itself. Press <b>Publish to website</b> when you&rsquo;re ready.</p>
+    <div class="bar">
+      <button class="chip" data-show="all" aria-pressed="true">All pieces</button>
+      <button class="chip" data-show="changed" aria-pressed="false">Only my changes</button>
+      <button class="chip" data-show="hidden" aria-pressed="false">Hidden</button>
+      <span class="st" id="st"></span>
+      <button class="pub" id="pub">Publish to website</button>
+      <div class="msg" id="msg" role="status"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <div id="tab-upload" class="up" hidden>
+    <p class="how">Add photos of new art. Each photo is straightened and cropped to the paper, then shows up at the top of the gallery in about 3 minutes. After that, come back to the first tab to turn it and give it a name.</p>
+    <div class="tips"><b>For the best photo</b><ul>
+      <li>Lay the art flat on a dark table or the black board.</li>
+      <li>Hold the phone straight above it so the whole page fits with a little dark border around it.</li>
+      <li>Use daylight or a bright room, and keep your shadow off the paper.</li>
+    </ul></div>
+    <div class="pick">
+      <label>Take a photo<input type="file" accept="image/*" capture="environment" id="cam"></label>
+      <label>Choose photos<input type="file" accept="image/*,.heic,.heif" multiple id="files"></label>
+    </div>
+    <div class="msg" id="umsg" role="status"></div>
+    <div class="queue" id="queue"></div>
+  </div>
 </section>
 
 <script src="/assets/viewer.js"></script>
 <script>
-const W = [{"id":"9284","t":"","w":2000,"h":1453,"tw":640,"th":465,"p":["#7996c4","#48649c","#764b53"],"room":"paint"},{"id":"9285","t":"","w":1402,"h":2000,"tw":449,"th":640,"p":["#c75671","#5d564e","#426db6"],"room":"shapes"},{"id":"9287","t":"","w":1412,"h":2000,"tw":452,"th":640,"p":["#d26545","#6d864f","#bbd4a6"],"room":"shapes"},{"id":"9288","t":"","w":2000,"h":1451,"tw":640,"th":464,"p":["#3d5149","#728f57","#5b8892"],"room":"lines"},{"id":"9289","t":"","w":1490,"h":2000,"tw":477,"th":640,"p":["#cfac83","#537991","#9c5c42"],"room":"paint"},{"id":"9290","t":"","w":1795,"h":1485,"tw":574,"th":475,"p":["#8f4729","#364069","#5b91b8"],"room":"paint"},{"id":"9291","t":"","w":1502,"h":2000,"tw":481,"th":640,"p":["#9dbb9d","#2d386a","#a64e40"],"room":"paint"},{"id":"9292","t":"","w":2000,"h":1511,"tw":640,"th":483,"p":["#5a6f42","#bd6f57","#3e7dc5"],"room":"shapes"},{"id":"9293","t":"","w":1495,"h":2000,"tw":478,"th":640,"p":["#888888"],"room":"lines"},{"id":"9294","t":"Color Block","w":1486,"h":2000,"tw":475,"th":640,"p":["#304185","#4592cc","#cd644b"],"room":"shapes"},{"id":"9295","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#3261af","#653742","#bc956c"],"room":"paint"},{"id":"9296","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4288a8","#3c3e44","#cf6a59"],"room":"shapes"},{"id":"9297","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#bd7930","#548876","#404954"],"room":"shapes"},{"id":"9298","t":"","w":2000,"h":1530,"tw":640,"th":490,"p":["#445336","#3c567e","#699dc6"],"room":"paint"},{"id":"9299","t":"","w":2000,"h":1513,"tw":640,"th":484,"p":["#a04f4e","#a5b347","#3e5771"],"room":"shapes"},{"id":"9300","t":"The View","w":1486,"h":2000,"tw":476,"th":640,"p":["#597c34","#4783b3","#7d9d52"],"room":"people"},{"id":"9301","t":"","w":2000,"h":1492,"tw":640,"th":478,"p":["#d3b40c","#71a1bf","#cab33d"],"room":"people"},{"id":"9302","t":"","w":1487,"h":2000,"tw":476,"th":640,"p":["#487049","#ce6553","#2170c9"],"room":"shapes"},{"id":"9303","t":"","w":1483,"h":2000,"tw":475,"th":640,"p":["#719061","#516c46","#7cadce"],"room":"people"},{"id":"9304","t":"","w":2000,"h":1492,"tw":640,"th":477,"p":["#323b7a","#6777ab","#2986d7"],"room":"shapes"},{"id":"9305","t":"","w":2000,"h":1381,"tw":640,"th":442,"p":["#dc8909","#484d4c","#5c61b8"],"room":"shapes"},{"id":"9306","t":"","w":2000,"h":1367,"tw":640,"th":438,"p":["#c263aa","#353376","#2269c0"],"room":"shapes"},{"id":"9307","t":"","w":1488,"h":2000,"tw":476,"th":640,"p":["#4e9ac4","#3d5952","#ba534f"],"room":"shapes"},{"id":"9308","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#654b3c","#c38e58","#6d9db1"],"room":"people"},{"id":"9309","t":"","w":2000,"h":1479,"tw":640,"th":473,"p":["#e4cd18","#98bb3b","#5f6929"],"room":"shapes"},{"id":"9310","t":"","w":1490,"h":2000,"tw":477,"th":640,"p":["#5383a7","#7ba3c1","#655743"],"room":"people"},{"id":"9311","t":"","w":1487,"h":2000,"tw":476,"th":640,"p":["#888888"],"room":"people"},{"id":"9312","t":"","w":2000,"h":1485,"tw":640,"th":475,"p":["#dbc713","#dcc755","#72a9ab"],"room":"shapes"},{"id":"9313","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#7badca","#4f655b","#548eae"],"room":"people"},{"id":"9314","t":"","w":2000,"h":1508,"tw":640,"th":483,"p":["#cfb32b","#2f47b0","#b24257"],"room":"shapes"},{"id":"9315","t":"","w":2000,"h":1503,"tw":640,"th":481,"p":["#45485a","#916350","#de9a75"],"room":"shapes"},{"id":"9316","t":"","w":1486,"h":2000,"tw":476,"th":640,"p":["#a75952","#d082b3","#cbb824"],"room":"shapes"},{"id":"9318","t":"Reubell","w":1585,"h":2000,"tw":507,"th":640,"p":["#d6a772","#5b9876","#af5b3f"],"room":"shapes"},{"id":"9319","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#b64e42","#d0a675","#8c8747"],"room":"lines"},{"id":"9320","t":"","w":2000,"h":1537,"tw":640,"th":492,"p":["#7dbe8a","#b1bd59","#668353"],"room":"shapes"},{"id":"9321","t":"","w":2000,"h":1525,"tw":640,"th":488,"p":["#85535e","#d67677","#b6cd41"],"room":"shapes"},{"id":"9322","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#4b7b88","#c5c44b","#7f4935"],"room":"shapes"},{"id":"9323","t":"","w":2000,"h":1499,"tw":640,"th":480,"p":["#cd9a42","#983f42","#3a658d"],"room":"shapes"},{"id":"9324","t":"","w":2000,"h":1427,"tw":640,"th":457,"p":["#dc87a9","#c6be28","#4b83a1"],"room":"shapes"},{"id":"9325","t":"","w":2000,"h":1534,"tw":640,"th":491,"p":["#3a64a4","#3f4070","#c26f51"],"room":"shapes"},{"id":"9326","t":"","w":2000,"h":1358,"tw":640,"th":434,"p":["#d6a44c","#b3562c","#6ea9ac"],"room":"lines"},{"id":"9327","t":"","w":2000,"h":1352,"tw":640,"th":433,"p":["#d0bf75","#75b4a2","#81513b"],"room":"paint"},{"id":"9328","t":"","w":2000,"h":1374,"tw":640,"th":440,"p":["#d5b97e","#a86e59","#81c2c4"],"room":"paint"},{"id":"9329","t":"","w":2000,"h":1372,"tw":640,"th":439,"p":["#a2785d","#d1a97d","#3a6678"],"room":"paint"},{"id":"9330","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#6e99b9","#bdc36b","#859560"],"room":"paint"},{"id":"9331","t":"Smudge","w":2000,"h":1371,"tw":640,"th":439,"p":["#9e6269","#b4787f","#da959e"],"room":"lines"},{"id":"9332","t":"The Kiddish Cup WOW","w":2000,"h":1377,"tw":640,"th":441,"p":["#4778bf","#cb5c62","#644240"],"room":"shapes"},{"id":"9333","t":"","w":1384,"h":2000,"tw":443,"th":640,"p":["#ae4444","#4896c3","#ccbb52"],"room":"shapes"},{"id":"9334","t":"","w":2000,"h":1362,"tw":640,"th":436,"p":["#b86a58","#71a420","#6a2373"],"room":"shapes"},{"id":"9335","t":"","w":2000,"h":1380,"tw":640,"th":442,"p":["#b77642","#766549","#a1ac6c"],"room":"shapes"},{"id":"9336","t":"","w":1389,"h":2000,"tw":445,"th":640,"p":["#b55173","#568a6c","#d2ac5c"],"room":"shapes"},{"id":"9337","t":"From Scratch","w":2000,"h":1382,"tw":640,"th":442,"p":["#60814d","#e09d16","#3c8bd8"],"room":"shapes"},{"id":"9338","t":"","w":2000,"h":1389,"tw":640,"th":444,"p":["#4b7974","#dbb450","#b27163"],"room":"shapes"},{"id":"9339","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#a84f5c","#6c3f53","#dcb36d"],"room":"shapes"},{"id":"9340","t":"","w":2000,"h":1390,"tw":640,"th":445,"p":["#5d91c5","#ebb641","#6e8856"],"room":"shapes"},{"id":"9341","t":"","w":1592,"h":2000,"tw":509,"th":640,"p":["#ab6043","#487482","#dba37c"],"room":"paint"},{"id":"9342","t":"","w":2000,"h":1601,"tw":640,"th":512,"p":["#643c27","#a16042","#4790a6"],"room":"paint"},{"id":"9343","t":"","w":2000,"h":1581,"tw":640,"th":506,"p":["#c05b54","#406996","#5a764e"],"room":"shapes"},{"id":"9344","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#5883a7","#e59aa3","#c05c49"],"room":"shapes"},{"id":"9345","t":"","w":2000,"h":1591,"tw":640,"th":509,"p":["#888888"],"room":"lines"},{"id":"9346","t":"","w":1579,"h":2000,"tw":505,"th":640,"p":["#d3cc47","#d37196","#69a8aa"],"room":"shapes"},{"id":"9347","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#a13f4f","#3f6b8c","#c76380"],"room":"lines"},{"id":"9348","t":"","w":2000,"h":1595,"tw":640,"th":510,"p":["#c76265","#51969b","#dcb936"],"room":"shapes"},{"id":"9349","t":"Red","w":1582,"h":2000,"tw":506,"th":640,"p":["#cf89bf","#dc645d","#934b56"],"room":"shapes"},{"id":"9350","t":"Green","w":1584,"h":2000,"tw":507,"th":640,"p":["#6bae6c","#438162","#d1dc87"],"room":"shapes"},{"id":"9351","t":"Blue","w":1582,"h":2000,"tw":506,"th":640,"p":["#4975b2","#5c97a8","#75afe2"],"room":"shapes"},{"id":"9352","t":"","w":2000,"h":1379,"tw":640,"th":441,"p":["#944a5b","#d9b12d","#8dafeb"],"room":"shapes"},{"id":"9353","t":"","w":1392,"h":2000,"tw":445,"th":640,"p":["#80ab6e","#6d9a58","#b7d06d"],"room":"shapes"},{"id":"9354","t":"","w":2000,"h":1399,"tw":640,"th":448,"p":["#c35c65","#4494d1","#3f4299"],"room":"shapes"},{"id":"9355","t":"","w":2000,"h":1587,"tw":640,"th":508,"p":["#bdc074","#ba7265","#315aac"],"room":"lines"},{"id":"9357","t":"","w":2000,"h":1589,"tw":640,"th":509,"p":["#d39a52","#d6be7f","#ae9968"],"room":"lines"},{"id":"9358","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#d1b351","#a07d51","#7395bb"],"room":"shapes"},{"id":"9359","t":"","w":2000,"h":1580,"tw":640,"th":506,"p":["#d2b676","#82a43d","#8b8eca"],"room":"lines"},{"id":"9360","t":"","w":1577,"h":2000,"tw":505,"th":640,"p":["#5b3f8c","#d7c651","#7c603c"],"room":"people"},{"id":"9361","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#d85446","#615944","#3a76b3"],"room":"shapes"},{"id":"9362","t":"","w":2000,"h":1593,"tw":640,"th":510,"p":["#324297","#548b52","#bf4651"],"room":"shapes"},{"id":"9363","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#6d5ebb","#32469b","#e5cd14"],"room":"shapes"},{"id":"9364","t":"","w":2000,"h":1583,"tw":640,"th":507,"p":["#c6717e","#8f4a59","#453f5c"],"room":"lines"},{"id":"9365","t":"","w":2000,"h":1586,"tw":640,"th":508,"p":["#c9552f","#e5b549","#5a9458"],"room":"shapes"},{"id":"9366","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#ddd834","#346cc9","#cc5b52"],"room":"shapes"},{"id":"9367","t":"Happy New Year 5787","w":2000,"h":1403,"tw":640,"th":449,"p":["#4240a6","#bd62b1","#666a4e"],"room":"shapes"},{"id":"9368","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#cbb322","#314058","#c3414f"],"room":"shapes"},{"id":"9369","t":"","w":2000,"h":1609,"tw":640,"th":515,"p":["#ae3535","#3a85e0","#2865ab"],"room":"shapes"},{"id":"9370","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#706045","#569087","#da794b"],"room":"shapes"},{"id":"9371","t":"","w":2000,"h":1573,"tw":640,"th":503,"p":["#4a806d","#d4782a","#b8cf26"],"room":"shapes"},{"id":"9372","t":"","w":2000,"h":1600,"tw":640,"th":512,"p":["#d76942","#1e65c8","#a8c126"],"room":"shapes"},{"id":"9373","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#447ca5","#cca213","#c85e56"],"room":"lines"},{"id":"9374","t":"","w":2000,"h":1616,"tw":640,"th":517,"p":["#d2b12d","#3b7db9","#a6543c"],"room":"shapes"},{"id":"9375","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#633938","#5b83a6","#b06348"],"room":"paint"},{"id":"9376","t":"","w":2000,"h":1382,"tw":640,"th":442,"p":["#df8d44","#4d795b","#7dc1c5"],"room":"shapes"},{"id":"9377","t":"","w":2000,"h":1405,"tw":640,"th":449,"p":["#5d80b6","#d58d83","#7b7a5a"],"room":"shapes"},{"id":"9378","t":"","w":1347,"h":2000,"tw":431,"th":640,"p":["#cb7844","#dfae6b","#836745"],"room":"people"},{"id":"9379","t":"","w":1408,"h":2000,"tw":451,"th":640,"p":["#c7ae6e","#d3c188","#b98449"],"room":"people"},{"id":"9380","t":"","w":1400,"h":2000,"tw":448,"th":640,"p":["#c09670","#539bd1","#d88a14"],"room":"people"},{"id":"9381","t":"","w":2000,"h":1388,"tw":640,"th":444,"p":["#3162bc","#5e9cb0","#83bde7"],"room":"shapes"},{"id":"9382","t":"","w":2000,"h":1395,"tw":640,"th":446,"p":["#be5f52","#58505c","#62a8b8"],"room":"shapes"},{"id":"9383","t":"","w":2000,"h":1403,"tw":640,"th":449,"p":["#c38937","#cb4c9d","#55664c"],"room":"shapes"}];
+const W = [{"id":"9284","t":"","w":2000,"h":1453,"tw":640,"th":465,"p":["#7996c4","#48649c","#764b53"],"room":"paint","x":0},{"id":"9285","t":"","w":1402,"h":2000,"tw":449,"th":640,"p":["#c75671","#5d564e","#426db6"],"room":"shapes","x":0},{"id":"9287","t":"","w":1412,"h":2000,"tw":452,"th":640,"p":["#d26545","#6d864f","#bbd4a6"],"room":"shapes","x":0},{"id":"9288","t":"","w":2000,"h":1451,"tw":640,"th":464,"p":["#3d5149","#728f57","#5b8892"],"room":"lines","x":0},{"id":"9289","t":"","w":1490,"h":2000,"tw":477,"th":640,"p":["#cfac83","#537991","#9c5c42"],"room":"paint","x":0},{"id":"9290","t":"","w":1795,"h":1485,"tw":574,"th":475,"p":["#8f4729","#364069","#5b91b8"],"room":"paint","x":0},{"id":"9291","t":"","w":1502,"h":2000,"tw":481,"th":640,"p":["#9dbb9d","#2d386a","#a64e40"],"room":"paint","x":0},{"id":"9292","t":"","w":2000,"h":1511,"tw":640,"th":483,"p":["#5a6f42","#bd6f57","#3e7dc5"],"room":"shapes","x":0},{"id":"9293","t":"","w":1495,"h":2000,"tw":478,"th":640,"p":["#888888"],"room":"lines","x":0},{"id":"9294","t":"Color Block","w":1486,"h":2000,"tw":475,"th":640,"p":["#304185","#4592cc","#cd644b"],"room":"shapes","x":0},{"id":"9295","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#3261af","#653742","#bc956c"],"room":"paint","x":0},{"id":"9296","t":"","w":2000,"h":1488,"tw":640,"th":476,"p":["#4288a8","#3c3e44","#cf6a59"],"room":"shapes","x":0},{"id":"9297","t":"","w":2000,"h":1487,"tw":640,"th":476,"p":["#bd7930","#548876","#404954"],"room":"shapes","x":0},{"id":"9298","t":"","w":2000,"h":1530,"tw":640,"th":490,"p":["#445336","#3c567e","#699dc6"],"room":"paint","x":0},{"id":"9299","t":"","w":2000,"h":1513,"tw":640,"th":484,"p":["#a04f4e","#a5b347","#3e5771"],"room":"shapes","x":0},{"id":"9300","t":"The View","w":1486,"h":2000,"tw":476,"th":640,"p":["#597c34","#4783b3","#7d9d52"],"room":"people","x":0},{"id":"9301","t":"","w":2000,"h":1492,"tw":640,"th":478,"p":["#d3b40c","#71a1bf","#cab33d"],"room":"people","x":0},{"id":"9302","t":"","w":1487,"h":2000,"tw":476,"th":640,"p":["#487049","#ce6553","#2170c9"],"room":"shapes","x":0},{"id":"9303","t":"","w":1483,"h":2000,"tw":475,"th":640,"p":["#719061","#516c46","#7cadce"],"room":"people","x":0},{"id":"9304","t":"","w":2000,"h":1492,"tw":640,"th":477,"p":["#323b7a","#6777ab","#2986d7"],"room":"shapes","x":0},{"id":"9305","t":"","w":2000,"h":1381,"tw":640,"th":442,"p":["#dc8909","#484d4c","#5c61b8"],"room":"shapes","x":0},{"id":"9306","t":"","w":2000,"h":1367,"tw":640,"th":438,"p":["#c263aa","#353376","#2269c0"],"room":"shapes","x":0},{"id":"9307","t":"","w":1488,"h":2000,"tw":476,"th":640,"p":["#4e9ac4","#3d5952","#ba534f"],"room":"shapes","x":0},{"id":"9308","t":"","w":2000,"h":1486,"tw":640,"th":476,"p":["#654b3c","#c38e58","#6d9db1"],"room":"people","x":0},{"id":"9309","t":"","w":2000,"h":1479,"tw":640,"th":473,"p":["#e4cd18","#98bb3b","#5f6929"],"room":"shapes","x":0},{"id":"9310","t":"","w":1490,"h":2000,"tw":477,"th":640,"p":["#5383a7","#7ba3c1","#655743"],"room":"people","x":0},{"id":"9311","t":"","w":1487,"h":2000,"tw":476,"th":640,"p":["#888888"],"room":"people","x":0},{"id":"9312","t":"","w":2000,"h":1485,"tw":640,"th":475,"p":["#dbc713","#dcc755","#72a9ab"],"room":"shapes","x":0},{"id":"9313","t":"","w":2000,"h":1476,"tw":640,"th":472,"p":["#7badca","#4f655b","#548eae"],"room":"people","x":0},{"id":"9314","t":"","w":2000,"h":1508,"tw":640,"th":483,"p":["#cfb32b","#2f47b0","#b24257"],"room":"shapes","x":0},{"id":"9315","t":"","w":2000,"h":1503,"tw":640,"th":481,"p":["#45485a","#916350","#de9a75"],"room":"shapes","x":0},{"id":"9316","t":"","w":1486,"h":2000,"tw":476,"th":640,"p":["#a75952","#d082b3","#cbb824"],"room":"shapes","x":0},{"id":"9318","t":"Reubell","w":1585,"h":2000,"tw":507,"th":640,"p":["#d6a772","#5b9876","#af5b3f"],"room":"shapes","x":0},{"id":"9319","t":"","w":2000,"h":1579,"tw":640,"th":505,"p":["#b64e42","#d0a675","#8c8747"],"room":"lines","x":0},{"id":"9320","t":"","w":2000,"h":1537,"tw":640,"th":492,"p":["#7dbe8a","#b1bd59","#668353"],"room":"shapes","x":0},{"id":"9321","t":"","w":2000,"h":1525,"tw":640,"th":488,"p":["#85535e","#d67677","#b6cd41"],"room":"shapes","x":0},{"id":"9322","t":"","w":2000,"h":1490,"tw":640,"th":477,"p":["#4b7b88","#c5c44b","#7f4935"],"room":"shapes","x":0},{"id":"9323","t":"","w":2000,"h":1499,"tw":640,"th":480,"p":["#cd9a42","#983f42","#3a658d"],"room":"shapes","x":0},{"id":"9324","t":"","w":2000,"h":1427,"tw":640,"th":457,"p":["#dc87a9","#c6be28","#4b83a1"],"room":"shapes","x":0},{"id":"9325","t":"","w":2000,"h":1534,"tw":640,"th":491,"p":["#3a64a4","#3f4070","#c26f51"],"room":"shapes","x":0},{"id":"9326","t":"","w":2000,"h":1358,"tw":640,"th":434,"p":["#d6a44c","#b3562c","#6ea9ac"],"room":"lines","x":0},{"id":"9327","t":"","w":2000,"h":1352,"tw":640,"th":433,"p":["#d0bf75","#75b4a2","#81513b"],"room":"paint","x":0},{"id":"9328","t":"","w":2000,"h":1374,"tw":640,"th":440,"p":["#d5b97e","#a86e59","#81c2c4"],"room":"paint","x":0},{"id":"9329","t":"","w":2000,"h":1372,"tw":640,"th":439,"p":["#a2785d","#d1a97d","#3a6678"],"room":"paint","x":0},{"id":"9330","t":"","w":2000,"h":1384,"tw":640,"th":443,"p":["#6e99b9","#bdc36b","#859560"],"room":"paint","x":0},{"id":"9331","t":"Smudge","w":2000,"h":1371,"tw":640,"th":439,"p":["#9e6269","#b4787f","#da959e"],"room":"lines","x":0},{"id":"9332","t":"The Kiddish Cup WOW","w":2000,"h":1377,"tw":640,"th":441,"p":["#4778bf","#cb5c62","#644240"],"room":"shapes","x":0},{"id":"9333","t":"","w":1384,"h":2000,"tw":443,"th":640,"p":["#ae4444","#4896c3","#ccbb52"],"room":"shapes","x":0},{"id":"9334","t":"","w":2000,"h":1362,"tw":640,"th":436,"p":["#b86a58","#71a420","#6a2373"],"room":"shapes","x":0},{"id":"9335","t":"","w":2000,"h":1380,"tw":640,"th":442,"p":["#b77642","#766549","#a1ac6c"],"room":"shapes","x":0},{"id":"9336","t":"","w":1389,"h":2000,"tw":445,"th":640,"p":["#b55173","#568a6c","#d2ac5c"],"room":"shapes","x":0},{"id":"9337","t":"From Scratch","w":2000,"h":1382,"tw":640,"th":442,"p":["#60814d","#e09d16","#3c8bd8"],"room":"shapes","x":0},{"id":"9338","t":"","w":2000,"h":1389,"tw":640,"th":444,"p":["#4b7974","#dbb450","#b27163"],"room":"shapes","x":0},{"id":"9339","t":"","w":2000,"h":1389,"tw":640,"th":445,"p":["#a84f5c","#6c3f53","#dcb36d"],"room":"shapes","x":0},{"id":"9340","t":"","w":2000,"h":1390,"tw":640,"th":445,"p":["#5d91c5","#ebb641","#6e8856"],"room":"shapes","x":0},{"id":"9341","t":"","w":1592,"h":2000,"tw":509,"th":640,"p":["#ab6043","#487482","#dba37c"],"room":"paint","x":0},{"id":"9342","t":"","w":2000,"h":1601,"tw":640,"th":512,"p":["#643c27","#a16042","#4790a6"],"room":"paint","x":0},{"id":"9343","t":"","w":2000,"h":1581,"tw":640,"th":506,"p":["#c05b54","#406996","#5a764e"],"room":"shapes","x":0},{"id":"9344","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#5883a7","#e59aa3","#c05c49"],"room":"shapes","x":0},{"id":"9345","t":"","w":2000,"h":1591,"tw":640,"th":509,"p":["#888888"],"room":"lines","x":0},{"id":"9346","t":"","w":1579,"h":2000,"tw":505,"th":640,"p":["#d3cc47","#d37196","#69a8aa"],"room":"shapes","x":0},{"id":"9347","t":"","w":2000,"h":1592,"tw":640,"th":509,"p":["#a13f4f","#3f6b8c","#c76380"],"room":"lines","x":0},{"id":"9348","t":"","w":2000,"h":1595,"tw":640,"th":510,"p":["#c76265","#51969b","#dcb936"],"room":"shapes","x":0},{"id":"9349","t":"Red","w":1582,"h":2000,"tw":506,"th":640,"p":["#cf89bf","#dc645d","#934b56"],"room":"shapes","x":0},{"id":"9350","t":"Green","w":1584,"h":2000,"tw":507,"th":640,"p":["#6bae6c","#438162","#d1dc87"],"room":"shapes","x":0},{"id":"9351","t":"Blue","w":1582,"h":2000,"tw":506,"th":640,"p":["#4975b2","#5c97a8","#75afe2"],"room":"shapes","x":0},{"id":"9352","t":"","w":2000,"h":1379,"tw":640,"th":441,"p":["#944a5b","#d9b12d","#8dafeb"],"room":"shapes","x":0},{"id":"9353","t":"","w":1392,"h":2000,"tw":445,"th":640,"p":["#80ab6e","#6d9a58","#b7d06d"],"room":"shapes","x":0},{"id":"9354","t":"","w":2000,"h":1399,"tw":640,"th":448,"p":["#c35c65","#4494d1","#3f4299"],"room":"shapes","x":0},{"id":"9355","t":"","w":2000,"h":1587,"tw":640,"th":508,"p":["#bdc074","#ba7265","#315aac"],"room":"lines","x":0},{"id":"9357","t":"","w":2000,"h":1589,"tw":640,"th":509,"p":["#d39a52","#d6be7f","#ae9968"],"room":"lines","x":0},{"id":"9358","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#d1b351","#a07d51","#7395bb"],"room":"shapes","x":0},{"id":"9359","t":"","w":2000,"h":1580,"tw":640,"th":506,"p":["#d2b676","#82a43d","#8b8eca"],"room":"lines","x":0},{"id":"9360","t":"","w":1577,"h":2000,"tw":505,"th":640,"p":["#5b3f8c","#d7c651","#7c603c"],"room":"people","x":0},{"id":"9361","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#d85446","#615944","#3a76b3"],"room":"shapes","x":0},{"id":"9362","t":"","w":2000,"h":1593,"tw":640,"th":510,"p":["#324297","#548b52","#bf4651"],"room":"shapes","x":0},{"id":"9363","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#6d5ebb","#32469b","#e5cd14"],"room":"shapes","x":0},{"id":"9364","t":"","w":2000,"h":1583,"tw":640,"th":507,"p":["#c6717e","#8f4a59","#453f5c"],"room":"lines","x":0},{"id":"9365","t":"","w":2000,"h":1586,"tw":640,"th":508,"p":["#c9552f","#e5b549","#5a9458"],"room":"shapes","x":0},{"id":"9366","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#ddd834","#346cc9","#cc5b52"],"room":"shapes","x":0},{"id":"9367","t":"Happy New Year 5787","w":2000,"h":1403,"tw":640,"th":449,"p":["#4240a6","#bd62b1","#666a4e"],"room":"shapes","x":0},{"id":"9368","t":"","w":2000,"h":1585,"tw":640,"th":507,"p":["#cbb322","#314058","#c3414f"],"room":"shapes","x":0},{"id":"9369","t":"","w":2000,"h":1609,"tw":640,"th":515,"p":["#ae3535","#3a85e0","#2865ab"],"room":"shapes","x":0},{"id":"9370","t":"","w":2000,"h":1582,"tw":640,"th":506,"p":["#706045","#569087","#da794b"],"room":"shapes","x":0},{"id":"9371","t":"","w":2000,"h":1573,"tw":640,"th":503,"p":["#4a806d","#d4782a","#b8cf26"],"room":"shapes","x":0},{"id":"9372","t":"","w":2000,"h":1600,"tw":640,"th":512,"p":["#d76942","#1e65c8","#a8c126"],"room":"shapes","x":0},{"id":"9373","t":"","w":2000,"h":1588,"tw":640,"th":508,"p":["#447ca5","#cca213","#c85e56"],"room":"lines","x":0},{"id":"9374","t":"","w":2000,"h":1616,"tw":640,"th":517,"p":["#d2b12d","#3b7db9","#a6543c"],"room":"shapes","x":0},{"id":"9375","t":"","w":2000,"h":1584,"tw":640,"th":507,"p":["#633938","#5b83a6","#b06348"],"room":"paint","x":0},{"id":"9376","t":"","w":2000,"h":1382,"tw":640,"th":442,"p":["#df8d44","#4d795b","#7dc1c5"],"room":"shapes","x":0},{"id":"9377","t":"","w":2000,"h":1405,"tw":640,"th":449,"p":["#5d80b6","#d58d83","#7b7a5a"],"room":"shapes","x":0},{"id":"9378","t":"","w":1347,"h":2000,"tw":431,"th":640,"p":["#cb7844","#dfae6b","#836745"],"room":"people","x":0},{"id":"9379","t":"","w":1408,"h":2000,"tw":451,"th":640,"p":["#c7ae6e","#d3c188","#b98449"],"room":"people","x":0},{"id":"9380","t":"","w":1400,"h":2000,"tw":448,"th":640,"p":["#c09670","#539bd1","#d88a14"],"room":"people","x":0},{"id":"9381","t":"","w":2000,"h":1388,"tw":640,"th":444,"p":["#3162bc","#5e9cb0","#83bde7"],"room":"shapes","x":0},{"id":"9382","t":"","w":2000,"h":1395,"tw":640,"th":446,"p":["#be5f52","#58505c","#62a8b8"],"room":"shapes","x":0},{"id":"9383","t":"","w":2000,"h":1403,"tw":640,"th":449,"p":["#c38937","#cb4c9d","#55664c"],"room":"shapes","x":0}];
 
 let pin = '';
 try { pin = sessionStorage.getItem('deano-pin') || ''; } catch (e) {}
 const dots = document.querySelectorAll('.pins i'), err = document.getElementById('err');
-let typed = '';
+let typed = '', canPublish = false;
 function paint() { dots.forEach((d, i) => d.classList.toggle('on', i < typed.length)); }
 async function api(path, opts = {}) {
   const r = await fetch('/api/artist' + path, { ...opts, headers: { 'content-type': 'application/json', 'x-artist-pin': pin, ...(opts.headers || {}) } });
@@ -95,8 +142,8 @@ async function api(path, opts = {}) {
   return j;
 }
 async function tryLogin() {
-  try { await api('/login', { method: 'POST' }); try { sessionStorage.setItem('deano-pin', pin); } catch (e) {} enter(); }
-  catch (e) { err.textContent = e.message; typed = ''; pin = ''; paint(); }
+  try { const j = await api('/login', { method: 'POST' }); canPublish = !!j.canPublish; try { sessionStorage.setItem('deano-pin', pin); } catch (e) {} enter(); }
+  catch (e) { err.textContent = e.message; typed = ''; pin = ''; paint(); try { sessionStorage.removeItem('deano-pin'); } catch (x) {} }
 }
 document.querySelectorAll('.pad button').forEach(b => b.onclick = () => {
   err.textContent = '';
@@ -111,54 +158,119 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Backspace') { typed = typed.slice(0, -1); paint(); }
 });
 
+// ---- tabs
+document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-selected', x === b));
+  document.getElementById('tab-edit').hidden = b.dataset.tab !== 'edit';
+  document.getElementById('tab-upload').hidden = b.dataset.tab !== 'upload';
+});
+
+// ---- turn, name, hide
 const state = {};
-let show = 'all';
-const st = document.getElementById('st');
-function count() { const n = Object.values(state).filter(s => s.turn || s.title !== s.orig).length; st.textContent = n + (n === 1 ? ' piece changed' : ' pieces changed'); }
+let show = 'all', locked = false;
+const st = document.getElementById('st'), msg = document.getElementById('msg'), pub = document.getElementById('pub');
+const isChanged = s => !!(s.turn || s.title !== s.orig || s.hidden !== s.origHidden);
+function count() {
+  const n = Object.values(state).filter(isChanged).length;
+  st.textContent = n + (n === 1 ? ' change' : ' changes') + ' saved';
+  pub.disabled = locked || !n || !canPublish;
+}
 const timers = {};
 function save(id) {
   clearTimeout(timers[id]);
   timers[id] = setTimeout(async () => {
     const s = state[id], ok = document.querySelector('[data-id="' + id + '"] .ok');
-    ok.textContent = 'Saving...';
-    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title }) }); ok.textContent = 'Saved ✓'; }
-    catch (e) { ok.textContent = 'Not saved. ' + e.message; }
+    if (ok) ok.textContent = 'Saving...';
+    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title, hidden: s.hidden }) }); if (ok) ok.textContent = 'Saved ✓'; }
+    catch (e) { if (ok) ok.textContent = 'Not saved. ' + e.message; }
   }, 500);
 }
 function render() {
   const g = document.getElementById('grid'); g.innerHTML = '';
   W.forEach((w, i) => {
-    const s = state[w.id], changed = s.turn || s.title !== s.orig;
-    if (show === 'changed' && !changed) return;
-    const c = document.createElement('div'); c.className = 'card' + (changed ? ' changed' : ''); c.dataset.id = w.id;
-    c.innerHTML = '<div class="top"><span class="num">#' + (i + 1) + '</span><span class="ok"></span></div>' +
-      '<div class="box"><img src="/art/thumb/' + w.id + '.jpg" alt="Piece ' + (i + 1) + '" loading="lazy" style="transform:rotate(' + s.turn + 'deg)"></div>' +
+    const s = state[w.id];
+    if (show === 'changed' && !isChanged(s)) return;
+    if (show === 'hidden' && !s.hidden) return;
+    const c = document.createElement('div'); c.className = 'card'; c.dataset.id = w.id;
+    c.innerHTML = '<div class="top"><span class="num">#' + (i + 1) + '</span><span class="tag">Hidden</span><span class="ok"></span></div>' +
+      '<div class="box"><img src="/art/thumb/' + w.id + '.jpg" alt="Piece ' + (i + 1) + '" loading="lazy"></div>' +
       '<div class="turns"><button data-d="-90">&#8634; Turn left</button><button data-d="90">Turn right &#8635;</button></div>' +
-      '<input type="text" maxlength="120" placeholder="Name this piece (optional)" aria-label="Name for piece ' + (i + 1) + '">';
-    c.querySelector('input').value = s.title;
-    c.querySelectorAll('.turns button').forEach(b => b.onclick = () => {
-      s.turn = ((s.turn + +b.dataset.d) % 360 + 360) % 360;
-      c.querySelector('img').style.transform = 'rotate(' + s.turn + 'deg)';
-      c.classList.toggle('changed', !!(s.turn || s.title !== s.orig)); count(); save(w.id);
-    });
-    c.querySelector('input').oninput = e => { s.title = e.target.value; c.classList.toggle('changed', !!(s.turn || s.title !== s.orig)); count(); save(w.id); };
+      '<input type="text" maxlength="120" placeholder="Name this piece (optional)" aria-label="Name for piece ' + (i + 1) + '">' +
+      '<label class="hide"><input type="checkbox"> Don&rsquo;t show on website</label>';
+    const img = c.querySelector('.box img'), inp = c.querySelector('input[type=text]'), cb = c.querySelector('input[type=checkbox]');
+    const refresh = () => { img.style.transform = 'rotate(' + s.turn + 'deg)'; c.classList.toggle('changed', isChanged(s)); c.classList.toggle('hid', s.hidden); count(); };
+    inp.value = s.title; cb.checked = s.hidden;
+    c.querySelectorAll('.turns button').forEach(b => b.onclick = () => { s.turn = ((s.turn + +b.dataset.d) % 360 + 360) % 360; refresh(); save(w.id); });
+    inp.oninput = () => { s.title = inp.value; refresh(); save(w.id); };
+    cb.onchange = () => { s.hidden = cb.checked; refresh(); save(w.id); };
+    refresh();
     g.appendChild(c);
   });
+  document.getElementById('studio').classList.toggle('locked', locked);
 }
 async function enter() {
   document.getElementById('gate').style.display = 'none';
   document.getElementById('studio').classList.add('on');
-  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t });
-  try { const { edits } = await api('/edits'); edits.forEach(e => { if (state[e.id]) { state[e.id].turn = e.turn; state[e.id].title = e.title || state[e.id].title; } }); } catch (e) {}
+  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t, hidden: !!w.x, origHidden: !!w.x });
+  try {
+    const { edits } = await api('/edits');
+    edits.forEach(e => { const s = state[e.id]; if (s) { s.turn = e.turn; s.title = e.title ?? s.title; s.hidden = !!e.hidden; } });
+  } catch (e) {}
+  if (!canPublish) { pub.style.display = 'none'; msg.className = 'msg'; msg.textContent = 'Your changes are saved. Brett will put them on the website.'; }
   render(); count();
 }
 document.querySelectorAll('[data-show]').forEach(b => b.onclick = () => {
   show = b.dataset.show; document.querySelectorAll('[data-show]').forEach(x => x.setAttribute('aria-pressed', x === b)); render();
 });
-document.getElementById('doneBtn').onclick = () => { document.getElementById('thanks').textContent = 'Thank you, Dean. Your changes are saved.'; };
+pub.onclick = async () => {
+  pub.disabled = true; msg.className = 'msg'; msg.textContent = 'Publishing...';
+  try {
+    const j = await api('/publish', { method: 'POST' });
+    locked = true; render(); count();
+    msg.className = 'msg good';
+    msg.textContent = 'Sent! Your ' + j.count + (j.count === 1 ? ' change' : ' changes') + ' will be on the website in about 3 minutes. Reload this page after that before making more changes.';
+  } catch (e) { msg.className = 'msg bad'; msg.textContent = e.message; pub.disabled = false; }
+};
+
+// ---- upload
+const queue = document.getElementById('queue'), umsg = document.getElementById('umsg');
+const toB64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+async function shrink(file) {
+  // Re-encode to JPEG, max 3000 px, with the phone's orientation applied. Falls back to the original file.
+  try {
+    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    const k = Math.min(1, 3000 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.9));
+    if (blob) return { blob, ext: 'jpg', preview: URL.createObjectURL(blob) };
+  } catch (e) {}
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  return { blob: file, ext, preview: '' };
+}
+async function upload(files) {
+  if (!canPublish) { umsg.className = 'msg bad'; umsg.textContent = 'Uploading is not set up yet. Ask Brett.'; return; }
+  let done = 0;
+  for (const f of files) {
+    const q = document.createElement('div'); q.className = 'qi'; q.innerHTML = '<img alt=""><div>Getting ready...</div>';
+    queue.prepend(q); const lbl = q.querySelector('div');
+    try {
+      const { blob, ext, preview } = await shrink(f);
+      if (preview) q.querySelector('img').src = preview;
+      if (blob.size > 15 * 1024 * 1024) throw new Error('Too large');
+      lbl.textContent = 'Uploading...';
+      await api('/upload', { method: 'POST', body: await toB64(blob), headers: { 'content-type': 'text/plain', 'x-file-ext': ext } });
+      q.classList.add('ok'); lbl.textContent = 'Uploaded ✓'; done++;
+    } catch (e) { q.classList.add('bad'); lbl.textContent = 'Not uploaded. ' + e.message; }
+  }
+  if (done) { umsg.className = 'msg good'; umsg.textContent = done + (done === 1 ? ' photo' : ' photos') + ' sent. New art shows at the top of the gallery in about 3 minutes.'; }
+}
+document.getElementById('files').onchange = e => { upload([...e.target.files]); e.target.value = ''; };
+document.getElementById('cam').onchange = e => { upload([...e.target.files]); e.target.value = ''; };
+
 if (pin) tryLogin();
 
 </script>
-<!-- Rev.5.2 -->
+<!-- Rev.6 -->
 </body>
 </html>

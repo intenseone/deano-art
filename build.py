@@ -3,12 +3,16 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.5.2"
+REV = "Rev.6"
 works = json.load(open("works.json"))
-DATA = json.dumps([{
-    "id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
-    "p": w["palette"][:3], "room": w["room"],
-} for w in works], separators=(",", ":"))
+def _row(w, with_hidden=False):
+    r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
+         "p": w["palette"][:3], "room": w["room"]}
+    if with_hidden: r["x"] = 1 if w.get("hidden") else 0
+    return r
+# public pages leave out pieces marked "Don't show"; Artist's Entry gets everything
+DATA = json.dumps([_row(w) for w in works if not w.get("hidden")], separators=(",", ":"))
+ALLDATA = json.dumps([_row(w, True) for w in works], separators=(",", ":"))
 
 ABOUT = [
     "Dean Greenberg grew up in Saint Paul, Minnesota. He started out in the scrap business, moved into meat processing, "
@@ -59,7 +63,7 @@ def page(path, title, css, body, js):
     head = HEAD if path != "/artist/" else HEAD.replace("<title>", '<meta name="robots" content="noindex, nofollow">\n<title>', 1)
     out = (head.replace("__TITLE__", title).replace("__CSS__", css)
            .replace("__OG__", OG_IMG).replace("__PATH__", path)) + body
-    out += '\n<script src="/assets/viewer.js"></script>\n<script>\nconst W = ' + DATA + ';\n' + js + '\n</script>\n'
+    out += '\n<script src="/assets/viewer.js"></script>\n<script>\nconst W = ' + (ALLDATA if path == "/artist/" else DATA) + ';\n' + js + '\n</script>\n'
     out += f'<!-- {REV} -->\n</body>\n</html>\n'
     d = "public" + path
     os.makedirs(d, exist_ok=True)
@@ -267,139 +271,8 @@ document.querySelectorAll('.row').forEach(row => {
 
 
 # ---------------------------------------------------------------- /artist/ Artist's Entry (private, code-protected API)
-page("/artist/", "Artist's Entry | Deano", """
-body { background: #fbfaf7; }
-.gate { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 16px; text-align: center; }
-.gate .mark { font-size: clamp(60px, 14vw, 120px); }
-.gate h1 { font-family: "Archivo Black", sans-serif; font-size: clamp(26px, 5vw, 38px); margin: 26px 0 6px; }
-.gate p { margin: 0 0 22px; color: #444; font-size: 18px; }
-.pins { display: flex; gap: 14px; margin-bottom: 22px; }
-.pins i { width: 22px; height: 22px; border-radius: 50%; border: 3px solid #111; background: #fff; }
-.pins i.on { background: #111; }
-.pad { display: grid; grid-template-columns: repeat(3, 84px); gap: 12px; }
-.pad button { height: 72px; font: 800 28px/1 "Archivo Black", sans-serif; background: #fff; border: 3px solid #111; border-radius: 16px;
-  box-shadow: 4px 4px 0 #111; cursor: pointer; }
-.pad button:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #111; }
-.pad .dl { font-size: 18px; }
-.err { color: #c0281d; font-weight: 600; min-height: 1.5em; margin-top: 16px; }
-.studio { display: none; max-width: 1300px; margin: 0 auto; padding: 28px 16px 120px; }
-.studio.on { display: block; }
-.studio header { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 28px; margin-bottom: 8px; }
-.studio header .mark { font-size: 56px; }
-.studio h1 { font-family: "Archivo Black", sans-serif; font-size: 30px; margin: 0; }
-.studio .how { font-size: 19px; line-height: 1.5; max-width: 760px; margin: 14px 0 18px; }
-.bar { position: sticky; top: 0; z-index: 5; background: rgba(251,250,247,.95); backdrop-filter: blur(6px); border-bottom: 3px solid #111;
-  padding: 10px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 20px; }
-.bar .st { font-weight: 600; margin-left: auto; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
-.card { background: #fff; border: 3px solid #111; box-shadow: 5px 5px 0 #111; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-.card.changed { box-shadow: 5px 5px 0 var(--green); border-color: var(--green); }
-.card .top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
-.card .num { font-family: "Archivo Black", sans-serif; font-size: 22px; }
-.card .ok { font-size: 14px; color: var(--green); }
-.box { aspect-ratio: 1; background: #f1efe9; display: grid; place-items: center; overflow: hidden; border: 2px solid #ddd; }
-.box img { width: 100%; height: 100%; object-fit: contain; transition: transform .3s; }
-.turns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.turns button { font: 600 17px/1 Archivo, sans-serif; padding: 14px 6px; background: #fff; border: 3px solid #111; border-radius: 12px; cursor: pointer; }
-.turns button:hover { background: var(--yellow); }
-.card input { font: 16px Archivo, sans-serif; padding: 12px; border: 2px solid #111; border-radius: 10px; width: 100%; }
-.done { margin-top: 30px; text-align: center; }
-.done button { font: 800 20px/1 "Archivo Black", sans-serif; padding: 18px 30px; background: var(--yellow); border: 3px solid #111; border-radius: 999px; box-shadow: 4px 4px 0 #111; cursor: pointer; }
-.thanks { font-size: 20px; font-weight: 600; margin-top: 16px; min-height: 1.5em; }
-""", f"""
-<section class="gate" id="gate">
-  {MARK}
-  <h1>Artist&rsquo;s Entry</h1>
-  <p>Enter your 4-digit code.</p>
-  <div class="pins" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <div class="pad">
-    <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button>
-    <button>7</button><button>8</button><button>9</button><span></span><button>0</button><button class="dl" aria-label="Delete">&#9003;</button>
-  </div>
-  <div class="err" id="err" role="alert"></div>
-</section>
-<section class="studio" id="studio">
-  <header>{MARK}<h1>Artist&rsquo;s Entry</h1></header>
-  <p class="how">Hi Dean. Turn each piece so it&rsquo;s the right way up, and give it a name if you like. Everything saves by itself. Brett will put your changes on the website.</p>
-  <div class="bar"><button class="chip" data-show="all" aria-pressed="true">All pieces</button><button class="chip" data-show="changed" aria-pressed="false">Only my changes</button><span class="st" id="st"></span></div>
-  <div class="grid" id="grid"></div>
-  <div class="done"><button id="doneBtn">I&rsquo;m done for now</button><div class="thanks" id="thanks"></div></div>
-</section>
-""", r"""
-let pin = '';
-try { pin = sessionStorage.getItem('deano-pin') || ''; } catch (e) {}
-const dots = document.querySelectorAll('.pins i'), err = document.getElementById('err');
-let typed = '';
-function paint() { dots.forEach((d, i) => d.classList.toggle('on', i < typed.length)); }
-async function api(path, opts = {}) {
-  const r = await fetch('/api/artist' + path, { ...opts, headers: { 'content-type': 'application/json', 'x-artist-pin': pin, ...(opts.headers || {}) } });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(j.error || 'Something went wrong.');
-  return j;
-}
-async function tryLogin() {
-  try { await api('/login', { method: 'POST' }); try { sessionStorage.setItem('deano-pin', pin); } catch (e) {} enter(); }
-  catch (e) { err.textContent = e.message; typed = ''; pin = ''; paint(); }
-}
-document.querySelectorAll('.pad button').forEach(b => b.onclick = () => {
-  err.textContent = '';
-  if (b.classList.contains('dl')) typed = typed.slice(0, -1);
-  else if (typed.length < 4) typed += b.textContent;
-  paint();
-  if (typed.length === 4) { pin = typed; tryLogin(); }
-});
-document.addEventListener('keydown', e => {
-  if (document.getElementById('studio').classList.contains('on')) return;
-  if (/^[0-9]$/.test(e.key) && typed.length < 4) { typed += e.key; paint(); if (typed.length === 4) { pin = typed; tryLogin(); } }
-  if (e.key === 'Backspace') { typed = typed.slice(0, -1); paint(); }
-});
-
-const state = {};
-let show = 'all';
-const st = document.getElementById('st');
-function count() { const n = Object.values(state).filter(s => s.turn || s.title !== s.orig).length; st.textContent = n + (n === 1 ? ' piece changed' : ' pieces changed'); }
-const timers = {};
-function save(id) {
-  clearTimeout(timers[id]);
-  timers[id] = setTimeout(async () => {
-    const s = state[id], ok = document.querySelector('[data-id="' + id + '"] .ok');
-    ok.textContent = 'Saving...';
-    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title }) }); ok.textContent = 'Saved ✓'; }
-    catch (e) { ok.textContent = 'Not saved. ' + e.message; }
-  }, 500);
-}
-function render() {
-  const g = document.getElementById('grid'); g.innerHTML = '';
-  W.forEach((w, i) => {
-    const s = state[w.id], changed = s.turn || s.title !== s.orig;
-    if (show === 'changed' && !changed) return;
-    const c = document.createElement('div'); c.className = 'card' + (changed ? ' changed' : ''); c.dataset.id = w.id;
-    c.innerHTML = '<div class="top"><span class="num">#' + (i + 1) + '</span><span class="ok"></span></div>' +
-      '<div class="box"><img src="/art/thumb/' + w.id + '.jpg" alt="Piece ' + (i + 1) + '" loading="lazy" style="transform:rotate(' + s.turn + 'deg)"></div>' +
-      '<div class="turns"><button data-d="-90">&#8634; Turn left</button><button data-d="90">Turn right &#8635;</button></div>' +
-      '<input type="text" maxlength="120" placeholder="Name this piece (optional)" aria-label="Name for piece ' + (i + 1) + '">';
-    c.querySelector('input').value = s.title;
-    c.querySelectorAll('.turns button').forEach(b => b.onclick = () => {
-      s.turn = ((s.turn + +b.dataset.d) % 360 + 360) % 360;
-      c.querySelector('img').style.transform = 'rotate(' + s.turn + 'deg)';
-      c.classList.toggle('changed', !!(s.turn || s.title !== s.orig)); count(); save(w.id);
-    });
-    c.querySelector('input').oninput = e => { s.title = e.target.value; c.classList.toggle('changed', !!(s.turn || s.title !== s.orig)); count(); save(w.id); };
-    g.appendChild(c);
-  });
-}
-async function enter() {
-  document.getElementById('gate').style.display = 'none';
-  document.getElementById('studio').classList.add('on');
-  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t });
-  try { const { edits } = await api('/edits'); edits.forEach(e => { if (state[e.id]) { state[e.id].turn = e.turn; state[e.id].title = e.title || state[e.id].title; } }); } catch (e) {}
-  render(); count();
-}
-document.querySelectorAll('[data-show]').forEach(b => b.onclick = () => {
-  show = b.dataset.show; document.querySelectorAll('[data-show]').forEach(x => x.setAttribute('aria-pressed', x === b)); render();
-});
-document.getElementById('doneBtn').onclick = () => { document.getElementById('thanks').textContent = 'Thank you, Dean. Your changes are saved.'; };
-if (pin) tryLogin();
-""")
+import sys; sys.path.insert(0, "tools")
+import artist_page
+page("/artist/", "Artist's Entry | Deano", artist_page.CSS, artist_page.HTML.replace("{MARK}", MARK), artist_page.JS)
 
 print(f"built /, /one/, /rooms/, /artist/ with {len(works)} works ({REV})")
