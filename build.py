@@ -3,7 +3,7 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6.4"
+REV = "Rev.6.5"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
@@ -107,6 +107,8 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
 .fr { --r: 0deg; width: var(--sz); transform: rotate(var(--r)); transition: transform .25s, box-shadow .25s;
   background: #fff; padding: calc(var(--sz) * .06); border: clamp(6px, 1vw, 11px) solid #111;
   box-shadow: 0 18px 30px rgba(0,0,0,.45), 0 3px 6px rgba(0,0,0,.3); cursor: zoom-in; display: block; text-decoration: none; }
+.wall.straight .fr { transform: none; }
+.seg2 { display: inline-flex; gap: 6px; }
 .fr:hover, .fr:focus-visible { transform: rotate(0deg) scale(1.04); box-shadow: 0 26px 44px rgba(0,0,0,.55); outline: none; z-index: 2; position: relative; }
 .fr img { width: 100%; height: auto; }
 .fr.s { --sz: clamp(130px, 17vw, 220px); } .fr.m { --sz: clamp(150px, 23vw, 300px); } .fr.l { --sz: clamp(170px, 31vw, 420px); }
@@ -128,9 +130,11 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
   <button class="sw-btn" data-wall="#2b2b2b" style="background:#2b2b2b" aria-label="Charcoal wall" aria-pressed="false"></button>
   <button class="sw-btn" data-wall="#8c2f2a" style="background:#8c2f2a" aria-label="Red wall" aria-pressed="false"></button>
   <button class="sw-btn" data-wall="#e9e2d3" data-light="1" style="background:#e9e2d3" aria-label="Cream wall" aria-pressed="false"></button>
+  <span class="lbl" style="margin-left:6px">Frames</span>
+  <span class="seg2" role="group" aria-label="Frames"><button class="chip" data-tilt="0" aria-pressed="true">Straight</button><button class="chip" data-tilt="1" aria-pressed="false">Tilted</button></span>
   <button class="chip" id="shuffle">Shuffle the wall</button>
 </div>
-<main class="wall" id="wall"></main>
+<main class="wall straight" id="wall"></main>
 <section id="about"><h2>About Deano</h2>{"".join("<p>" + html.escape(p) + "</p>" for p in ABOUT)}<p class="follow">Follow Deano for new doodles:</p>{SOCIAL}</section>
 {FOOT}
 """, """
@@ -163,6 +167,14 @@ function setWall(b) {
   try { localStorage.setItem('deano-wall', b.dataset.wall); } catch (e) {}
 }
 document.querySelectorAll('.sw-btn').forEach(b => b.onclick = () => setWall(b));
+function setTilt(on) {
+  wall.classList.toggle('straight', !on);
+  document.querySelectorAll('[data-tilt]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.tilt === (on ? '1' : '0'))));
+  try { localStorage.setItem('deano-tilt', on ? '1' : '0'); } catch (e) {}
+}
+document.querySelectorAll('[data-tilt]').forEach(b => b.onclick = () => setTilt(b.dataset.tilt === '1'));
+let tilt = false; try { tilt = localStorage.getItem('deano-tilt') === '1'; } catch (e) {}
+setTilt(tilt);
 try { const s = localStorage.getItem('deano-wall'); const b = s && document.querySelector('.sw-btn[data-wall="' + s + '"]'); if (b) setWall(b); } catch (e) {}
 """ + YEAR_JS)
 
