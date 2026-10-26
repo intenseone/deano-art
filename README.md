@@ -29,3 +29,4 @@ Every page has a "View the gallery as" switcher. Old `/preview/` links redirect 
 - Saved edits live in D1 `deano-art`. **Publish** writes `edits/pending-*.json`; **Upload** writes `inbox/*`.
 - `.github/workflows/apply.yml` runs `tools/apply.py`: crops uploads (`tools/crop.py`), applies edits, rebuilds, commits. Originals go to `originals/`.
 - Pieces with `"hidden": true` in `works.json` stay off public pages but still show in Artist's Entry.
+- `"frame": "wide" | "tall"` puts a piece in a 4:3 or 3:4 frame with extra mat on the gallery wall (Rev.6.6). Missing or `"fit"` = frame matches the art.

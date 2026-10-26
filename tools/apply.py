@@ -1,7 +1,7 @@
 """Apply uploads and published edits, then rebuild. Run by .github/workflows/apply.yml (Rev.6).
 
 inbox/*                 new photos from Artist's Entry -> cropped, sized, added to the top of the gallery
-edits/pending-*.json    [{id, turn, title, hidden}] from the Publish button -> applied to images and works.json
+edits/pending-*.json    [{id, turn, title, hidden, frame}] from the Publish button -> applied to images and works.json
 """
 import json, os, glob, shutil, subprocess, sys
 from PIL import Image, ImageOps
@@ -57,7 +57,8 @@ for p in sorted(glob.glob("edits/pending-*.json")):
             w["rot"] = (w.get("rot", 0) + turn) % 360
         if "title" in e and e["title"] is not None: w["title"] = str(e["title"]).strip()[:120]
         if "hidden" in e: w["hidden"] = bool(e["hidden"])
-        log.append(f"edited {w['id']}: turn {turn}, title {w.get('title')!r}, hidden {w.get('hidden', False)}")
+        if e.get("frame") in ("fit", "wide", "tall"): w["frame"] = e["frame"]
+        log.append(f"edited {w['id']}: turn {turn}, title {w.get('title')!r}, hidden {w.get('hidden', False)}, frame {w.get('frame', 'fit')}")
     os.remove(p)
 
 json.dump(works, open("works.json", "w"), indent=1)

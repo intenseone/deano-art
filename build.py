@@ -3,11 +3,12 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.6.5"
+REV = "Rev.6.6"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
          "p": w["palette"][:3], "room": w["room"]}
+    if w.get("frame") in ("wide", "tall"): r["fr"] = w["frame"]
     if with_hidden: r["x"] = 1 if w.get("hidden") else 0
     return r
 # public pages leave out pieces marked "Don't show"; Artist's Entry gets everything
@@ -108,6 +109,9 @@ header .intro p { margin: 0 0 12px; font-size: clamp(17px, 2vw, 20px); }
   background: #fff; padding: calc(var(--sz) * .06); border: clamp(6px, 1vw, 11px) solid #111;
   box-shadow: 0 18px 30px rgba(0,0,0,.45), 0 3px 6px rgba(0,0,0,.3); cursor: zoom-in; display: block; text-decoration: none; }
 .wall.straight .fr { transform: none; }
+.fr .pic { display: block; width: 100%; }
+.fr.fr-wide .pic { aspect-ratio: 4 / 3; } .fr.fr-tall .pic { aspect-ratio: 3 / 4; }
+.fr .pic img { width: 100%; height: 100%; object-fit: contain; }
 .seg2 { display: inline-flex; gap: 6px; }
 .fr:hover, .fr:focus-visible { transform: rotate(0deg) scale(1.04); box-shadow: 0 26px 44px rgba(0,0,0,.55); outline: none; z-index: 2; position: relative; }
 .fr img { width: 100%; height: auto; }
@@ -150,7 +154,9 @@ function render(seedBase) {
     a.className = 'fr ' + (r < .3 ? 's' : r < .75 ? 'm' : 'l');
     a.style.setProperty('--r', ((rnd(+w.id * 7 + seedBase) - .5) * 4).toFixed(2) + 'deg');
     a.setAttribute('aria-label', 'View ' + (w.t || 'untitled work'));
-    a.innerHTML = '<img src="/art/thumb/' + w.id + '.jpg" width="' + w.tw + '" height="' + w.th + '" alt="' + (w.t ? w.t + ' by Deano' : 'Untitled work by Deano') + '" loading="lazy" decoding="async">' + (w.t ? '<span class="plate">' + w.t + '</span>' : '');
+    const img = '<img src="/art/thumb/' + w.id + '.jpg" width="' + w.tw + '" height="' + w.th + '" alt="' + (w.t ? w.t + ' by Deano' : 'Untitled work by Deano') + '" loading="lazy" decoding="async">';
+    if (w.fr) a.classList.add('fr-' + w.fr);
+    a.innerHTML = (w.fr ? '<span class="pic">' + img + '</span>' : img) + (w.t ? '<span class="plate">' + w.t + '</span>' : '');
     a.onclick = e => { e.preventDefault(); viewer.open(k, order.map(j => W[j])); };
     wall.appendChild(a);
   });

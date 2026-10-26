@@ -59,7 +59,12 @@ body { background: #fbfaf7; }
 .card.hid .tag { display: inline-block; }
 .card .ok { font-size: 14px; color: var(--green); }
 .box { aspect-ratio: 1; background: #f1efe9; display: grid; place-items: center; overflow: hidden; border: 2px solid #ddd; }
-.box img { width: 100%; height: 100%; object-fit: contain; transition: transform .3s, opacity .3s; }
+.box canvas { width: 100%; height: 100%; transition: opacity .3s; }
+.card.hid .box canvas { opacity: .35; }
+.frames { display: flex; align-items: center; gap: 6px; }
+.frames span { font-weight: 700; margin-right: 4px; }
+.frames button { flex: 1; font: 600 16px/1 Archivo, sans-serif; padding: 11px 4px; background: #fff; border: 3px solid #111; border-radius: 10px; cursor: pointer; color: #111; }
+.frames button[aria-pressed="true"] { background: #111; color: #fff; }
 .turns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .turns button { font: 600 17px/1 Archivo, sans-serif; padding: 14px 6px; background: #fff; border: 3px solid #111; border-radius: 12px; cursor: pointer; color: #111; }
 .turns button:hover { background: var(--yellow); }
@@ -100,7 +105,7 @@ body { background: #fbfaf7; }
     <button role="tab" aria-selected="false" data-tab="upload">Add new art</button>
   </div>
   <div id="tab-edit">
-    <p class="how">Hi Dean. Turn each piece so it&rsquo;s the right way up, give it a name if you like, and tick <b>Don&rsquo;t show</b> on any piece you want off the website. Everything saves by itself. Press <b>Publish to website</b> when you&rsquo;re ready.</p>
+    <p class="how">Hi Dean. Turn each piece so it&rsquo;s the right way up, pick a <b>Fit</b>, <b>Wide</b> or <b>Tall</b> frame, give it a name if you like, and tick <b>Don&rsquo;t show</b> on any piece you want off the website. Everything saves by itself. Press <b>Publish to website</b> when you&rsquo;re ready.</p>
     <div class="bar">
       <button class="chip" data-show="all" aria-pressed="true">All pieces</button>
       <button class="chip" data-show="changed" aria-pressed="false">Only my changes</button>
@@ -170,7 +175,7 @@ document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
 const state = {};
 let show = 'all', locked = false;
 const st = document.getElementById('st'), msg = document.getElementById('msg'), pub = document.getElementById('pub');
-const isChanged = s => !!(s.turn || s.title !== s.orig || s.hidden !== s.origHidden);
+const isChanged = s => !!(s.turn || s.title !== s.orig || s.hidden !== s.origHidden || s.frame !== s.origFrame);
 function count() {
   const n = Object.values(state).filter(isChanged).length;
   st.textContent = n + (n === 1 ? ' change' : ' changes') + ' saved';
@@ -182,9 +187,30 @@ function save(id) {
   timers[id] = setTimeout(async () => {
     const s = state[id], ok = document.querySelector('[data-id="' + id + '"] .ok');
     if (ok) ok.textContent = 'Saving...';
-    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title, hidden: s.hidden }) }); if (ok) ok.textContent = 'Saved ✓'; }
+    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title, hidden: s.hidden, frame: s.frame }) }); if (ok) ok.textContent = 'Saved ✓'; }
     catch (e) { if (ok) ok.textContent = 'Not saved. ' + e.message; }
   }, 500);
+}
+// Draw the piece in its frame: black frame, white mat, art turned and fitted.
+const imgCache = {};
+function drawFrame(cv, w, s) {
+  const draw = im => {
+    const ctx = cv.getContext('2d'), S = cv.width, side = s.turn % 180 !== 0;
+    const ew = side ? im.naturalHeight : im.naturalWidth, eh = side ? im.naturalWidth : im.naturalHeight;
+    const A = s.frame === 'wide' ? 4 / 3 : s.frame === 'tall' ? 3 / 4 : ew / eh;
+    const pad = 24, fw = A >= 1 ? S - pad * 2 : (S - pad * 2) * A, fh = A >= 1 ? (S - pad * 2) / A : S - pad * 2;
+    const fx = (S - fw) / 2, fy = (S - fh) / 2, bw = 14, mat = Math.min(fw, fh) * 0.06;
+    ctx.clearRect(0, 0, S, S);
+    ctx.fillStyle = '#111'; ctx.fillRect(fx, fy, fw, fh);
+    ctx.fillStyle = '#fff'; ctx.fillRect(fx + bw, fy + bw, fw - bw * 2, fh - bw * 2);
+    const iw = fw - (bw + mat) * 2, ih = fh - (bw + mat) * 2, k = Math.min(iw / ew, ih / eh), dw = ew * k, dh = eh * k;
+    ctx.save(); ctx.translate(S / 2, S / 2); ctx.rotate(s.turn * Math.PI / 180);
+    const rw = side ? dh : dw, rh = side ? dw : dh;
+    ctx.drawImage(im, -rw / 2, -rh / 2, rw, rh); ctx.restore();
+  };
+  let im = imgCache[w.id];
+  if (!im) { im = imgCache[w.id] = new Image(); im.src = '/art/thumb/' + w.id + '.jpg'; }
+  if (im.complete && im.naturalWidth) draw(im); else im.addEventListener('load', () => draw(im), { once: true });
 }
 function render() {
   const g = document.getElementById('grid'); g.innerHTML = '';
@@ -194,12 +220,18 @@ function render() {
     if (show === 'hidden' && !s.hidden) return;
     const c = document.createElement('div'); c.className = 'card'; c.dataset.id = w.id;
     c.innerHTML = '<div class="top"><span class="num">#' + (i + 1) + '</span><span class="tag">Hidden</span><span class="ok"></span></div>' +
-      '<div class="box"><img src="/art/thumb/' + w.id + '.jpg" alt="Piece ' + (i + 1) + '" loading="lazy"></div>' +
+      '<div class="box"><canvas width="560" height="560" role="img" aria-label="Piece ' + (i + 1) + ' in its frame"></canvas></div>' +
       '<div class="turns"><button data-d="-90">&#8634; Turn left</button><button data-d="90">Turn right &#8635;</button></div>' +
+      '<div class="frames" role="group" aria-label="Frame shape"><span>Frame</span><button type="button" data-fr="fit">Fit</button><button type="button" data-fr="wide">Wide</button><button type="button" data-fr="tall">Tall</button></div>' +
       '<input type="text" maxlength="120" placeholder="Name this piece (optional)" aria-label="Name for piece ' + (i + 1) + '">' +
       '<label class="hide"><input type="checkbox"> Don&rsquo;t show on website</label>';
-    const img = c.querySelector('.box img'), inp = c.querySelector('input[type=text]'), cb = c.querySelector('input[type=checkbox]');
-    const refresh = () => { img.style.transform = 'rotate(' + s.turn + 'deg)'; c.classList.toggle('changed', isChanged(s)); c.classList.toggle('hid', s.hidden); count(); };
+    const cv = c.querySelector('canvas'), inp = c.querySelector('input[type=text]'), cb = c.querySelector('input[type=checkbox]');
+    const refresh = () => {
+      drawFrame(cv, w, s);
+      c.querySelectorAll('[data-fr]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.fr === s.frame)));
+      c.classList.toggle('changed', isChanged(s)); c.classList.toggle('hid', s.hidden); count();
+    };
+    c.querySelectorAll('[data-fr]').forEach(x => x.onclick = () => { s.frame = x.dataset.fr; refresh(); save(w.id); });
     inp.value = s.title; cb.checked = s.hidden;
     c.querySelectorAll('.turns button').forEach(b => b.onclick = () => { s.turn = ((s.turn + +b.dataset.d) % 360 + 360) % 360; refresh(); save(w.id); });
     inp.oninput = () => { s.title = inp.value; refresh(); save(w.id); };
@@ -212,10 +244,10 @@ function render() {
 async function enter() {
   document.getElementById('gate').style.display = 'none';
   document.getElementById('studio').classList.add('on');
-  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t, hidden: !!w.x, origHidden: !!w.x });
+  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t, hidden: !!w.x, origHidden: !!w.x, frame: w.fr || 'fit', origFrame: w.fr || 'fit' });
   try {
     const { edits } = await api('/edits');
-    edits.forEach(e => { const s = state[e.id]; if (s) { s.turn = e.turn; s.title = e.title ?? s.title; s.hidden = !!e.hidden; } });
+    edits.forEach(e => { const s = state[e.id]; if (s) { s.turn = e.turn; s.title = e.title ?? s.title; s.hidden = !!e.hidden; if (e.frame) s.frame = e.frame; } });
   } catch (e) {}
   if (!canPublish) { pub.style.display = 'none'; msg.className = 'msg'; msg.textContent = 'Your changes are saved. Brett will put them on the website.'; }
   render(); count();
@@ -286,6 +318,6 @@ document.getElementById('cam').onchange = e => { upload([...e.target.files]); e.
 if (pin) tryLogin();
 
 </script>
-<!-- Rev.6.5 -->
+<!-- Rev.6.6 -->
 </body>
 </html>
