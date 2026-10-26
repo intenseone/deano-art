@@ -1,4 +1,4 @@
-"""Crop a photo of artwork to the paper, and measure its colors. (Rev.6)
+"""Crop a photo of artwork to the paper, and measure its colors. (Rev.7)
 Used by tools/apply.py inside the GitHub Action."""
 import numpy as np, cv2
 from PIL import Image
@@ -16,12 +16,22 @@ def _quad_from(comp):
         if len(ap) == 4: return ap.reshape(4, 2).astype(np.float32)
     return cv2.boxPoints(cv2.minAreaRect(hull)).astype(np.float32)
 
-def _rectish(q):
+def _rectish(q, tol=0.06):
     q = order(q)
     t, r, b, l = [np.linalg.norm(q[(i+1) % 4] - q[i]) for i in range(4)]
-    return abs(t-b)/max(t, b) < 0.06 and abs(l-r)/max(l, r) < 0.06
+    return abs(t-b)/max(t, b) < tol and abs(l-r)/max(l, r) < tol
 
-def _search(mask_for, H, W):
+def _angles_ok(q):
+    """Every corner between 60 and 120 degrees: a page shot at an angle, not a random blob."""
+    q = order(q)
+    for i in range(4):
+        a, b, c = q[i-1], q[i], q[(i+1) % 4]
+        v1, v2 = a - b, c - b
+        cos = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2) + 1e-9)
+        if not (60 <= np.degrees(np.arccos(np.clip(cos, -1, 1))) <= 120): return False
+    return True
+
+def _search(mask_for, H, W, tol=0.06, edge_ok=False):
     for thr in mask_for:
         for k in (5, 11, 21):
             m = cv2.morphologyEx(thr, cv2.MORPH_OPEN, np.ones((k, k), np.uint8))
@@ -29,13 +39,60 @@ def _search(mask_for, H, W):
             cand, ca = None, 0
             for i in range(1, n):
                 x, y, bw, bh, ar = stats[i]
-                if x <= 1 or y <= 1 or x + bw >= W - 1 or y + bh >= H - 1: continue
+                if not edge_ok and (x <= 1 or y <= 1 or x + bw >= W - 1 or y + bh >= H - 1): continue
                 if not (x < W/2 < x+bw and y < H/2 < y+bh): continue
                 if bw*bh/(W*H) < 0.2: continue
                 if ar > ca: cand, ca = i, ar
             if cand is None: continue
             q = _quad_from((lab == cand).astype(np.uint8) * 255)
-            if _rectish(q): return q
+            if _rectish(q, tol) and _angles_ok(q): return q
+    return None
+
+def _white_page(hsv, H, W):
+    """Paper that touches the photo edge or sits on a busy surface: find the white page,
+    fill in the art, and fit four corners even when the shot is at an angle."""
+    v, s = hsv[..., 2].astype(int), hsv[..., 1].astype(int)
+    for vt, st in ((165, 50), (145, 60), (185, 40)):
+        white = ((v > vt) & (s < st)).astype(np.uint8) * 255
+        white = cv2.morphologyEx(white, cv2.MORPH_OPEN, np.ones((7, 7), np.uint8))
+        n, lab, stats, _ = cv2.connectedComponentsWithStats(white, connectivity=4)
+        if n < 2: continue
+        i = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+        comp = (lab == i).astype(np.uint8) * 255
+        # fill the drawing inside the page
+        cnts, _ = cv2.findContours(comp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        filled = np.zeros_like(comp); cv2.drawContours(filled, cnts, -1, 255, -1)
+        filled = cv2.morphologyEx(filled, cv2.MORPH_CLOSE, np.ones((31, 31), np.uint8))
+        # trim thin bridges to other paper or glare
+        filled = cv2.morphologyEx(filled, cv2.MORPH_OPEN, np.ones((41, 41), np.uint8))
+        n2, lab2, st2, _ = cv2.connectedComponentsWithStats(filled, connectivity=4)
+        if n2 < 2: continue
+        j = 1 + int(np.argmax(st2[1:, cv2.CC_STAT_AREA]))
+        page = (lab2 == j).astype(np.uint8) * 255
+        if page.sum() / 255 < 0.25 * H * W: continue
+        q = _quad_from(page)
+        if _angles_ok(q) and _rectish(q, 0.3): return q
+    return None
+
+def _center_page(hsv, H, W):
+    """Page on a darker surface that runs off the photo edge or overlaps other paper:
+    take the bright region under the middle of the photo, with heavy cleanup to cut
+    thin joins, and fit four corners (angled shots allowed)."""
+    v = hsv[..., 2]
+    cy, cx = slice(H // 3, 2 * H // 3), slice(W // 3, 2 * W // 3)
+    for t in (90, 110, 130):
+        for k in (41, 61):
+            m = cv2.morphologyEx((v >= t).astype(np.uint8) * 255, cv2.MORPH_OPEN, np.ones((k, k), np.uint8))
+            n, lab, st, _ = cv2.connectedComponentsWithStats(m, connectivity=4)
+            cnt = np.bincount(lab[cy, cx].ravel(), minlength=n); cnt[0] = 0
+            c = int(np.argmax(cnt))
+            if c == 0: continue
+            frac = st[c, cv2.CC_STAT_AREA] / (H * W)
+            if not (0.3 <= frac <= 0.95): continue
+            q = _quad_from((lab == c).astype(np.uint8) * 255)
+            if _angles_ok(q) and _rectish(q, 0.3):
+                q[:, 0] = np.clip(q[:, 0], 0, W - 1); q[:, 1] = np.clip(q[:, 1], 0, H - 1)
+                return q
     return None
 
 def find_paper(rgb):
@@ -46,14 +103,15 @@ def find_paper(rgb):
     hsv = cv2.cvtColor(small, cv2.COLOR_RGB2HSV)
     H, W = small.shape[:2]
     v, s = hsv[..., 2], hsv[..., 1]
-    # 1) paper on a dark mat or table: everything brighter than the background
     masks = [((v >= t).astype(np.uint8) * 255) for t in (72, 90, 110, 130, 60, 50)]
+    # 1) paper on a dark mat or light box, shot straight on
     q = _search(masks, H, W)
-    if q is None:
-        # 2) white paper on a lighter surface: bright, low-saturation pixels with holes filled
-        white = ((v > 185) & (s < 45)).astype(np.uint8) * 255
-        white = cv2.morphologyEx(white, cv2.MORPH_CLOSE, np.ones((25, 25), np.uint8))
-        q = _search([white], H, W)
+    # 2) same, shot at an angle (keystone)
+    if q is None: q = _search(masks, H, W, tol=0.3)
+    # 3) page on a dark surface that runs off the photo edge or overlaps other paper
+    if q is None: q = _center_page(hsv, H, W)
+    # 4) white page on a busy surface
+    if q is None: q = _white_page(hsv, H, W)
     return None if q is None else q / scale
 
 def crop_to_paper(im):

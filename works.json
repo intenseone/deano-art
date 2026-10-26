@@ -3,26 +3,25 @@
   "id": "9385",
   "title": "Eleven",
   "added": "20261025",
-  "cropped": false,
-  "w": 1500,
+  "cropped": true,
+  "w": 1530,
   "h": 2000,
-  "tw": 480,
+  "tw": 490,
   "th": 640,
-  "paper": 0.302,
-  "colorful": 0.383,
+  "paper": 0.376,
+  "colorful": 0.406,
   "hues": {
-   "orange": 0.581,
-   "blue": 0.166,
-   "red": 0.1,
-   "yellow": 0.079,
-   "green": 0.075,
-   "pink": 0.0
+   "orange": 0.57,
+   "blue": 0.211,
+   "yellow": 0.091,
+   "green": 0.077,
+   "red": 0.051
   },
   "palette": [
-   "#d2aa80",
-   "#5e513d",
-   "#77afb6",
-   "#d58d08"
+   "#d4ab81",
+   "#78b0b8",
+   "#646042",
+   "#d68e08"
   ],
   "colors": [
    "warm"
