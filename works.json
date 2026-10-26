@@ -1,7 +1,7 @@
 [
  {
   "id": "9385",
-  "title": "",
+  "title": "Eleven",
   "added": "20261025",
   "cropped": false,
   "w": 1500,
@@ -27,7 +27,9 @@
   "colors": [
    "warm"
   ],
-  "room": "shapes"
+  "room": "shapes",
+  "hidden": false,
+  "frame": "fit"
  },
  {
   "id": "9384",
