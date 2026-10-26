@@ -3,13 +3,15 @@ Pages: / (gallery wall), /one/ (one at a time), /rooms/ (rooms).
 Edit titles, order, room or colors in works.json, then rebuild and push."""
 import json, os, html
 
-REV = "Rev.7"
+REV = "Rev.8"
 works = json.load(open("works.json"))
 def _row(w, with_hidden=False):
     r = {"id": w["id"], "t": w.get("title") or "", "w": w["w"], "h": w["h"], "tw": w["tw"], "th": w["th"],
          "p": w["palette"][:3], "room": w["room"]}
     if w.get("frame") in ("wide", "tall"): r["fr"] = w["frame"]
-    if with_hidden: r["x"] = 1 if w.get("hidden") else 0
+    if with_hidden:
+        r["x"] = 1 if w.get("hidden") else 0
+        if w.get("orig"): r["o"] = 1; r["q"] = w.get("quad")
     return r
 # public pages leave out pieces marked "Don't show"; Artist's Entry gets everything
 DATA = json.dumps([_row(w) for w in works if not w.get("hidden")], separators=(",", ":"))

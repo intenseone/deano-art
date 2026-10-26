@@ -1,13 +1,13 @@
 """Apply uploads and published edits, then rebuild. Run by .github/workflows/apply.yml (Rev.6).
 
 inbox/*                 new photos from Artist's Entry -> cropped, sized, added to the top of the gallery
-edits/pending-*.json    [{id, turn, title, hidden, frame}] from the Publish button -> applied to images and works.json
+edits/pending-*.json    [{id, turn, title, hidden, frame, corners}] from the Publish button -> applied to images and works.json
 """
 import json, os, glob, shutil, subprocess, sys
 from PIL import Image, ImageOps
 import pillow_heif
 sys.path.insert(0, os.path.dirname(__file__))
-from crop import crop_to_paper, colors
+from crop import crop_to_paper, crop_with_quad, colors
 
 pillow_heif.register_heif_opener()
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,6 +15,17 @@ os.chdir(ROOT)
 works = json.load(open("works.json"))
 by_id = {w["id"]: w for w in works}
 log = []
+
+def save_orig_preview(im, wid):
+    """Phone-friendly copy of the original photo for Adjust corners."""
+    os.makedirs("public/art/orig", exist_ok=True)
+    p = im.copy(); p.thumbnail((1600, 1600), Image.LANCZOS)
+    p.save(f"public/art/orig/{wid}.jpg", quality=82, optimize=True, progressive=True)
+
+def load_original(wid):
+    for f in glob.glob(f"originals/{wid}.*"):
+        return ImageOps.exif_transpose(Image.open(f)).convert("RGB")
+    return None
 
 def save_sizes(im, wid, entry):
     full = im.copy(); full.thumbnail((2000, 2000), Image.LANCZOS)
@@ -33,8 +44,10 @@ for f in sorted(glob.glob("inbox/*")):
     except Exception as e:
         log.append(f"skipped {f}: {e}"); os.remove(f); continue
     wid = str(max(int(w["id"]) for w in works) + 1)
-    cropped, found = crop_to_paper(im)
-    entry = {"id": wid, "title": "", "added": os.path.basename(f)[:8], "cropped": found}
+    cropped, found, quad = crop_to_paper(im, with_quad=True)
+    entry = {"id": wid, "title": "", "added": os.path.basename(f)[:8], "cropped": found, "orig": True}
+    if quad: entry["quad"] = quad
+    save_orig_preview(im, wid)
     save_sizes(cropped, wid, entry)
     entry.update(colors(cropped))
     works.insert(0, entry); by_id[wid] = entry; new.append(wid)
@@ -47,6 +60,18 @@ for p in sorted(glob.glob("edits/pending-*.json")):
         w = by_id.get(str(e.get("id")))
         if not w: continue
         turn = int(e.get("turn") or 0) % 360
+        corners = e.get("corners")
+        if corners and w.get("orig"):
+            src = load_original(w["id"])
+            if src is not None:
+                px = [[float(x) * src.width, float(y) * src.height] for x, y in corners]
+                out = crop_with_quad(src, px)
+                if w.get("rot"): out = out.rotate(-w["rot"], expand=True)
+                save_sizes(out, w["id"], w)
+                w.update({k: v for k, v in colors(out).items() if k != "room"})
+                w["quad"] = [[round(float(x), 4), round(float(y), 4)] for x, y in corners]
+                w["cropped"] = True
+                log.append(f"re-cropped {w['id']} from corners")
         if turn:
             for k, q in (("full", 86), ("thumb", 80)):
                 path = f"public/art/{k}/{w['id']}.jpg"

@@ -1,4 +1,4 @@
-# deano.art (Rev.6)
+# deano.art (Rev.8)
 
 Static gallery site for Deano (Dean Greenberg). Hosted on Cloudflare Workers static assets, deployed from this repo.
 
@@ -30,3 +30,4 @@ Every page has a "View the gallery as" switcher. Old `/preview/` links redirect 
 - `.github/workflows/apply.yml` runs `tools/apply.py`: crops uploads (`tools/crop.py`), applies edits, rebuilds, commits. Originals go to `originals/`.
 - Pieces with `"hidden": true` in `works.json` stay off public pages but still show in Artist's Entry.
 - `"frame": "wide" | "tall"` puts a piece in a 4:3 or 3:4 frame with extra mat on the gallery wall (Rev.6.6). Missing or `"fit"` = frame matches the art.
+- **Adjust corners** (Rev.8): uploads keep `originals/<id>.*` plus a 1600px preview in `public/art/orig/`. In Artist's Entry the dots start at the auto-crop (`quad` in `works.json`, fractions TL, TR, BR, BL). Saved corners publish as `corners`; `tools/apply.py` re-crops from the original, then applies `rot` and any new turn.

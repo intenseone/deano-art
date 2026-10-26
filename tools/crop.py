@@ -114,18 +114,26 @@ def find_paper(rgb):
     if q is None: q = _white_page(hsv, H, W)
     return None if q is None else q / scale
 
-def crop_to_paper(im):
-    """PIL RGB image in, cropped PIL image out (unchanged if no paper edge found)."""
+def crop_with_quad(im, quad):
+    """Warp the four corners (pixels, any order) to a straight rectangle."""
     rgb = np.array(im)
-    quad = find_paper(rgb)
-    if quad is None: return im, False
-    q = order(quad)
+    q = order(np.asarray(quad, dtype=np.float32))
     W = int(max(np.linalg.norm(q[1]-q[0]), np.linalg.norm(q[2]-q[3])))
     H = int(max(np.linalg.norm(q[3]-q[0]), np.linalg.norm(q[2]-q[1])))
     M = cv2.getPerspectiveTransform(q, np.array([[0,0],[W-1,0],[W-1,H-1],[0,H-1]], dtype=np.float32))
-    warp = cv2.warpPerspective(rgb, M, (W, H), flags=cv2.INTER_CUBIC)
-    inset = int(min(W, H) * 0.006)
-    return Image.fromarray(warp[inset:H-inset, inset:W-inset]), True
+    return Image.fromarray(cv2.warpPerspective(rgb, M, (W, H), flags=cv2.INTER_CUBIC))
+
+def crop_to_paper(im, with_quad=False):
+    """PIL RGB image in, cropped PIL image out (unchanged if no paper edge found).
+    with_quad=True also returns the corners as fractions of the image size (TL, TR, BR, BL)."""
+    quad = find_paper(np.array(im))
+    if quad is None: return (im, False, None) if with_quad else (im, False)
+    q = order(quad)
+    out = crop_with_quad(im, q)
+    W, H = out.size; inset = int(min(W, H) * 0.006)
+    out = out.crop((inset, inset, W - inset, H - inset))
+    fr = [[round(float(x) / im.width, 4), round(float(y) / im.height, 4)] for x, y in q]
+    return (out, True, fr) if with_quad else (out, True)
 
 def colors(im):
     """Palette, color groups and simple stats from a small copy of the image."""

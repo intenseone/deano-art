@@ -1,4 +1,4 @@
-// deano.art Worker (Rev.6.6)
+// deano.art Worker (Rev.8)
 // Serves the static site from ./public plus the Artist's Entry API.
 // Secrets (Cloudflare dashboard > deano-art > Settings > Variables and Secrets, type Secret):
 //   ARTIST_PIN  the entry code
@@ -70,7 +70,7 @@ export default {
     if (p === "/api/artist/login" && req.method === "POST") return json({ ok: true, canPublish: !!env.GH_TOKEN });
 
     if (p === "/api/artist/edits" && req.method === "GET") {
-      const { results } = await env.DB.prepare("SELECT id, turn, title, hidden, frame, updated FROM edits").all();
+      const { results } = await env.DB.prepare("SELECT id, turn, title, hidden, frame, corners, updated FROM edits").all();
       return json({ edits: results });
     }
 
@@ -83,10 +83,14 @@ export default {
       const title = String(body.title ?? "").slice(0, 120).trim();
       const hidden = body.hidden ? 1 : 0;
       const frame = ["fit", "wide", "tall"].includes(body.frame) ? body.frame : "";
+      let corners = "";
+      if (Array.isArray(body.corners) && body.corners.length === 4 &&
+          body.corners.every(p => Array.isArray(p) && p.length === 2 && p.every(n => typeof n === "number" && n >= 0 && n <= 1)))
+        corners = JSON.stringify(body.corners.map(p => p.map(n => Math.round(n * 10000) / 10000)));
       await env.DB.prepare(
-        "INSERT INTO edits (id, turn, title, hidden, frame, note, updated) VALUES (?, ?, ?, ?, ?, '', ?) " +
-        "ON CONFLICT(id) DO UPDATE SET turn = excluded.turn, title = excluded.title, hidden = excluded.hidden, frame = excluded.frame, updated = excluded.updated"
-      ).bind(m[1], turn, title, hidden, frame, new Date().toISOString()).run();
+        "INSERT INTO edits (id, turn, title, hidden, frame, corners, note, updated) VALUES (?, ?, ?, ?, ?, ?, '', ?) " +
+        "ON CONFLICT(id) DO UPDATE SET turn = excluded.turn, title = excluded.title, hidden = excluded.hidden, frame = excluded.frame, corners = excluded.corners, updated = excluded.updated"
+      ).bind(m[1], turn, title, hidden, frame, corners, new Date().toISOString()).run();
       return json({ ok: true });
     }
 
@@ -107,9 +111,9 @@ export default {
     // Publish: send saved edits to the repo; the GitHub Action applies them.
     if (p === "/api/artist/publish" && req.method === "POST") {
       if (!env.GH_TOKEN) return json({ error: "Publishing is not set up yet." }, 503);
-      const { results } = await env.DB.prepare("SELECT id, turn, title, hidden, frame, updated FROM edits").all();
+      const { results } = await env.DB.prepare("SELECT id, turn, title, hidden, frame, corners, updated FROM edits").all();
       if (!results.length) return json({ ok: true, count: 0 });
-      const list = results.map(e => ({ id: e.id, turn: e.turn, title: e.title, hidden: !!e.hidden, ...(e.frame ? { frame: e.frame } : {}) }));
+      const list = results.map(e => ({ id: e.id, turn: e.turn, title: e.title, hidden: !!e.hidden, ...(e.frame ? { frame: e.frame } : {}), ...(e.corners ? { corners: JSON.parse(e.corners) } : {}) }));
       const stamp = new Date().toISOString().replace(/[-:T.Z]/g, "");
       const r = await ghPut(env, `edits/pending-${stamp}.json`, b64(JSON.stringify(list, null, 1)), `Artist's Entry: publish ${list.length} change(s)`);
       if (!r.ok) return json({ error: "Publish failed (" + r.status + "). Try again." }, 502);

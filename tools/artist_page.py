@@ -1,4 +1,4 @@
-"""Artist's Entry page: CSS, HTML and JS (Rev.6.6). Imported by build.py."""
+"""Artist's Entry page: CSS, HTML and JS (Rev.8). Imported by build.py."""
 
 CSS = """
 body { background: #fbfaf7; }
@@ -61,6 +61,27 @@ body { background: #fbfaf7; }
 .tips { background: #fff; border: 3px solid #111; padding: 14px 18px; margin-bottom: 20px; }
 .tips b { display: block; margin-bottom: 6px; }
 .tips ul { margin: 0; padding-left: 20px; line-height: 1.6; }
+.adj { font: 700 16px/1 Archivo, sans-serif; padding: 12px; background: #fff; border: 3px dashed #111; border-radius: 10px; cursor: pointer; color: #111; }
+.adj:hover { background: var(--yellow); }
+.cn { font-size: 14px; font-weight: 600; color: var(--green); }
+.cn:empty { display: none; }
+.cm { position: fixed; inset: 0; z-index: 60; background: rgba(17,17,17,.94); overflow: auto; padding: max(12px, env(safe-area-inset-top, 0px)) 12px 20px; }
+.cm-in { max-width: 900px; margin: 0 auto; color: #fff; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cm h2 { font-family: "Archivo Black", sans-serif; font-size: clamp(20px, 4vw, 28px); margin: 6px 0 0; text-align: center; }
+.cm-sub { margin: 0; text-align: center; opacity: .85; max-width: 60ch; }
+.stage { position: relative; touch-action: none; user-select: none; -webkit-user-select: none; line-height: 0; }
+.stage img { display: block; max-width: calc(100vw - 48px); max-height: calc(100svh - 230px); width: auto; height: auto; }
+.stage svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#cmShade { fill: rgba(0,0,0,.55); }
+#cmPoly { fill: none; stroke: #f5c518; stroke-width: .006; vector-effect: non-scaling-stroke; stroke-width: 3; }
+.hd { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; border: 4px solid #111; background: rgba(245,197,24,.9);
+  box-shadow: 0 0 0 3px #fff; cursor: grab; padding: 0; touch-action: none; }
+.hd::after { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #111; }
+.hd:active, .hd.drag { cursor: grabbing; background: #fff; }
+.loupe { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 6px 20px rgba(0,0,0,.6); pointer-events: none; }
+.cm-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 6px; }
+.cm-btns button { font: 700 17px/1 Archivo, sans-serif; padding: 14px 20px; border: 3px solid #fff; border-radius: 999px; background: transparent; color: #fff; cursor: pointer; }
+.cm-btns .go { background: var(--yellow); color: #111; border-color: #111; font-family: "Archivo Black", sans-serif; }
 .queue { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
 .qi { background: #fff; border: 3px solid #111; padding: 8px; font-size: 14px; font-weight: 600; }
 .qi img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #f1efe9; margin-bottom: 6px; }
@@ -112,6 +133,24 @@ HTML = """
     <div class="queue" id="queue"></div>
   </div>
 </section>
+<div class="cm" id="cm" hidden role="dialog" aria-modal="true" aria-labelledby="cmT">
+  <div class="cm-in">
+    <h2 id="cmT">Drag each dot to a corner of the page</h2>
+    <p class="cm-sub">The part inside the outline becomes the picture. It gets straightened even if the photo was taken at an angle.</p>
+    <div class="stage" id="stage">
+      <img id="cmImg" alt="Original photo">
+      <svg id="cmSvg" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true"><path id="cmShade" fill-rule="evenodd"/><polygon id="cmPoly"/></svg>
+      <button class="hd" data-k="0" aria-label="Top left corner"></button><button class="hd" data-k="1" aria-label="Top right corner"></button>
+      <button class="hd" data-k="2" aria-label="Bottom right corner"></button><button class="hd" data-k="3" aria-label="Bottom left corner"></button>
+      <canvas class="loupe" id="loupe" width="240" height="240" hidden></canvas>
+    </div>
+    <div class="cm-btns">
+      <button type="button" id="cmAuto">Start over</button>
+      <button type="button" id="cmCancel">Cancel</button>
+      <button type="button" id="cmSave" class="go">Save corners</button>
+    </div>
+  </div>
+</div>
 """
 
 JS = r"""
@@ -154,7 +193,7 @@ document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
 const state = {};
 let show = 'all', locked = false;
 const st = document.getElementById('st'), msg = document.getElementById('msg'), pub = document.getElementById('pub');
-const isChanged = s => !!(s.turn || s.title !== s.orig || s.hidden !== s.origHidden || s.frame !== s.origFrame);
+const isChanged = s => !!(s.turn || s.title !== s.orig || s.hidden !== s.origHidden || s.frame !== s.origFrame || s.corners);
 function count() {
   const n = Object.values(state).filter(isChanged).length;
   st.textContent = n + (n === 1 ? ' change' : ' changes') + ' saved';
@@ -166,7 +205,7 @@ function save(id) {
   timers[id] = setTimeout(async () => {
     const s = state[id], ok = document.querySelector('[data-id="' + id + '"] .ok');
     if (ok) ok.textContent = 'Saving...';
-    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title, hidden: s.hidden, frame: s.frame }) }); if (ok) ok.textContent = 'Saved ✓'; }
+    try { await api('/edits/' + id, { method: 'PUT', body: JSON.stringify({ turn: s.turn, title: s.title, hidden: s.hidden, frame: s.frame, corners: s.corners || null }) }); if (ok) ok.textContent = 'Saved ✓'; }
     catch (e) { if (ok) ok.textContent = 'Not saved. ' + e.message; }
   }, 500);
 }
@@ -191,6 +230,58 @@ function drawFrame(cv, w, s) {
   if (!im) { im = imgCache[w.id] = new Image(); im.src = '/art/thumb/' + w.id + '.jpg'; }
   if (im.complete && im.naturalWidth) draw(im); else im.addEventListener('load', () => draw(im), { once: true });
 }
+// ---- Adjust corners editor
+const cm = document.getElementById('cm'), stage = document.getElementById('stage'), cmImg = document.getElementById('cmImg');
+const hds = [...stage.querySelectorAll('.hd')], loupe = document.getElementById('loupe');
+let cmPts = null, cmDone = null, cmW = null, cmLast = null;
+const DEF = [[.06, .06], [.94, .06], [.94, .94], [.06, .94]];
+function cmPaint() {
+  hds.forEach((h, k) => { h.style.left = (cmPts[k][0] * 100) + '%'; h.style.top = (cmPts[k][1] * 100) + '%'; });
+  const pts = cmPts.map(p => p.join(',')).join(' ');
+  document.getElementById('cmPoly').setAttribute('points', pts);
+  document.getElementById('cmShade').setAttribute('d', 'M0 0H1V1H0Z M' + cmPts.map(p => p.join(' ')).join(' L') + 'Z');
+}
+function openCorners(w, s, done) {
+  cmW = w; cmDone = done; cmLast = document.activeElement;
+  cmPts = JSON.parse(JSON.stringify(s.corners || w.q || DEF));
+  cmImg.onload = () => cmPaint();
+  cmImg.src = '/art/orig/' + w.id + '.jpg';
+  cm.hidden = false; document.body.style.overflow = 'hidden';
+  cmPaint(); document.getElementById('cmSave').focus();
+  document.getElementById('cmSave').onclick = () => { s.corners = cmPts.map(p => p.map(n => Math.round(n * 10000) / 10000)); closeCorners(); done(); };
+}
+function closeCorners() { cm.hidden = true; document.body.style.overflow = ''; if (cmLast) cmLast.focus(); }
+document.getElementById('cmCancel').onclick = closeCorners;
+document.getElementById('cmAuto').onclick = () => { cmPts = JSON.parse(JSON.stringify(cmW.q || DEF)); cmPaint(); };
+document.addEventListener('keydown', e => { if (!cm.hidden && e.key === 'Escape') closeCorners(); });
+function showLoupe(k) {
+  const r = stage.getBoundingClientRect(), x = cmPts[k][0], y = cmPts[k][1];
+  const ctx = loupe.getContext('2d'), iw = cmImg.naturalWidth, ih = cmImg.naturalHeight, z = 60;
+  ctx.fillStyle = '#111'; ctx.fillRect(0, 0, 240, 240);
+  ctx.drawImage(cmImg, x * iw - z, y * ih - z, z * 2, z * 2, 0, 0, 240, 240);
+  ctx.strokeStyle = '#f5c518'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(120, 96); ctx.lineTo(120, 144); ctx.moveTo(96, 120); ctx.lineTo(144, 120); ctx.stroke();
+  // keep the magnifier on the side away from the finger
+  loupe.style.left = (x < .5 ? r.width - 132 : 12) + 'px'; loupe.style.top = (y < .5 ? r.height - 132 : 12) + 'px';
+  loupe.hidden = false;
+}
+hds.forEach(h => {
+  const k = +h.dataset.k;
+  h.addEventListener('pointerdown', e => { e.preventDefault(); h.setPointerCapture(e.pointerId); h.classList.add('drag'); showLoupe(k); });
+  h.addEventListener('pointermove', e => {
+    if (!h.hasPointerCapture(e.pointerId)) return;
+    const r = stage.getBoundingClientRect();
+    cmPts[k] = [Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))];
+    cmPaint(); showLoupe(k);
+  });
+  const end = e => { h.classList.remove('drag'); loupe.hidden = true; };
+  h.addEventListener('pointerup', end); h.addEventListener('pointercancel', end);
+  h.addEventListener('keydown', e => {
+    const d = e.shiftKey ? .01 : .003, m = { ArrowLeft: [-d, 0], ArrowRight: [d, 0], ArrowUp: [0, -d], ArrowDown: [0, d] }[e.key];
+    if (!m) return; e.preventDefault();
+    cmPts[k] = [Math.min(1, Math.max(0, cmPts[k][0] + m[0])), Math.min(1, Math.max(0, cmPts[k][1] + m[1]))]; cmPaint();
+  });
+});
+
 function render() {
   const g = document.getElementById('grid'); g.innerHTML = '';
   W.forEach((w, i) => {
@@ -202,6 +293,7 @@ function render() {
       '<div class="box"><canvas width="560" height="560" role="img" aria-label="Piece ' + (i + 1) + ' in its frame"></canvas></div>' +
       '<div class="turns"><button data-d="-90">&#8634; Turn left</button><button data-d="90">Turn right &#8635;</button></div>' +
       '<div class="frames" role="group" aria-label="Frame shape"><span>Frame</span><button type="button" data-fr="fit">Fit</button><button type="button" data-fr="wide">Wide</button><button type="button" data-fr="tall">Tall</button></div>' +
+      (w.o ? '<button type="button" class="adj">&#9634; Adjust corners</button><div class="cn"></div>' : '') +
       '<input type="text" maxlength="120" placeholder="Name this piece (optional)" aria-label="Name for piece ' + (i + 1) + '">' +
       '<label class="hide"><input type="checkbox"> Don&rsquo;t show on website</label>';
     const cv = c.querySelector('canvas'), inp = c.querySelector('input[type=text]'), cb = c.querySelector('input[type=checkbox]');
@@ -211,6 +303,12 @@ function render() {
       c.classList.toggle('changed', isChanged(s)); c.classList.toggle('hid', s.hidden); count();
     };
     c.querySelectorAll('[data-fr]').forEach(x => x.onclick = () => { s.frame = x.dataset.fr; refresh(); save(w.id); });
+    const adj = c.querySelector('.adj');
+    if (adj) {
+      const note = () => { c.querySelector('.cn').textContent = s.corners ? 'New corners saved. They show after you publish.' : ''; };
+      adj.onclick = () => openCorners(w, s, () => { note(); refresh(); save(w.id); });
+      note();
+    }
     inp.value = s.title; cb.checked = s.hidden;
     c.querySelectorAll('.turns button').forEach(b => b.onclick = () => { s.turn = ((s.turn + +b.dataset.d) % 360 + 360) % 360; refresh(); save(w.id); });
     inp.oninput = () => { s.title = inp.value; refresh(); save(w.id); };
@@ -223,10 +321,10 @@ function render() {
 async function enter() {
   document.getElementById('gate').style.display = 'none';
   document.getElementById('studio').classList.add('on');
-  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t, hidden: !!w.x, origHidden: !!w.x, frame: w.fr || 'fit', origFrame: w.fr || 'fit' });
+  W.forEach(w => state[w.id] = { turn: 0, title: w.t, orig: w.t, hidden: !!w.x, origHidden: !!w.x, frame: w.fr || 'fit', origFrame: w.fr || 'fit', corners: null });
   try {
     const { edits } = await api('/edits');
-    edits.forEach(e => { const s = state[e.id]; if (s) { s.turn = e.turn; s.title = e.title ?? s.title; s.hidden = !!e.hidden; if (e.frame) s.frame = e.frame; } });
+    edits.forEach(e => { const s = state[e.id]; if (s) { s.turn = e.turn; s.title = e.title ?? s.title; s.hidden = !!e.hidden; if (e.frame) s.frame = e.frame; if (e.corners) { try { s.corners = JSON.parse(e.corners); } catch (x) {} } } });
   } catch (e) {}
   if (!canPublish) { pub.style.display = 'none'; msg.className = 'msg'; msg.textContent = 'Your changes are saved. Brett will put them on the website.'; }
   render(); count();
